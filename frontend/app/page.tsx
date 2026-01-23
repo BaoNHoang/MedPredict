@@ -1,10 +1,8 @@
 'use client';
 
-
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-
 
 interface Dot {
   left: string;
@@ -14,9 +12,18 @@ interface Dot {
   color: string;
 }
 
+interface Blob {
+  left?: string;
+  right?: string;
+  top?: string;
+  bottom?: string;
+  size: number;
+  color: string;
+}
 
-function FloatingDots({ count = 25 }: { count?: number }) {
+function FloatingDots({ count = 40 }: { count?: number }) {
   const [dots, setDots] = useState<Dot[]>([]);
+
   useEffect(() => {
     const colors = ['bg-blue-300', 'bg-purple-300'];
     const generated = Array.from({ length: count }, () => ({
@@ -28,7 +35,6 @@ function FloatingDots({ count = 25 }: { count?: number }) {
     }));
     setDots(generated);
   }, [count]);
-
 
   return (
     <>
@@ -48,16 +54,43 @@ function FloatingDots({ count = 25 }: { count?: number }) {
   );
 }
 
-
 export default function StartPage() {
+  const [blobs, setBlobs] = useState<Blob[]>([]);
+
+  useEffect(() => {
+    setBlobs([
+      {
+        left: `${Math.random() * 70 + 5}%`,
+        top: `${Math.random() * 35 + 5}%`,
+        size: Math.random() * 100 + 250,
+        color: 'bg-blue-300',
+      },
+      {
+        right: `${Math.random() * 70 + 5}%`,
+        bottom: `${Math.random() * 35 + 5}%`,
+        size: Math.random() * 100 + 250,
+        color: 'bg-purple-300',
+      },
+    ]);
+  }, []);
+
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-tr from-blue-100 via-white to-purple-100 px-4">
-      <div className="absolute inset-0 opacity-30">
-        <div className="h-full w-full bg-[linear-gradient(to_right,#87a8ff20_1px,transparent_1px),linear-gradient(to_bottom,#87a8ff20_1px,transparent_1px)] bg-[size:50px_50px] animate-[gridMove_12s_linear_infinite]"></div>
-      </div>
 
-      <div className="absolute left-10 top-20 h-72 w-72 rounded-full bg-blue-300 opacity-20 blur-3xl animate-pulse" />
-      <div className="absolute bottom-20 right-10 h-80 w-80 rounded-full bg-purple-300 opacity-20 blur-3xl animate-pulse" />
+      {blobs.map((blob, i) => (
+        <div
+          key={i}
+          className={`absolute rounded-full blur-3xl opacity-20 animate-pulse ${blob.color}`}
+          style={{
+            left: blob.left,
+            right: blob.right,
+            top: blob.top,
+            bottom: blob.bottom,
+            width: blob.size,
+            height: blob.size,
+          }}
+        />
+      ))}
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <FloatingDots />
@@ -71,6 +104,7 @@ export default function StartPage() {
       >
         MedPredict
       </motion.h1>
+
       <motion.p
         className="z-10 mb-8 max-w-2xl text-center text-xl font-semibold text-gray-800 md:text-2xl"
         initial={{ opacity: 0 }}
