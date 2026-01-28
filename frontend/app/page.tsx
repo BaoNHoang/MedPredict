@@ -28,14 +28,14 @@ function FloatingDots({ count = 35 }: { count?: number }) {
     const generated = Array.from({ length: count }, () => ({
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
-      animationDuration: `${2 + Math.random() * 4}s`,
-      animationDelay: `${Math.random() * 4}s`,
+      animationDuration: `${Math.random()}s`,
+      animationDelay: `${Math.random()}s`,
       color: colors[Math.floor(Math.random() * colors.length)],
     }));
     setDots(generated);
   }, [count]);
 
-  if (!dots) return null; // Don't render on server
+  if (!dots) return null; 
 
   return (
     <>
