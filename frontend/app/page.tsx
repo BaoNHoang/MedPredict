@@ -21,19 +21,16 @@ interface Dot {
 }
 
 function FloatingDots({ count = 35 }: { count?: number }) {
-  const [dots, setDots] = useState<Dot[]>([]);
-
-  useEffect(() => {
-    const colors = ['bg-blue-300', 'bg-purple-300'];
-    let generated = Array.from({ length: count }, () => ({
+  const colors = ['bg-blue-300', 'bg-purple-300'];
+  const [dots] = useState<Dot[]>(() =>
+    Array.from({ length: count }, () => ({
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
-      animationDuration: `${Math.random()}s`,
-      animationDelay: `${Math.random()}s`,
+      animationDuration: `${2 + Math.random() * 4}s`, 
+      animationDelay: `${Math.random() * 4}s`, 
       color: colors[Math.floor(Math.random() * colors.length)],
-    }));
-    setDots(generated);
-  }, [count]);
+    }))
+  );
 
   return (
     <>
@@ -44,10 +41,11 @@ function FloatingDots({ count = 35 }: { count?: number }) {
           style={{
             left: dot.left,
             top: dot.top,
-            opacity: 0.50,
+            opacity: 0.5,
             animationDuration: dot.animationDuration,
             animationDelay: dot.animationDelay,
           }}
+          aria-hidden="true"
         />
       ))}
     </>
