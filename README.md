@@ -16,16 +16,16 @@ AI-powered disease prediction platform using machine learning and patient-entere
 - Database: PostgreSQL
 - Hosting: AWS
 ### Package Versions
-Node.js >= 18
-Python >= 3.10
-PostgreSQL >= 14
+- Node.js >= 18
+- Python >= 3.10
+- PostgreSQL >= 14
 
 ### Frontend
 ## Frontend Setup
-cd frontend
-npm install
-npm run dev
-To close -> Ctrl C -> Y
+- cd frontend
+- npm install
+- npm run dev
+- To close -> Ctrl C -> Y
 
 ```
 User Input

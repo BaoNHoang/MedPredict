@@ -20,22 +20,23 @@ interface Dot {
   color: string;
 }
 
-function FloatingDots({ count = 35 }: { count?: number }) {
+function FloatingDots() {
   const colors = ['bg-blue-300', 'bg-purple-300'];
   const [dots, setDots] = useState<Dot[] | null>(null);
 
   useEffect(() => {
-    const generated = Array.from({ length: count }, () => ({
+    const generated = Array.from({ length: 35 }, () => ({
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
       animationDuration: `${2 + Math.random() * 4}s`,
-      animationDelay: `${Math.random() * 4}s`,
+      animationDelay: `${Math.random() * 2}s`,
       color: colors[Math.floor(Math.random() * colors.length)],
     }));
     setDots(generated);
-  }, [count]);
+  }, []);
 
-  if (!dots) return null; 
+  if (!dots)
+    return null;
 
   return (
     <>
