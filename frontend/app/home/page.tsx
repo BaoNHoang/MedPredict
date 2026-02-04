@@ -54,19 +54,19 @@ export default function HomePage() {
                 </p>
                 <div className="mt-10 grid gap-6 md:grid-cols-3">
                     <div className="rounded-2xl bg-white p-6 shadow">
-                        <div className="text-lg font-extrabold">Risk Prediction</div>
+                        <div className="text-lg font-extrabold text-red-400">Risk Prediction</div>
                         <p className="mt-2 text-sm text-gray-600">
                             Input common metrics to receive a risk stage and probability score.
                         </p>
                     </div>
                     <div className="rounded-2xl bg-white p-6 shadow">
-                        <div className="text-lg font-extrabold">Model Selection</div>
+                        <div className="text-lg font-extrabold text-red-400">Model Selection</div>
                         <p className="mt-2 text-sm text-gray-600">
                             Compare outputs across multiple ML models (baseline → deep learning).
                         </p>
                     </div>
                     <div className="rounded-2xl bg-white p-6 shadow">
-                        <div className="text-lg font-extrabold">Actionable Guidance</div>
+                        <div className="text-lg font-extrabold text-red-400">Actionable Guidance</div>
                         <p className="mt-2 text-sm text-gray-600">
                             Generates recommendations to support better health decisions and prevention.
                         </p>
@@ -78,21 +78,21 @@ export default function HomePage() {
                     <h2 className="text-3xl font-extrabold text-gray-900">How it works</h2>
                     <div className="mt-10 grid gap-6 md:grid-cols-3">
                         <div className="rounded-2xl bg-white p-6 shadow">
-                            <div className="text-sm font-bold text-blue-700">Step 1</div>
+                            <div className="text-sm font-bold text-blue-400">Step 1</div>
                             <div className="mt-2 text-lg font-extrabold text-gray-700">Login for privacy</div>
                             <p className="mt-2 text-sm text-gray-600">
                                 Your health inputs and prediction history are protected by your account.
                             </p>
                         </div>
                         <div className="rounded-2xl bg-white p-6 shadow">
-                            <div className="text-sm font-bold text-blue-700">Step 2</div>
+                            <div className="text-sm font-bold text-blue-400">Step 2</div>
                             <div className="mt-2 text-lg font-extrabold text-gray-700">Enter your metrics</div>
                             <p className="mt-2 text-sm text-gray-600">
                                 Blood pressure, cholesterol, BMI, glucose, and other factors.
                             </p>
                         </div>
                         <div className="rounded-2xl bg-white p-6 shadow flex flex-col h-full">
-                            <div className="text-sm font-bold text-blue-700">Step 3</div>
+                            <div className="text-sm font-bold text-blue-400">Step 3</div>
                             <div className="mt-2 text-lg font-extrabold text-gray-700">Get results</div>
                             <p className="mt-2 text-sm text-gray-600">
                                 View risk stage, probability, and recommended next actions.
