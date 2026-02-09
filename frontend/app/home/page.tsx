@@ -1,11 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import LoginModal from '@/components/LoginModal';
 
 export default function HomePage() {
-    const router = useRouter();
     const [authed, setAuthed] = useState(false);
     const [loginOpen, setLoginOpen] = useState(false);
 
@@ -21,6 +20,9 @@ export default function HomePage() {
                         <a href="#how" className="text-sm font-semibold text-gray-700 hover:text-gray-900">
                             How it works
                         </a>
+                        <Link href="/about" className="text-sm font-semibold text-gray-700 hover:text-gray-900">
+                            About
+                        </Link>
                     </nav>
                     <div className="flex items-center gap-3">
                         <button
@@ -119,7 +121,7 @@ export default function HomePage() {
                         <div>
                             <h3 className="font-bold text-white mb-4">Company</h3>
                             <ul className="space-y-2 text-sm">
-                                <li><a href="#" className="hover:text-white">About</a></li>
+                                <li><Link href="/about" className="hover:text-white">About</Link></li>
                                 <li><a href="#" className="hover:text-white">Blog</a></li>
                                 <li><a href="#" className="hover:text-white">Contact</a></li>
                             </ul>
