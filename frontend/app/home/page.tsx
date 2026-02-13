@@ -40,7 +40,7 @@ export default function HomePage() {
                 <div className="relative mx-auto max-w-6xl px-6 py-16 md:py-24">
                     <div className="max-w-3xl">
                         <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 md:text-6xl">
-                            Turn health metrics into clear risk insight.
+                            Make predictions based on your health numbers.
                         </h1>
                         <p className="mt-5 text-lg font-semibold text-gray-700 md:text-xl">
                             Analyzes common data to
