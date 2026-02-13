@@ -65,7 +65,6 @@ export default function LandingPage() {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    // rotating backgrounds
     const interval = setInterval(() => {
       setIndex(Math.floor(Math.random() * BACKGROUNDS.length));
     }, 4500);
@@ -142,10 +141,21 @@ export default function LandingPage() {
             estimate risk for diseases starting with <span className="font-extrabold text-2xl">atherosclerosis</span>.
           </motion.p>
 
-          <div className="absolute bottom-6 left-0 right-0 z-10 flex justify-center">
-            <a className="text-white/80 hover:text-white text-sm font-bold">
-              ↓ Scroll to explore
-            </a>
+          <div className="absolute bottom-2 left-0 right-0 z-10 flex justify-center">
+            <motion.p className="text-white/80 hover:text-white text-sm font-bold"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.25, duration: 0.8 }}>
+              Scroll to explore 
+              <motion.span
+                className='block text-center'
+                initial={{ opacity: 0, y: -18 }}
+                animate={{ y: [0, 5, 0], opacity: 1 }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                🡇
+              </motion.span>
+            </motion.p>
           </div>
         </div>
       </section>
