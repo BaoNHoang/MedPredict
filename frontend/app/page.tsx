@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import LoginModal from '@/components/LoginModal';
 
@@ -63,6 +63,20 @@ export default function LandingPage() {
   const [loginOpen, setLoginOpen] = useState(false);
 
   const [index, setIndex] = useState(0);
+  const [headlineStep, setHeadlineStep] = useState<0 | 1>(0);
+
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    if (startedRef.current) return;
+    startedRef.current = true;
+
+    const t = window.setTimeout(() => {
+      setHeadlineStep(1);
+    }, 2600);
+
+    return () => window.clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -122,23 +136,37 @@ export default function LandingPage() {
         </header>
 
         <div className="relative z-10 mx-auto flex min-h-[calc(100vh-92px)] max-w-6xl flex-col justify-center px-6 pb-20">
-          <motion.h1
-            className="max-w-3xl text-5xl font-extrabold tracking-tight text-white md:text-6xl"
-            initial={{ opacity: 0, y: -18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            Make predictions based on your health numbers.
-          </motion.h1>
-
+          <motion.div className="max-w-4xl"
+                      initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.25, duration: 0.8 }}>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={headlineStep}
+                initial={{ opacity: 0, y: -14, filter: 'blur(6px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
+                transition={{ duration: 0.8 }}
+              >
+                {headlineStep === 0 ? (
+                  <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl">
+                    Turning Data Into Better Health Decisions.
+                  </h1>
+                ) : (
+                  <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl">
+                    Make predictions based on your health numbers.
+                  </h1>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
           <motion.p
             className="mt-5 max-w-2xl text-lg font-semibold text-white/85 md:text-xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.25, duration: 0.8 }}
           >
-            Analyzes common data to
-            estimate risk for diseases starting with <span className="font-extrabold text-2xl">atherosclerosis</span>.
+            Analyzes common data to estimate risk for diseases starting with <span className="font-extrabold text-2xl">atherosclerosis</span>.
           </motion.p>
 
           <div className="absolute bottom-2 left-0 right-0 z-10 flex justify-center">
@@ -146,7 +174,7 @@ export default function LandingPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.25, duration: 0.8 }}>
-              Scroll to explore 
+              Scroll to explore
               <motion.span
                 className='block text-center'
                 initial={{ opacity: 0, y: -18 }}
