@@ -16,7 +16,7 @@ export default function AboutPage() {
           </p>
           <div className="mt-8">
             <Link
-              href="/home"
+              href="/"
               className="inline-flex rounded-xl bg-blue-500 px-5 py-3 text-sm font-bold text-white hover:bg-blue-600"
             >
               Back to Home

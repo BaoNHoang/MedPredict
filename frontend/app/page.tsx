@@ -119,7 +119,7 @@ export default function LandingPage() {
               <a href="#how" className="text-sm font-semibold text-white/80 hover:text-white">
                 How it works
               </a>
-              <a href="#about" className="text-sm font-semibold text-white/80 hover:text-white">
+              <a href="/about" className="text-sm font-semibold text-white/80 hover:text-white">
                 About
               </a>
             </nav>
@@ -137,7 +137,7 @@ export default function LandingPage() {
 
         <div className="relative z-10 mx-auto flex min-h-[calc(100vh-92px)] max-w-6xl flex-col justify-center px-6 pb-20">
           <motion.div className="max-w-4xl"
-                      initial={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.25, duration: 0.8 }}>
             <AnimatePresence mode="wait" initial={false}>
@@ -150,11 +150,11 @@ export default function LandingPage() {
               >
                 {headlineStep === 0 ? (
                   <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl">
-                    Turning Data Into Better Health Decisions.
+                    Turning Data Into Better Health Decisions
                   </h1>
                 ) : (
                   <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl">
-                    Make predictions based on your health numbers.
+                    Make predictions based on your health numbers
                   </h1>
                 )}
               </motion.div>
@@ -166,7 +166,7 @@ export default function LandingPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.25, duration: 0.8 }}
           >
-            Analyzes common data to estimate risk for diseases starting with <span className="font-extrabold text-2xl">atherosclerosis</span>.
+            Analyzes common data to estimate risk for diseases starting with <span className="font-extrabold text-2xl">atherosclerosis</span>
           </motion.p>
 
           <div className="absolute bottom-2 left-0 right-0 z-10 flex justify-center">
@@ -188,32 +188,83 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section id="features" className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="text-3xl font-extrabold text-gray-900">What <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600"> MedPredict </span> does</h2>
-        <p className="mt-2 max-w-2xl text-gray-600">
-          Designed to be scalable across diseases while starting with atherosclerosis risk prediction.
-        </p>
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          <div className="rounded-2xl bg-white p-6 shadow">
-            <div className="text-lg font-extrabold text-red-400">Risk Prediction</div>
-            <p className="mt-2 text-sm text-gray-600">
-              Input common metrics to receive a risk stage and probability score.
-            </p>
-          </div>
-          <div className="rounded-2xl bg-white p-6 shadow">
-            <div className="text-lg font-extrabold text-red-400">Model Selection</div>
-            <p className="mt-2 text-sm text-gray-600">
-              Compare outputs across multiple ML models (baseline → deep learning).
-            </p>
-          </div>
-          <div className="rounded-2xl bg-white p-6 shadow">
-            <div className="text-lg font-extrabold text-red-400">Actionable Guidance</div>
-            <p className="mt-2 text-sm text-gray-600">
-              Generates recommendations to support better health decisions and prevention.
-            </p>
+      <section id="platform" className="bg-gray-50">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <div className="grid gap-10 md:grid-cols-2 md:items-start">
+            <div>
+              <h2 className="text-4xl font-extrabold text-gray-900">
+                <p className="text-4xl font-extrabold text-gray-900">One platform</p>
+                <p className="text-4xl font-extrabold text-gray-900">Clear results</p>
+              </h2>
+              <p className="mt-4 text-gray-600 font-semibold">
+                <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600"> MedPredict </span> turns your everyday health numbers into a risk summary so you can
+                understand what they may mean and take smarter next steps. As we grow, the same experience
+                will support more conditions without changing how you use the app.
+              </p>
+              <div className="mt-8 grid gap-4">
+                <div className="rounded-2xl border border-gray-200 bg-white p-6">
+                  <div className="mt-2 text-lg font-extrabold text-gray-900">
+                    Pick how you want your results calculated.
+                  </div>
+                  <p className="mt-2 text-sm font-semibold text-gray-600">
+                    Choose from multiple prediction options all in one dropdown.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-gray-200 bg-white p-6">
+                  <div className="mt-2 text-lg font-extrabold text-gray-900">
+                    A clear risk stage with a confidence score.
+                  </div>
+                  <p className="mt-2 text-sm font-semibold text-gray-600">
+                    Every prediction is deliveredso it’s easy to understand and compare.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+              <div className="text-sm font-extrabold text-gray-900">What you get</div>
+              <div className="mt-5 grid gap-4">
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 h-2 w-2 rounded-full bg-blue-500" />
+                  <div>
+                    <div className="font-extrabold text-gray-900">Guided data entry</div>
+                    <div className="text-sm font-semibold text-gray-600">
+                      Built around common numbers people already have—blood pressure, cholesterol, BMI, glucose, and more.
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 h-2 w-2 rounded-full bg-blue-500" />
+                  <div>
+                    <div className="font-extrabold text-gray-900">Fast, reliable predictions</div>
+                    <div className="text-sm font-semibold text-gray-600">
+                      Designed to return results quickly and consistently—whether you’re using a baseline model or deep learning.
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 h-2 w-2 rounded-full bg-blue-500" />
+                  <div>
+                    <div className="font-extrabold text-gray-900">Your history in one place</div>
+                    <div className="text-sm font-semibold text-gray-600">
+                      Save past inputs and predictions to track trends over time in your dashboard.
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 h-2 w-2 rounded-full bg-blue-500" />
+                  <div>
+                    <div className="font-extrabold text-gray-900">Built to expand</div>
+                    <div className="text-sm font-semibold text-gray-600">
+                      Starting with atherosclerosis, with a foundation that supports adding more conditions as the platform grows.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
       <section id="how" className="bg-gray-50">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <h2 className="text-3xl font-extrabold text-gray-900">How it works</h2>
@@ -247,7 +298,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl px-6 py-16">
           <div className="grid gap-8 md:grid-cols-4">
             <div>
-              <div className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-4">MedPredict</div>
+              <div className=" text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-4">MedPredict</div>
               <p className="text-sm">Turning Data Into Better Health Decisions</p>
             </div>
             <div>
