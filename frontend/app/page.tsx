@@ -111,7 +111,7 @@ function HorizontalCarousel4Up() {
               }}>
               <div
                 className="h-[340px] w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{ backgroundImage: `url(${t.img})` }}/>
+                style={{ backgroundImage: `url(${t.img})` }} />
               <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/25 to-black/85" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <div className="text-xl font-extrabold text-white">{t.title}</div>
@@ -226,7 +226,6 @@ export default function LandingPage() {
             transition={{ delay: 0.25, duration: 0.8 }}>
             Analyzes common data to estimate risk for diseases starting with <span className="font-extrabold text-2xl">atherosclerosis</span>
           </motion.p>
-
           <div className="absolute bottom-2 left-0 right-0 z-10 flex justify-center">
             <motion.p className="text-white/80 hover:text-white text-sm font-bold"
               initial={{ opacity: 0 }}
@@ -539,7 +538,6 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
-
       <LoginModal
         open={loginOpen}
         onClose={() => setLoginOpen(false)}
