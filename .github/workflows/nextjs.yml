@@ -1,4 +1,4 @@
-name: Deploy Next.js (Capstone/frontend) to GitHub Pages
+name: Deploy Next.js (frontend) to GitHub Pages
 
 on:
   push:
@@ -24,23 +24,25 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: Capstone/frontend/package-lock.json
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install
-        working-directory: Capstone/frontend
+        working-directory: frontend
         run: npm ci
 
       - name: Build (static export)
-        working-directory: Capstone/frontend
+        working-directory: frontend
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: npm run build
 
       - name: Add .nojekyll
-        run: touch Capstone/frontend/out/.nojekyll
+        run: touch frontend/out/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: Capstone/frontend/out
+          path: frontend/out
 
   deploy:
     needs: build
