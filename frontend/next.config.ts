@@ -3,8 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
-  basePath: "/Capstone",
-  assetPrefix: "/Capstone/",
+  basePath: "/MedPredict",
+  assetPrefix: "/MedPredict/",
   trailingSlash: true,
 };
 
