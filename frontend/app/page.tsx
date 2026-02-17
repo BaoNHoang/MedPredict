@@ -103,30 +103,30 @@ function HorizontalCarousel4Up() {
           scrollbarWidth: 'none',
         }}
         aria-label="Explore carousel">
+        <Reveal>
         <div className="flex gap-3 py-3" style={{ width: 'max-content' }}>
-          <Reveal>
-          {CAROUSEL_TILES.map((t, i) => (
-            <a
-              key={`${t.title}-${i}`}
-              href={t.href}
-              className="group relative shrink-0 overflow-hidden rounded-3xl border-1 border-gray-900 bg-white shadow-sm"
-              style={{
-                width: 'min(1000px, calc((100vw - 10px) / 4))',
-              }}>
-              <div
-                className="h-[340px] w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{ backgroundImage: `url(${t.img})` }} />
-              <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/25 to-black/85" />
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <div className="text-xl font-extrabold text-white">{t.title}</div>
-                <div className="mt-1 text-sm font-semibold text-white/85">
-                  {t.subtitle}
+            {CAROUSEL_TILES.map((t, i) => (
+              <a
+                key={`${t.title}-${i}`}
+                href={t.href}
+                className="group relative shrink-0 overflow-hidden rounded-3xl border-1 border-gray-900 bg-white shadow-sm"
+                style={{
+                  width: 'min(1000px, calc((100vw - 10px) / 4))',
+                }}>
+                <div
+                  className="h-[340px] w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                  style={{ backgroundImage: `url(${t.img})` }} />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/25 to-black/85" />
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <div className="text-xl font-extrabold text-white">{t.title}</div>
+                  <div className="mt-1 text-sm font-semibold text-white/85">
+                    {t.subtitle}
+                  </div>
                 </div>
-              </div>
-            </a>
-          ))}
-          </Reveal>
+              </a>
+            ))}
         </div>
+        </Reveal>
       </div>
     </div>
   );
