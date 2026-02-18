@@ -34,10 +34,10 @@ function Reveal({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.8, ease: 'easeOut', delay: 0 }}>
+      initial={{ opacity: 0, y: 12, }}
+      whileInView={{ opacity: 1, y: 0, }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 1.5, ease: 'easeOut', delay: 0 }}>
       {children}
     </motion.div>
   );
@@ -58,6 +58,7 @@ function HorizontalCarousel4Up() {
           scrollbarWidth: 'none',
         }}
         aria-label="Explore carousel">
+        <Reveal>
           <div className="flex gap-3 py-3" style={{ width: 'max-content' }}>
             {CAROUSEL_TILES.map((t, i) => (
               <a
@@ -82,6 +83,7 @@ function HorizontalCarousel4Up() {
               </a>
             ))}
           </div>
+        </Reveal>
       </div>
     </div>
   );
@@ -114,14 +116,14 @@ export default function LandingPage() {
     return () => clearInterval(interval);
   }, []);
 
-useEffect(() => {
-  const all = [...BACKGROUNDS, ...CAROUSEL_TILES.map(t => t.img)];
-  all.forEach((src) => {
-    const img = new Image();
-    img.decoding = "async";
-    img.src = src;
-  });
-}, []);
+  useEffect(() => {
+    const all = [...BACKGROUNDS, ...CAROUSEL_TILES.map(t => t.img)];
+    all.forEach((src) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = src;
+    });
+  }, []);
 
   return (
     <main className="relative min-h-screen overflow-x-hidden">
