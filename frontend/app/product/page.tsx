@@ -1,0 +1,500 @@
+'use client';
+
+import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
+import LoginModal from '@/components/LoginModal';
+
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+const bp = (p: string) => `${BASE}${p}`;
+
+const BACKGROUNDS = [
+    bp('/backgrounds/bg1.jpg'),
+    bp('/backgrounds/bg2.jpg'),
+    bp('/backgrounds/bg3.jpg'),
+    bp('/backgrounds/bg4.jpg'),
+    bp('/backgrounds/bg5.jpg'),
+];
+
+function Reveal({
+    children,
+    className = '',
+}: {
+    children: React.ReactNode;
+    className?: string;
+}) {
+    return (
+        <motion.div
+            className={className}
+            initial={{ opacity: 0, y: 12, }}
+            whileInView={{ opacity: 1, y: 0, }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 1.5, ease: 'easeOut', delay: 0 }}>
+            {children}
+        </motion.div>
+    );
+}
+
+export default function ProductPage() {
+    const [authed, setAuthed] = useState(false);
+    const [loginOpen, setLoginOpen] = useState(false);
+    const [index, setIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIndex(Math.floor(Math.random() * BACKGROUNDS.length));
+        }, 9000);
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        BACKGROUNDS.forEach((src) => {
+            const img = new Image();
+            img.decoding = 'async';
+            img.src = src;
+        });
+    }, []);
+
+    return (
+        <main className="relative min-h-screen overflow-x-hidden">
+            <section className="relative min-h-[10vh] max-h-[300px] overflow-hidden">
+                <AnimatePresence>
+                    <motion.div
+                        key={index}
+                        className="absolute inset-0 bg-cover bg-center"
+                        style={{ backgroundImage: `url(${BACKGROUNDS[index]})` }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.7 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 1.4, ease: 'easeInOut' }}
+                    />
+                </AnimatePresence>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/70" />
+                <header className="sticky top-0 z-20 border-b border-white/10 bg-black/30">
+                    <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+                        <Link
+                            href="/" className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">
+                            MedPredict
+                        </Link>
+                        <nav className="hidden items-center gap-10 md:flex">
+                            <Link href="/" className="text-1xl font-semibold text-white/80 hover:text-white">
+                                Home
+                            </Link>
+                            <Link href="/about" className="text-1xl font-semibold text-white/80 hover:text-white">
+                                About
+                            </Link>
+                            <Link href="/product" className="text-1xl font-semibold text-white/80 hover:text-white">
+                                Product
+                            </Link>
+                            <Link href="/technology" className="text-1xl font-semibold text-white/80 hover:text-white">
+                                Technology
+                            </Link>
+                            <Link href="/careers" className="text-1xl font-semibold text-white/80 hover:text-white">
+                                Careers
+                            </Link>
+                            <Link href="/privacy" className="text-1xl font-semibold text-white/80 hover:text-white">
+                                Privacy
+                            </Link>
+                        </nav>
+                        <div className="flex items-center gap-3">
+                            <button
+                                className="rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-white hover:bg-white/15"
+                                onClick={() => setLoginOpen(true)}>
+                                Log in
+                            </button>
+                        </div>
+                    </div>
+                </header>
+                <div className="relative mx-auto flex min-h-[calc(30vh-72px)] max-w-6xl flex-col justify-center px-6 pb-2">
+                    <div className="max-w-4xl">
+                        <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl">
+                            Product
+                        </h1>
+                    </div>
+                    <p className="mt-5 max-w-2xl text-lg font-semibold text-white/85 md:text-xl">
+                        A suite of prediction tools, add-ons, and services built for clarity.
+                    </p>
+                </div>
+            </section>
+            <Reveal>
+                <section id="catalog" className="bg-white">
+                    <div className="mx-auto max-w-6xl px-6 py-16">
+                        <div className="max-w-3xl">
+                            <h2 className="text-4xl font-extrabold text-gray-900">Catalog</h2>
+                            <p className="mt-3 text-lg font-semibold text-gray-600">
+                                Add modules and services as your needs grow.
+                            </p>
+                        </div>
+                        <div className="mt-10 grid gap-6 md:grid-cols-3">
+                            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+                                <div className="flex items-start justify-between gap-3">
+                                    <div className="flex items-center gap-3">
+                                        <div className="text-lg font-extrabold text-gray-900">Atherosclerosis Risk Predictor</div>
+                                    </div>
+                                    <div className="rounded-full bg-gray-900 px-3 py-1 text-xs font-extrabold text-white">
+                                        Flagship
+                                    </div>
+                                </div>
+                                <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
+                                    <li className="flex items-start gap-3">
+                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                        <span>Stage + confidence signal</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
+                                        <span>Key drivers in plain language</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                        <span>History tracking for comparisons</span>
+                                    </li>
+                                </ul>
+                                <div className="mt-6 flex gap-3">
+                                    <button
+                                        onClick={() => setLoginOpen(true)}
+                                        className="flex-1 rounded-2xl bg-gray-900 px-5 py-3 text-sm font-extrabold text-white hover:bg-gray-800">
+                                        Try it now
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+                                <div className="flex items-start justify-between gap-3">
+                                    <div className="flex items-center gap-3">
+                                        <div className="text-lg font-extrabold text-gray-900">Metabolic Support Module</div>
+                                    </div>
+                                    <div className="rounded-full bg-gray-100 px-5 py-1 text-xs font-extrabold text-gray-700">
+                                        Extension
+                                    </div>
+                                </div>
+                                <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
+                                    <li className="flex items-start gap-3">
+                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                        <span>Fast inputs for quick checks</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
+                                        <span>Trend-ready summaries</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                        <span>Simple guidance + next steps</span>
+                                    </li>
+                                </ul>
+                                <div className="mt-6 flex gap-3">
+                                    <button
+                                        onClick={() => setLoginOpen(true)}
+                                        className="flex-1 rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-gray-900 hover:bg-gray-50">
+                                        Add to account
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+                                <div className="flex items-start justify-between gap-3">
+                                    <div className="flex items-center gap-3">
+                                        <div className="text-lg font-extrabold text-gray-900">Blood Pressure Tracker</div>
+                                    </div>
+                                    <div className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">
+                                        Extension
+                                    </div>
+                                </div>
+                                <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
+                                    <li className="flex items-start gap-3">
+                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                        <span>Clear categories you can understand</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
+                                        <span>Notes + comparisons across dates</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                        <span>Exportable summaries (Pro+)</span>
+                                    </li>
+                                </ul>
+                                <div className="mt-6 flex gap-3">
+                                    <button
+                                        onClick={() => setLoginOpen(true)}
+                                        className="flex-1 rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-gray-900 hover:bg-gray-50" >
+                                        Add to account
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mt-10 rounded-3xl border border-gray-200 bg-gray-50 p-6">
+                            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                                <div>
+                                    <div className="text-lg font-extrabold text-gray-900">Bundles for teams & capstones</div>
+                                    <div className="mt-1 text-sm font-semibold text-gray-600">
+                                        Pre-built packages that combine product, exports, and evaluation tools.
+                                    </div>
+                                </div>
+                                <a
+                                    href="#pricing"
+                                    className="inline-flex justify-center rounded-2xl bg-gray-900 px-5 py-3 text-sm font-extrabold text-white hover:bg-gray-800">
+                                    See bundles in pricing
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </Reveal>
+
+            <Reveal>
+                <section id="how" className="bg-gray-50">
+                    <div className="mx-auto max-w-6xl px-6 py-16">
+                        <div className="max-w-3xl">
+                            <h2 className="text-4xl font-extrabold text-gray-900">How it works</h2>
+                            <p className="mt-3 text-lg font-semibold text-gray-600">
+                                A simple flow that feels like a product.
+                            </p>
+                        </div>
+                        <div className="mt-10 grid gap-6 md:grid-cols-3">
+                            {[
+                                { n: '01', title: 'Enter your numbers', body: 'Use information about yourself and your health history.' },
+                                { n: '02', title: 'Get a staged result', body: 'Receive a risk stage plus confidence and key drivers.' },
+                                { n: '03', title: 'Act with clarity', body: 'Get readable guidance and track changes over time.' },
+                            ].map((s) => (
+                                <div key={s.n} className="rounded-3xl border border-gray-200 bg-white p-6">
+                                    <div className="text-xs font-extrabold uppercase tracking-widest text-gray-500">Step {s.n}</div>
+                                    <div className="mt-2 text-xl font-extrabold text-gray-900">{s.title}</div>
+                                    <p className="mt-3 text-sm font-semibold leading-relaxed text-gray-600">{s.body}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            </Reveal>
+
+            <Reveal>
+                <section id="pricing" className="bg-white">
+                    <div className="mx-auto max-w-7xl px-6 py-16">
+                        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+                            <div className="max-w-3xl">
+                                <h2 className="text-4xl font-extrabold text-gray-900">
+                                    Pricing
+                                </h2>
+                            </div>
+                        </div>
+                        <div className="mt-5 grid gap-6 md:grid-cols-3">
+                            <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+                                <div className="text-sm font-extrabold text-gray-900">Starter</div>
+                                <div className="mt-3 flex items-end gap-2">
+                                    <div className="text-5xl font-extrabold text-gray-900">$0</div>
+                                    <div className="pb-2 text-sm font-bold text-gray-500">/ month</div>
+                                </div>
+                                <p className="mt-3 text-sm font-semibold text-gray-600">
+                                    Quick predictions for everyday curiosity and simple tracking.
+                                </p>
+                                <div className="mt-6 space-y-3 text-sm font-semibold text-gray-700">
+                                    <li>Single condition predictions</li>
+                                    <li>Basic confidence score</li>
+                                    <li>View prediction history</li>
+                                    <li>Access to basic prediction models</li>
+                                </div>
+                                <div className="mt-8">
+                                    <button
+                                        className="w-full rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-gray-900 hover:bg-gray-50"
+                                        onClick={() => setLoginOpen(true)}>
+                                        Get started
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="rounded-3xl border border-gray-900 bg-white p-8 shadow-sm">
+                                <div className="flex items-center justify-between">
+                                    <div className="text-sm font-extrabold text-gray-900">Pro</div>
+                                    <div className="rounded-full bg-gradient-to-r from-blue-500 to-purple-600 px-3 py-1 text-xs font-extrabold text-white">
+                                        Most popular
+                                    </div>
+                                </div>
+                                <div className="mt-3 flex items-end gap-2">
+                                    <div className="text-5xl font-extrabold text-gray-900">$12</div>
+                                    <div className="pb-2 text-sm font-bold text-gray-500">/ month</div>
+                                </div>
+                                <p className="mt-3 text-sm font-semibold text-gray-600">
+                                    Deeper history, more models, and cleaner comparisons over time.
+                                </p>
+                                <div className="mt-6 space-y-3 text-sm font-semibold text-gray-700">
+                                    <li>Access to advance prediction models</li>
+                                    <li>Unlimited saved runs</li>
+                                    <li>Trend insights + comparisons</li>
+                                    <li>Priority support</li>
+                                </div>
+                                <div className="mt-8">
+                                    <button
+                                        className="w-full rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 px-5 py-3 text-sm font-extrabold text-white shadow-sm hover:opacity-95"
+                                        onClick={() => setLoginOpen(true)}>
+                                        Upgrade to Pro
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+                                <div className="text-sm font-extrabold text-gray-900">Teams</div>
+                                <div className="mt-3 flex items-end gap-2">
+                                    <div className="text-5xl font-extrabold text-gray-900">$49</div>
+                                    <div className="pb-2 text-sm font-bold text-gray-500">/ month</div>
+                                </div>
+                                <p className="mt-3 text-sm font-semibold text-gray-600">
+                                    For clinics, labs, and evaluation teams that want shared insights.
+                                </p>
+                                <div className="mt-6 space-y-3 text-sm font-semibold text-gray-700">
+                                    <li>Shared workspace + roles</li>
+                                    <li>Exportable reports</li>
+                                    <li>Audit-friendly activity log</li>
+                                    <li>Dedicated onboarding</li>
+                                </div>
+                                <div className="mt-8">
+                                    <button
+                                        className="w-full rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 px-5 py-3 text-sm font-extrabold text-white shadow-sm hover:opacity-95"
+                                        onClick={() => setLoginOpen(true)}>
+                                        Upgrade to Teams
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </Reveal>
+
+            <Reveal>
+                <section className="bg-gray-50">
+                    <div className="mx-auto max-w-6xl px-6 py-16">
+                        <div className="max-w-3xl">
+                            <h2 className="text-4xl font-extrabold text-gray-900">Trusted for clarity</h2>
+                            <p className="mt-3 text-lg font-semibold text-gray-600">
+                                A few words from early users.
+                            </p>
+                        </div>
+
+                        <div className="mt-10 grid gap-6 md:grid-cols-3">
+                            {[
+                                {
+                                    quote:
+                                        'MedPredict turns labs into something I can actually explain to my family members. It is clear, quick, and not intimidating.',
+                                    name: 'Jamie R.',
+                                    title: 'Volunteer EMT',
+                                },
+                                {
+                                    quote:
+                                        'The confidence information and predictions make it feel transparent. It does not feel like just numbers.',
+                                    name: 'Avery K.',
+                                    title: 'Data Analyst',
+                                },
+                                {
+                                    quote:
+                                        'It\'s simple, fast, and readable on mobile and my laptop. Exactly what health tools should feel like.',
+                                    name: 'Morgan S.',
+                                    title: 'Nursing Student',
+                                },
+                            ].map((t) => (
+                                <div key={t.name} className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+                                    <div className="text-3xl font-extrabold text-gray-300">“</div>
+                                    <p className="mt-2 text-sm font-semibold leading-relaxed text-gray-700">{t.quote}</p>
+                                    <div className="mt-6 border-t border-gray-100 pt-4">
+                                        <div className="text-sm font-extrabold text-gray-900">{t.name}</div>
+                                        <div className="text-xs font-bold text-gray-500">{t.title}</div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            </Reveal>
+
+            <Reveal>
+                <section className="bg-white">
+                    <div className="mx-auto max-w-6xl px-6 py-16">
+                        <div className="max-w-3xl">
+                            <h2 className="text-4xl font-extrabold text-gray-900">FAQ</h2>
+                            <p className="mt-3 text-lg font-semibold text-gray-600">Quick answers to common questions.</p>
+                        </div>
+
+                        <div className="mt-10 grid gap-6 md:grid-cols-2">
+                            {[
+                                {
+                                    q: 'Is this medical advice?',
+                                    a: 'No. MedPredict is educational support. Consult a qualified clinician for diagnosis and treatment.',
+                                },
+                                {
+                                    q: 'What else do you sell besides the flagship model?',
+                                    a: 'We offer add-on modules plus services like integrations, evaluation, and export/report packs.',
+                                },
+                                {
+                                    q: 'Can teams share results?',
+                                    a: 'Yes. Teams includes a shared workspace, roles, and exportable reports for evaluation workflows.',
+                                },
+                                {
+                                    q: 'What happens to my data?',
+                                    a: 'We design flows to minimize exposure and keep access intentional. Document the specifics on your privacy page.',
+                                },
+                            ].map((item) => (
+                                <div key={item.q} className="rounded-3xl border border-gray-200 bg-white p-6">
+                                    <div className="text-lg font-extrabold text-gray-900">{item.q}</div>
+                                    <p className="mt-2 text-sm font-semibold leading-relaxed text-gray-600">{item.a}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="mt-10 rounded-3xl border border-gray-200 bg-gradient-to-r from-gray-50 to-white p-8">
+                            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                                <div>
+                                    <div className="text-2xl font-extrabold text-gray-900">Ready to see your results clearly?</div>
+                                    <div className="mt-2 text-sm font-semibold text-gray-600">
+                                        Start with the demo flow, then upgrade when you want history and exports.
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => setLoginOpen(true)}
+                                    className="rounded-2xl bg-gray-900 px-6 py-3 text-sm font-extrabold text-white hover:bg-gray-800"
+                                >
+                                    Try it now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </Reveal>
+            <footer className="bg-gray-900 text-gray-300">
+                <div className="mx-auto max-w-6xl px-6 py-10">
+                    <div className="grid gap-8 md:grid-cols-4">
+                        <div>
+                            <div className=" text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-2">MedPredict</div>
+                            <p className="text-sm">Turning Data Into Better Health Decisions</p>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-white mb-4">Product</h3>
+                            <ul className="space-y-2 text-sm">
+                                <li><a href="#features" className="hover:text-white">Features</a></li>
+                                <li><a href="#how" className="hover:text-white">How it Works</a></li>
+                                <li><a href="#" className="hover:text-white">Pricing</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-white mb-4">Company</h3>
+                            <ul className="space-y-2 text-sm">
+                                <li><Link href="/about" className="hover:text-white">About</Link></li>
+                                <li><a href="#" className="hover:text-white">Blog</a></li>
+                                <li><a href="#" className="hover:text-white">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-white mb-4">Follow Us</h3>
+                            <div className="flex gap-4">
+                                <a href="#" className="hover:text-blue-400">Instagram</a>
+                                <a href="https://www.linkedin.com/in/bao-nguyen-hoang/" className="hover:text-blue-400">LinkedIn</a>
+                                <a href="https://github.com/BaoNHoang/MedPredict://github.com/BaoNHoang/" className="hover:text-blue-400">GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="mt-5 border-t border-gray-700 pt-5 text-center text-sm">
+                        <p>&copy; 2026 MedPredict. All rights reserved.</p>
+                    </div>
+                </div>
+            </footer>
+            <LoginModal
+                open={loginOpen}
+                onClose={() => setLoginOpen(false)}
+                onSuccess={() => setAuthed(true)}
+            />
+        </main>
+    );
+}

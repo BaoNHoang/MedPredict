@@ -17,11 +17,11 @@ const BACKGROUNDS = [
 ];
 
 const CAROUSEL_TILES = [
-  { title: 'About', subtitle: 'Learn more about MedPredict', href: './about', img: bp('/backgrounds/bg2.jpg') },
-  { title: 'Products', subtitle: 'Shop our medical tools', href: './products', img: bp('/backgrounds/bg3.jpg') },
-  { title: 'Technology', subtitle: 'Our advanced AI models', href: '#', img: bp('/backgrounds/bg4.jpg') },
-  { title: 'Careers', subtitle: 'Join our team', href: '#', img: bp('/backgrounds/bg5.jpg') },
-  { title: 'Privacy', subtitle: 'Your information is our priority', href: '#', img: bp('/backgrounds/bg1.jpg') },
+  { title: 'About', subtitle: 'Learn more about MedPredict', href: '/about', img: bp('/backgrounds/bg2.jpg') },
+  { title: 'Product', subtitle: 'Shop our medical tools', href: '/product', img: bp('/backgrounds/bg3.jpg') },
+  { title: 'Technology', subtitle: 'Our advanced AI models', href: '/technology', img: bp('/backgrounds/bg4.jpg') },
+  { title: 'Careers', subtitle: 'Join our team', href: '/careers', img: bp('/backgrounds/bg5.jpg') },
+  { title: 'Privacy', subtitle: 'Your information is our priority', href: '/privacy', img: bp('/backgrounds/bg1.jpg') },
 ];
 
 function Reveal({
@@ -181,16 +181,16 @@ export default function LandingPage() {
               <Link href="/about" className="text-1xl font-semibold text-white/80 hover:text-white">
                 About
               </Link>
-              <Link href="/products" className="text-1xl font-semibold text-white/80 hover:text-white">
-                Products
+              <Link href="/product" className="text-1xl font-semibold text-white/80 hover:text-white">
+                Product
               </Link>
-              <Link href="#" className="text-1xl font-semibold text-white/80 hover:text-white">
+              <Link href="/technology" className="text-1xl font-semibold text-white/80 hover:text-white">
                 Technology
               </Link>
-              <Link href="#" className="text-1xl font-semibold text-white/80 hover:text-white">
+              <Link href="/careers" className="text-1xl font-semibold text-white/80 hover:text-white">
                 Careers
               </Link>
-              <Link href="#" className="text-1xl font-semibold text-white/80 hover:text-white">
+              <Link href="/privacy" className="text-1xl font-semibold text-white/80 hover:text-white">
                 Privacy
               </Link>
             </nav>
@@ -458,7 +458,7 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
-            <div className="mt-14 pt-8">
+            <div className="mt-4 pt-8">
 
               <div className="mt-1 flex flex-wrap gap-3">
                 <a
@@ -523,127 +523,6 @@ export default function LandingPage() {
                   <p className="mt-2 text-base font-semibold leading-relaxed text-gray-600">
                     MedPredict is designed to support more conditions over time without forcing you to learn a new flow.
                   </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-      <Reveal>
-        <section id="how" className="bg-white">
-          <div className="mx-auto max-w-7xl px-6 py-16">
-            <h2 className="text-4xl font-extrabold text-gray-900">How it works</h2>
-            <div className="mt-6 grid gap-6 md:grid-cols-3">
-              <div className="rounded-2xl bg-white p-6 shadow">
-                <div className="text-sm font-bold text-blue-400">Step 1</div>
-                <div className="mt-2 text-lg font-extrabold text-gray-900">Login for privacy</div>
-                <p className="mt-2 text-sm text-gray-600">
-                  Your health inputs and prediction history are protected by your account.
-                </p>
-              </div>
-              <div className="rounded-2xl bg-white p-6 shadow">
-                <div className="text-sm font-bold text-blue-400">Step 2</div>
-                <div className="mt-2 text-lg font-extrabold text-gray-900">Enter your metrics</div>
-                <p className="mt-2 text-sm text-gray-600">
-                  Blood pressure, cholesterol, BMI, glucose, and other factors.
-                </p>
-              </div>
-              <div className="rounded-2xl bg-white p-6 shadow flex flex-col h-full">
-                <div className="text-sm font-bold text-blue-400">Step 3</div>
-                <div className="mt-2 text-lg font-extrabold text-gray-900">Get results</div>
-                <p className="mt-2 text-sm text-gray-600">
-                  View risk stage, probability, and recommended next actions.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-      <Reveal>
-        <section id="pricing" className="bg-white">
-          <div className="mx-auto max-w-7xl px-6 py-16">
-            <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-              <div className="max-w-3xl">
-                <h2 className="text-4xl font-extrabold text-gray-900">
-                  Pricing
-                </h2>
-              </div>
-            </div>
-            <div className="mt-5 grid gap-6 md:grid-cols-3">
-              <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
-                <div className="text-sm font-extrabold text-gray-900">Starter</div>
-                <div className="mt-3 flex items-end gap-2">
-                  <div className="text-5xl font-extrabold text-gray-900">$0</div>
-                  <div className="pb-2 text-sm font-bold text-gray-500">/ month</div>
-                </div>
-                <p className="mt-3 text-sm font-semibold text-gray-600">
-                  Quick predictions for everyday curiosity and simple tracking.
-                </p>
-                <div className="mt-6 space-y-3 text-sm font-semibold text-gray-700">
-                  <li>Single condition predictions</li>
-                  <li>Basic confidence score</li>
-                  <li>View prediction history</li>
-                  <li>Access to basic prediction models</li>
-                </div>
-                <div className="mt-8">
-                  <button
-                    className="w-full rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-gray-900 hover:bg-gray-50"
-                    onClick={() => setLoginOpen(true)}>
-                    Get started
-                  </button>
-                </div>
-              </div>
-              <div className="rounded-3xl border border-gray-900 bg-white p-8 shadow-sm">
-                <div className="flex items-center justify-between">
-                  <div className="text-sm font-extrabold text-gray-900">Pro</div>
-                  <div className="rounded-full bg-gradient-to-r from-blue-500 to-purple-600 px-3 py-1 text-xs font-extrabold text-white">
-                    Most popular
-                  </div>
-                </div>
-                <div className="mt-3 flex items-end gap-2">
-                  <div className="text-5xl font-extrabold text-gray-900">$12</div>
-                  <div className="pb-2 text-sm font-bold text-gray-500">/ month</div>
-                </div>
-                <p className="mt-3 text-sm font-semibold text-gray-600">
-                  Deeper history, more models, and cleaner comparisons over time.
-                </p>
-                <div className="mt-6 space-y-3 text-sm font-semibold text-gray-700">
-                  <li>Access to advance prediction models</li>
-                  <li>Unlimited saved runs</li>
-                  <li>Trend insights + comparisons</li>
-                  <li>Priority support</li>
-                </div>
-                <div className="mt-8">
-                  <button
-                    className="w-full rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 px-5 py-3 text-sm font-extrabold text-white shadow-sm hover:opacity-95"
-                    onClick={() => setLoginOpen(true)}>
-                    Upgrade to Pro
-                  </button>
-                </div>
-              </div>
-              <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
-                <div className="text-sm font-extrabold text-gray-900">Teams</div>
-                <div className="mt-3 flex items-end gap-2">
-                  <div className="text-5xl font-extrabold text-gray-900">$49</div>
-                  <div className="pb-2 text-sm font-bold text-gray-500">/ month</div>
-                </div>
-                <p className="mt-3 text-sm font-semibold text-gray-600">
-                  For clinics, labs, and evaluation teams that want shared insights.
-                </p>
-                <div className="mt-6 space-y-3 text-sm font-semibold text-gray-700">
-                  <li>Shared workspace + roles</li>
-                  <li>Exportable reports</li>
-                  <li>Audit-friendly activity log</li>
-                  <li>Dedicated onboarding</li>
-                </div>
-                <div className="mt-8">
-                  <button
-                    className="w-full rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 px-5 py-3 text-sm font-extrabold text-white shadow-sm hover:opacity-95"
-                    onClick={() => setLoginOpen(true)}>
-                    Upgrade to Teams
-                  </button>
                 </div>
               </div>
             </div>

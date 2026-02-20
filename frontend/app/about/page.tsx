@@ -26,59 +26,14 @@ function Reveal({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 12, }}
+      whileInView={{ opacity: 1, y: 0, }}
       viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 1.0, ease: 'easeOut' }}
-    >
+      transition={{ duration: 1.5, ease: 'easeOut', delay: 0 }}>
       {children}
     </motion.div>
   );
 }
-
-const VALUES = [
-  {
-    title: 'Clarity over complexity',
-    body: 'We translate common health numbers into plain-language insights that feel approachable, not overwhelming.',
-  },
-  {
-    title: 'Privacy-first by default',
-    body: 'Your data should be treated with care. We design flows that minimize exposure and keep access intentional.',
-  },
-  {
-    title: 'Built to expand',
-    body: 'We start focused (atherosclerosis) and grow responsibly—adding conditions without changing the core experience.',
-  },
-  {
-    title: 'Confidence + context',
-    body: 'Predictions are paired with a confidence signal and what-to-do-next guidance so results are actionable.',
-  },
-];
-
-const TIMELINE = [
-  {
-    year: '2024',
-    title: 'Prototype',
-    body: 'We built the first MedPredict flow: guided entry → risk stage → confidence score.',
-  },
-  {
-    year: '2025',
-    title: 'Usability + polish',
-    body: 'We refined language, simplified screens, and improved readability across devices.',
-  },
-  {
-    year: '2026',
-    title: 'Capstone launch',
-    body: 'We shipped a clean, static-friendly experience designed to run fast on the web (including GitHub Pages).',
-  },
-];
-
-const TEAM = [
-  { name: 'Product & UX', desc: 'Turns requirements into a smooth, understandable experience.' },
-  { name: 'Modeling & Evaluation', desc: 'Validates behavior across realistic ranges and flags edge cases.' },
-  { name: 'Engineering', desc: 'Builds the interface, data flow, and deployment pipeline.' },
-  { name: 'Privacy & Security', desc: 'Defines safe defaults and keeps user data protected.' },
-];
 
 export default function AboutPage() {
   const [authed, setAuthed] = useState(false);
@@ -129,8 +84,8 @@ export default function AboutPage() {
               <Link href="/about" className="text-1xl font-semibold text-white/80 hover:text-white">
                 About
               </Link>
-              <Link href="/products" className="text-1xl font-semibold text-white/80 hover:text-white">
-                Products
+              <Link href="/product" className="text-1xl font-semibold text-white/80 hover:text-white">
+                Product
               </Link>
               <Link href="/technology" className="text-1xl font-semibold text-white/80 hover:text-white">
                 Technology
@@ -152,80 +107,71 @@ export default function AboutPage() {
           </div>
         </header>
         <div className="relative mx-auto flex min-h-[calc(30vh-72px)] max-w-6xl flex-col justify-center px-6 pb-2">
-          <motion.div
-            className="max-w-4xl"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.7 }}>
+          <div className="max-w-4xl">
             <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl">
               About MedPredict
             </h1>
-          </motion.div>
-          <motion.p
-            className="mt-5 max-w-2xl text-lg font-semibold text-white/85 md:text-xl"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.25, duration: 0.7 }}>
+          </div>
+          <p className="mt-5 max-w-2xl text-lg font-semibold text-white/85 md:text-xl">
             Learn more about our mission, our process, and where we’re headed.
-          </motion.p>
+          </p>
         </div>
       </section>
 
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-6 py-16">
-          <Reveal>
-            <div className="max-w-3xl">
-              <h2 className="mt-2 text-5xl font-extrabold text-gray-900">
-                Built to make health data
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">
-                  easier to understand
-                </span>
-              </h2>
-              <p className="mt-5 text-lg font-semibold leading-relaxed text-gray-600">
-                MedPredict is a health technology company focused on helping people interpret common
-                numbers they already have like cholesterol, blood pressure, glucose, and BMI. Our goal is to
-                turn confusing metrics into a clear summary you can actually use.
-              </p>
-              <div className="mt-8 grid gap-4 md:grid-cols-3">
-                <div className="rounded-2xl border border-gray-200 bg-white p-5">
-                  <div className="text-xs font-extrabold uppercase tracking-wider text-gray-500">Founded</div>
-                  <div className="mt-2 text-lg font-extrabold text-gray-900">2026</div>
-                </div>
-                <div className="rounded-2xl border border-gray-200 bg-white p-5">
-                  <div className="text-xs font-extrabold uppercase tracking-wider text-gray-500">Headquarters</div>
-                  <div className="mt-2 text-lg font-extrabold text-gray-900">Norfolk, VA</div>
-                </div>
-                <div className="rounded-2xl border border-gray-200 bg-white p-5">
-                  <div className="text-xs font-extrabold uppercase tracking-wider text-gray-500">Focus</div>
-                  <div className="mt-2 text-lg font-extrabold text-gray-900">Clinical support</div>
-                </div>
+          <div className="max-w-3xl">
+            <h2 className="mt-2 text-5xl font-extrabold text-gray-900">
+              Built to make health data
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">
+                easier to understand
+              </span>
+            </h2>
+            <p className="mt-5 text-lg font-semibold leading-relaxed text-gray-600">
+              MedPredict is a health technology company focused on helping people interpret common
+              numbers they already have like cholesterol, blood pressure, glucose, and BMI. Our goal is to
+              turn confusing metrics into a clear summary you can actually use.
+            </p>
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
+              <div className="rounded-2xl border border-gray-200 bg-white p-5">
+                <div className="text-xs font-extrabold uppercase tracking-wider text-gray-500">Founded</div>
+                <div className="mt-2 text-lg font-extrabold text-gray-900">2026</div>
               </div>
-              <div className="mt-8 space-y-4">
-                <div className="rounded-2xl bg-gray-50 p-6">
-                  <div className="text-lg font-extrabold text-gray-900">Medical discipline</div>
-                  <p className="mt-2 text-sm font-semibold leading-relaxed text-gray-600">
-                    We borrow the engineering mindset used in advanced technical industries where clear requirements,
-                    testable outputs, and careful validation are essential. We apply that mindset to healthcare to make data more actionable
-                  </p>
-                </div>
-                <div className="rounded-2xl bg-gray-50 p-6">
-                  <div className="text-lg font-extrabold text-gray-900">Readable outputs</div>
-                  <p className="mt-2 text-sm font-semibold leading-relaxed text-gray-600">
-                    Every prediction is paired with a confidence signal and plain language explanations
-                    so you can understand what the model is doing and how to use the results.
-                    We want to make it clear when the model is confident and what factors are driving its predictions.
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6">
-                  <div className="text-lg font-extrabold text-amber-900">Not medical advice</div>
-                  <p className="mt-2 text-sm font-semibold leading-relaxed text-amber-900/90">
-                    MedPredict is an educational and support company. We partner with medical professionals from across the globe but
-                    always consult a qualified clinician for diagnosis and treatment.
-                  </p>
-                </div>
+              <div className="rounded-2xl border border-gray-200 bg-white p-5">
+                <div className="text-xs font-extrabold uppercase tracking-wider text-gray-500">Headquarters</div>
+                <div className="mt-2 text-lg font-extrabold text-gray-900">Norfolk, VA</div>
+              </div>
+              <div className="rounded-2xl border border-gray-200 bg-white p-5">
+                <div className="text-xs font-extrabold uppercase tracking-wider text-gray-500">Focus</div>
+                <div className="mt-2 text-lg font-extrabold text-gray-900">Clinical support</div>
               </div>
             </div>
-          </Reveal>
+            <div className="mt-8 space-y-4">
+              <div className="rounded-2xl bg-gray-50 p-6">
+                <div className="text-lg font-extrabold text-gray-900">Medical discipline</div>
+                <p className="mt-2 text-sm font-semibold leading-relaxed text-gray-600">
+                  We borrow the engineering mindset used in advanced technical industries where clear requirements,
+                  testable outputs, and careful validation are essential. We apply that mindset to healthcare to make data more actionable
+                </p>
+              </div>
+              <div className="rounded-2xl bg-gray-50 p-6">
+                <div className="text-lg font-extrabold text-gray-900">Readable outputs</div>
+                <p className="mt-2 text-sm font-semibold leading-relaxed text-gray-600">
+                  Every prediction is paired with a confidence signal and plain language explanations
+                  so you can understand what the model is doing and how to use the results.
+                  We want to make it clear when the model is confident and what factors are driving its predictions.
+                </p>
+              </div>
+              <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6">
+                <div className="text-lg font-extrabold text-amber-900">Not medical advice</div>
+                <p className="mt-2 text-sm font-semibold leading-relaxed text-amber-900/90">
+                  MedPredict is an educational and support company. We partner with medical professionals from across the globe but
+                  always consult a qualified clinician for diagnosis and treatment.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <Reveal>
             <div className="mt-12 rounded-2xl max-w-3xl border border-gray-200 bg-white p-6 shadow-sm">
               <div className="text-xl font-extrabold text-gray-900">Where we’re going next</div>
