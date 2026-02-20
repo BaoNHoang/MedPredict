@@ -18,7 +18,7 @@ const BACKGROUNDS = [
 
 const CAROUSEL_TILES = [
   { title: 'About', subtitle: 'Learn more about MedPredict', href: './about', img: bp('/backgrounds/bg2.jpg') },
-  { title: 'Products', subtitle: 'Shop our medical tools', href: '#', img: bp('/backgrounds/bg3.jpg') },
+  { title: 'Products', subtitle: 'Shop our medical tools', href: './products', img: bp('/backgrounds/bg3.jpg') },
   { title: 'Technology', subtitle: 'Our advanced AI models', href: '#', img: bp('/backgrounds/bg4.jpg') },
   { title: 'Careers', subtitle: 'Join our team', href: '#', img: bp('/backgrounds/bg5.jpg') },
   { title: 'Privacy', subtitle: 'Your information is our priority', href: '#', img: bp('/backgrounds/bg1.jpg') },
@@ -99,7 +99,7 @@ function HorizontalCarousel4Up() {
                 style={{ width: "min(1000px, calc((100vw - 10px) / 4))" }}>
                 <div
                   className="h-[200px] w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                  style={{ backgroundImage: `url(${t.img})` }}/>
+                  style={{ backgroundImage: `url(${t.img})` }} />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/35 to-black/85" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <div className="text-xl font-extrabold text-white">{t.title}</div>
@@ -181,7 +181,7 @@ export default function LandingPage() {
               <Link href="/about" className="text-1xl font-semibold text-white/80 hover:text-white">
                 About
               </Link>
-              <Link href="#" className="text-1xl font-semibold text-white/80 hover:text-white">
+              <Link href="/products" className="text-1xl font-semibold text-white/80 hover:text-white">
                 Products
               </Link>
               <Link href="#" className="text-1xl font-semibold text-white/80 hover:text-white">
@@ -458,7 +458,7 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
-            <div className="mt-14 border-t border-gray-200 pt-8">
+            <div className="mt-14 pt-8">
 
               <div className="mt-1 flex flex-wrap gap-3">
                 <a
@@ -473,9 +473,67 @@ export default function LandingPage() {
       </Reveal>
 
       <Reveal>
+        <section id="features" className="bg-white">
+          <div className="mx-auto max-w-7xl px-6 py-16">
+            <div className="max-w-3xl">
+              <h2 className="text-5xl font-extrabold text-gray-900">
+                Features that keep things
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">
+                  simple, fast, and clear
+                </span>
+              </h2>
+              <p className="mt-5 text-lg font-semibold leading-relaxed text-gray-600">
+                Everything is built around turning metrics into an understandable summary.
+              </p>
+            </div>
+            <div className="mt-10 max-w-4xl">
+              <div className="space-y-10">
+                <div>
+                  <h3 className="text-2xl font-extrabold text-gray-900">Understandable results</h3>
+                  <p className="mt-2 text-base font-semibold leading-relaxed text-gray-600">
+                    You get a clear risk stage and a simple explanation so the result makes sense at a glance.
+                  </p>
+                </div>
+                <div className="pt-1">
+                  <h3 className="text-2xl font-extrabold text-gray-900">Model selection</h3>
+                  <p className="mt-2 text-base font-semibold leading-relaxed text-gray-600">
+                    Pick which model you want to calculate using multiple prediction options in one dropdown.
+                  </p>
+                </div>
+                <div className="pt-1">
+                  <h3 className="text-2xl font-extrabold text-gray-900">Confidence score</h3>
+                  <p className="mt-2 text-base font-semibold leading-relaxed text-gray-600">
+                    Every prediction includes a confidence score so you can interpret uncertainty responsibly.
+                  </p>
+                </div>
+                <div className="pt-1">
+                  <h3 className="text-2xl font-extrabold text-gray-900">Trend tracking</h3>
+                  <p className="mt-2 text-base font-semibold leading-relaxed text-gray-600">
+                    Save your inputs and predictions to spot trends over time. Your dashboard keeps everything organized.
+                  </p>
+                </div>
+                <div className="pt-1">
+                  <h3 className="text-2xl font-extrabold text-gray-900">Account-based protection</h3>
+                  <p className="mt-2 text-base font-semibold leading-relaxed text-gray-600">
+                    Your prediction history stays tied to your account helping keep inputs and results private.
+                  </p>
+                </div>
+                <div className="pt-1">
+                  <h3 className="text-2xl font-extrabold text-gray-900">Built to expand</h3>
+                  <p className="mt-2 text-base font-semibold leading-relaxed text-gray-600">
+                    MedPredict is designed to support more conditions over time without forcing you to learn a new flow.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+      <Reveal>
         <section id="how" className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16">
-            <h2 className="text-5xl font-extrabold text-gray-900">How it works</h2>
+            <h2 className="text-4xl font-extrabold text-gray-900">How it works</h2>
             <div className="mt-6 grid gap-6 md:grid-cols-3">
               <div className="rounded-2xl bg-white p-6 shadow">
                 <div className="text-sm font-bold text-blue-400">Step 1</div>
@@ -503,6 +561,96 @@ export default function LandingPage() {
         </section>
       </Reveal>
 
+      <Reveal>
+        <section id="pricing" className="bg-white">
+          <div className="mx-auto max-w-7xl px-6 py-16">
+            <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+              <div className="max-w-3xl">
+                <h2 className="text-4xl font-extrabold text-gray-900">
+                  Pricing
+                </h2>
+              </div>
+            </div>
+            <div className="mt-5 grid gap-6 md:grid-cols-3">
+              <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+                <div className="text-sm font-extrabold text-gray-900">Starter</div>
+                <div className="mt-3 flex items-end gap-2">
+                  <div className="text-5xl font-extrabold text-gray-900">$0</div>
+                  <div className="pb-2 text-sm font-bold text-gray-500">/ month</div>
+                </div>
+                <p className="mt-3 text-sm font-semibold text-gray-600">
+                  Quick predictions for everyday curiosity and simple tracking.
+                </p>
+                <div className="mt-6 space-y-3 text-sm font-semibold text-gray-700">
+                  <li>Single condition predictions</li>
+                  <li>Basic confidence score</li>
+                  <li>View prediction history</li>
+                  <li>Access to basic prediction models</li>
+                </div>
+                <div className="mt-8">
+                  <button
+                    className="w-full rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-gray-900 hover:bg-gray-50"
+                    onClick={() => setLoginOpen(true)}>
+                    Get started
+                  </button>
+                </div>
+              </div>
+              <div className="rounded-3xl border border-gray-900 bg-white p-8 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm font-extrabold text-gray-900">Pro</div>
+                  <div className="rounded-full bg-gradient-to-r from-blue-500 to-purple-600 px-3 py-1 text-xs font-extrabold text-white">
+                    Most popular
+                  </div>
+                </div>
+                <div className="mt-3 flex items-end gap-2">
+                  <div className="text-5xl font-extrabold text-gray-900">$12</div>
+                  <div className="pb-2 text-sm font-bold text-gray-500">/ month</div>
+                </div>
+                <p className="mt-3 text-sm font-semibold text-gray-600">
+                  Deeper history, more models, and cleaner comparisons over time.
+                </p>
+                <div className="mt-6 space-y-3 text-sm font-semibold text-gray-700">
+                  <li>Access to advance prediction models</li>
+                  <li>Unlimited saved runs</li>
+                  <li>Trend insights + comparisons</li>
+                  <li>Priority support</li>
+                </div>
+                <div className="mt-8">
+                  <button
+                    className="w-full rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 px-5 py-3 text-sm font-extrabold text-white shadow-sm hover:opacity-95"
+                    onClick={() => setLoginOpen(true)}>
+                    Upgrade to Pro
+                  </button>
+                </div>
+              </div>
+              <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+                <div className="text-sm font-extrabold text-gray-900">Teams</div>
+                <div className="mt-3 flex items-end gap-2">
+                  <div className="text-5xl font-extrabold text-gray-900">$49</div>
+                  <div className="pb-2 text-sm font-bold text-gray-500">/ month</div>
+                </div>
+                <p className="mt-3 text-sm font-semibold text-gray-600">
+                  For clinics, labs, and evaluation teams that want shared insights.
+                </p>
+                <div className="mt-6 space-y-3 text-sm font-semibold text-gray-700">
+                  <li>Shared workspace + roles</li>
+                  <li>Exportable reports</li>
+                  <li>Audit-friendly activity log</li>
+                  <li>Dedicated onboarding</li>
+                </div>
+                <div className="mt-8">
+                  <button
+                    className="w-full rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 px-5 py-3 text-sm font-extrabold text-white shadow-sm hover:opacity-95"
+                    onClick={() => setLoginOpen(true)}>
+                    Upgrade to Teams
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
       <footer className="bg-gray-900 text-gray-300">
         <div className="mx-auto max-w-6xl px-6 py-10">
           <div className="grid gap-8 md:grid-cols-4">
@@ -515,7 +663,7 @@ export default function LandingPage() {
               <ul className="space-y-2 text-sm">
                 <li><a href="#features" className="hover:text-white">Features</a></li>
                 <li><a href="#how" className="hover:text-white">How it Works</a></li>
-                <li><a href="#" className="hover:text-white">Pricing</a></li>
+                <li><a href="#pricing" className="hover:text-white">Pricing</a></li>
               </ul>
             </div>
             <div>
