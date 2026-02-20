@@ -17,11 +17,11 @@ const BACKGROUNDS = [
 ];
 
 const CAROUSEL_TILES = [
-  { title: 'About', subtitle: 'Learn more about MedPredict', href: '/about', img: bp('/backgrounds/bg2.jpg') },
-  { title: 'Product', subtitle: 'Shop our medical tools', href: '/product', img: bp('/backgrounds/bg3.jpg') },
-  { title: 'Technology', subtitle: 'Our advanced AI models', href: '/technology', img: bp('/backgrounds/bg4.jpg') },
-  { title: 'Careers', subtitle: 'Join our team', href: '/careers', img: bp('/backgrounds/bg5.jpg') },
-  { title: 'Privacy', subtitle: 'Your information is our priority', href: '/privacy', img: bp('/backgrounds/bg1.jpg') },
+  { title: 'About', subtitle: 'Learn more about MedPredict', href: './about', img: bp('/backgrounds/bg2.jpg') },
+  { title: 'Product', subtitle: 'Shop our medical tools', href: './product', img: bp('/backgrounds/bg3.jpg') },
+  { title: 'Technology', subtitle: 'Our advanced AI models', href: './technology', img: bp('/backgrounds/bg4.jpg') },
+  { title: 'Careers', subtitle: 'Join our team', href: './careers', img: bp('/backgrounds/bg5.jpg') },
+  { title: 'Privacy', subtitle: 'Your information is our priority', href: './privacy', img: bp('/backgrounds/bg1.jpg') },
 ];
 
 function Reveal({
