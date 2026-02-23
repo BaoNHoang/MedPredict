@@ -139,7 +139,7 @@ export default function AboutPage() {
               </div>
               <div className="rounded-2xl border border-gray-200 bg-white p-5">
                 <div className="text-xs font-extrabold uppercase tracking-wider text-gray-500">Headquarters</div>
-                <div className="mt-2 text-lg font-extrabold text-gray-900">Norfolk, VA</div>
+                <div className="mt-2 text-lg font-extrabold text-gray-900">Yorktown, VA</div>
               </div>
               <div className="rounded-2xl border border-gray-200 bg-white p-5">
                 <div className="text-xs font-extrabold uppercase tracking-wider text-gray-500">Focus</div>

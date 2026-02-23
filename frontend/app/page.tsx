@@ -17,11 +17,11 @@ const BACKGROUNDS = [
 ];
 
 const CAROUSEL_TILES = [
-  { title: 'About', subtitle: 'Learn more about MedPredict', href: './about', img: bp('/backgrounds/bg2.jpg') },
-  { title: 'Product', subtitle: 'Shop our medical tools', href: './product', img: bp('/backgrounds/bg3.jpg') },
-  { title: 'Technology', subtitle: 'Our advanced AI models', href: './technology', img: bp('/backgrounds/bg4.jpg') },
-  { title: 'Careers', subtitle: 'Join our team', href: './careers', img: bp('/backgrounds/bg5.jpg') },
-  { title: 'Privacy', subtitle: 'Your information is our priority', href: './privacy', img: bp('/backgrounds/bg1.jpg') },
+  { title: 'About', subtitle: 'Learn more about MedPredict', href: '/about', img: bp('/backgrounds/bg2.jpg') },
+  { title: 'Product', subtitle: 'Shop our medical tools', href: '/product', img: bp('/backgrounds/bg3.jpg') },
+  { title: 'Technology', subtitle: 'Our advanced AI models', href: '/technology', img: bp('/backgrounds/bg4.jpg') },
+  { title: 'Careers', subtitle: 'Join our team', href: '/careers', img: bp('/backgrounds/bg5.jpg') },
+  { title: 'Privacy', subtitle: 'Your information is our priority', href: '/privacy', img: bp('/backgrounds/bg1.jpg') },
 ];
 
 function Reveal({
@@ -92,7 +92,7 @@ function HorizontalCarousel4Up() {
         <Reveal>
           <div className="flex gap-3 py-3" style={{ width: "max-content" }}>
             {CAROUSEL_TILES.map((t, i) => (
-              <a
+              <Link
                 key={`${t.title}-${i}`}
                 href={t.href}
                 className="group relative shrink-0 overflow-hidden rounded-3xl border-1 border-gray-900 bg-white shadow-sm"
@@ -105,7 +105,7 @@ function HorizontalCarousel4Up() {
                   <div className="text-xl font-extrabold text-white">{t.title}</div>
                   <div className="mt-1 text-sm font-semibold text-white/85">{t.subtitle}</div>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </Reveal>
@@ -279,8 +279,14 @@ export default function LandingPage() {
                   <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600"> MedPredict </span> turns your everyday health numbers into a risk summary so you can
                   understand what they may mean and take smarter next steps. As we grow, the same experience
                   will support more conditions without changing how you use the app.
+                  <div className="mt-2 text-sm text-gray-600">
+                    <span className="font-bold text-gray-600">Note: </span>
+                    This is a fictional product created for demonstration purposes only. It does not
+                    provide real medical predictions or advice. Always consult a healthcare
+                    professional for medical concerns.
+                  </div>
                 </p>
-                <div className="mt-8 grid gap-4">
+                <div className="mt-6 grid gap-4">
                   <div className="rounded-2xl border border-gray-200 bg-white p-6">
                     <div className="mt-2 text-lg font-extrabold text-gray-900">
                       Pick how you want your results calculated
