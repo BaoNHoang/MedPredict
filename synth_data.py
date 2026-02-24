@@ -82,7 +82,7 @@ def risk_score(row):
 
     if row["recent_cardio_event_12mo"]:
         score += 10
-    if row["multi_plaque_dev"]:     # Plaque disease in multiple parts of the body’s arteries
+    if row["multi_plaque_dev"]:   
         score += 8
     return int(clamp(score, 0, 100))
 
@@ -112,13 +112,69 @@ def gen_height_weight(sex):
     return height_cm, weight_kg
 
 def gen_blood_pressure_mmHg(age_years, hypertension):
-    pass
+    bp = 112 + 0.35 * max(age_years - 25, 0)
+    if hypertension:
+        bp += 18
+    bp += random.uniform(-10, 10)
+    return int(clamp(bp, 90, 210))
 
 def gen_ldl(age_years, on_statin):
-    pass
+    ldl = 115 + 0.25 * max(age_years - 25, 0)
+    ldl += random.uniform(-25, 25)
+    if on_statin:
+        ldl -= random.uniform(25, 55)
+    return int(clamp(ldl, 40, 260))
 
 def gen_one():
-    pass
+    sex = random.choice(["M", "F"])
+    age_years = random.randint(18, 90)
+    height_cm, weight_kg = gen_height_weight(sex)
+    hypertension = random.choice([True, False])
+    diabetes = random.choice([True, False])
+    family_history_heart_disease = random.choice([True, False])
+    smoking_status = random.choice(["never", "former", "current"])
+    activity_level = random.choice(["low", "moderate", "high"])
+    on_bp_meds = random.choice([True, False])
+    on_statin = random.choice([True, False])
+    clinical_ascvd_history = random.choice([True, False])
+    heart_attack_history = random.choice([True, False])
+    stroke_tia_history = random.choice([True, False])
+    peripheral_artery_disease_history = random.choice([True, False])
+    recent_cardio_event_12mo = random.choice([True, False])
+    multi_plaque_dev = random.choice([True, False])
+
+    blood_pressure_mmHg = gen_blood_pressure_mmHg(age_years, hypertension)
+    ldl_mg_dL = gen_ldl(age_years, on_statin)
+
+    row = {
+        "sex": sex,
+        "age_years": age_years,
+        "height_cm": height_cm,
+        "weight_kg": weight_kg,
+        "hypertension": hypertension,
+        "diabetes": diabetes,
+        "family_history_heart_disease": family_history_heart_disease,
+        "smoking_status": smoking_status,
+        "activity_level": activity_level,
+        "on_bp_meds": on_bp_meds,
+        "on_statin": on_statin,
+        "clinical_ascvd_history": clinical_ascvd_history,
+        "heart_attack_history": heart_attack_history,
+        "stroke_tia_history": stroke_tia_history,
+        "peripheral_artery_disease_history": peripheral_artery_disease_history,
+        "recent_cardio_event_12mo": recent_cardio_event_12mo,
+        "multi_plaque_dev": multi_plaque_dev,
+        "blood_pressure_mmHg": blood_pressure_mmHg,
+        "ldl_mg_dL": ldl_mg_dL
+    }
+
+    risk_score_val = risk_score(row)
+    plaque_stage_val = plaque_stage(risk_score_val, row)
+
+    row["risk_score"] = risk_score_val
+    row["plaque_stage"] = plaque_stage_val
+
+    return row
 
 if __name__ == "__main__":
     pass
