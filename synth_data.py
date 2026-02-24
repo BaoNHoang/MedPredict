@@ -7,6 +7,9 @@ def bmi(height_cm, weight_kg):
 def clamp(x, low=0, high=100):
     return max(low, min(high, x))
 
+def sigmoid(x):
+    return 1 / (1 + math.exp(-x))
+
 def risk_score(row):
     age_years = row["age_years"]
     sex = row["sex"]
@@ -29,8 +32,6 @@ def risk_score(row):
     elif bmi_value >= 25:
         score += 5
 
-    if smoking_status == "never":
-        score += 0
     if smoking_status == "current":
         score += 14
     elif smoking_status == "former":
@@ -126,38 +127,74 @@ def gen_ldl(age_years, on_statin):
     return int(clamp(ldl, 40, 260))
 
 def gen_one():
-    sex = random.choice(["M", "F"])
-    age_years = random.randint(18, 90)
-    height_cm, weight_kg = gen_height_weight(sex)
-    hypertension = random.choice([True, False])
-    diabetes = random.choice([True, False])
-    family_history_heart_disease = random.choice([True, False])
-    smoking_status = random.choice(["never", "former", "current"])
-    activity_level = random.choice(["low", "moderate", "high"])
-    on_bp_meds = random.choice([True, False])
-    on_statin = random.choice([True, False])
-    clinical_ascvd_history = random.choice([True, False])
-    heart_attack_history = random.choice([True, False])
-    stroke_tia_history = random.choice([True, False])
-    peripheral_artery_disease_history = random.choice([True, False])
-    recent_cardio_event_12mo = random.choice([True, False])
-    multi_plaque_dev = random.choice([True, False])
+    sex = random.choice(["M", "F"])                 
+    age_years = random.randint(18, 90)        
+    height_cm, weight_kg = gen_height_weight(sex)  
+    bmi_value = bmi(height_cm, weight_kg)
+    hypertension = (random.random() < clamp(0.05 + (age_years / 140) + max(0, (bmi_value - 25) * 0.02), 0, 0.85))
+    diabetes = (random.random() < clamp(0.03 + (age_years / 220) + max(0, (bmi_value - 27) * 0.025), 0, 0.75))
+    family_history_heart_disease = (random.random() < 0.28)
+    smoking_status = random.choices(["never", "former", "current"], weights=[60, 25, 15])[0]
+    activity_level = random.choices(["low", "moderate", "high"], weights=[25, 50, 25])[0]
+    on_bp_meds = (hypertension and random.random() < 0.75)
+    on_statin = ((age_years >= 45 and (hypertension or diabetes or family_history_heart_disease)) and random.random() < 0.50)
+    base = -6.0 + 0.055 * age_years
+    
+    if hypertension:
+        base += 0.9
+    if diabetes:
+        base += 1.0
+    if smoking_status == "current":
+        base += 0.7
+    elif smoking_status == "former":
+        base += 0.3
+    if bmi_value >= 30:
+        base += 0.3
 
-    blood_pressure_mmHg = gen_blood_pressure_mmHg(age_years, hypertension)
-    ldl_mg_dL = gen_ldl(age_years, on_statin)
+    clinical_ascvd_history = (random.random() < clamp(sigmoid(base), 0, 0.55))
+    heart_attack_history = False
+    stroke_tia_history = False
+    peripheral_artery_disease_history = False
+
+    if clinical_ascvd_history:
+        heart_attack_history = (random.random() < 0.42)
+        stroke_tia_history = (random.random() < 0.28)
+        peripheral_artery_disease_history = (random.random() < 0.22)
+
+    recent_cardio_event_12mo = (clinical_ascvd_history and random.random() < 0.16)
+    multi_plaque_dev = False
+
+    if heart_attack_history or stroke_tia_history or peripheral_artery_disease_history:
+        clinical_ascvd_history = True
+    if recent_cardio_event_12mo and not (heart_attack_history or stroke_tia_history or peripheral_artery_disease_history):
+        heart_attack_history = True
+        clinical_ascvd_history = True
+
+    event_count = int(heart_attack_history) + int(stroke_tia_history) + int(peripheral_artery_disease_history)
+
+    if event_count >= 2:
+        multi_plaque_dev = True
+        
+    blood_pressure_mmHg = None
+
+    if random.random() < 0.65:  
+        blood_pressure_mmHg = gen_blood_pressure_mmHg(age_years, hypertension)
+    ldl_mg_dL = None
+    if random.random() < 0.55: 
+        ldl_mg_dL = gen_ldl(age_years, on_statin)
 
     row = {
-        "sex": sex,
         "age_years": age_years,
+        "sex": sex,
         "height_cm": height_cm,
         "weight_kg": weight_kg,
-        "hypertension": hypertension,
-        "diabetes": diabetes,
-        "family_history_heart_disease": family_history_heart_disease,
         "smoking_status": smoking_status,
         "activity_level": activity_level,
-        "on_bp_meds": on_bp_meds,
+        "family_history_heart_disease": family_history_heart_disease,
+        "hypertension": hypertension,
+        "diabetes": diabetes,
         "on_statin": on_statin,
+        "on_bp_meds": on_bp_meds,
         "clinical_ascvd_history": clinical_ascvd_history,
         "heart_attack_history": heart_attack_history,
         "stroke_tia_history": stroke_tia_history,
@@ -167,19 +204,15 @@ def gen_one():
         "blood_pressure_mmHg": blood_pressure_mmHg,
         "ldl_mg_dL": ldl_mg_dL
     }
-
     risk_score_val = risk_score(row)
     plaque_stage_val = plaque_stage(risk_score_val, row)
-
     row["risk_score"] = risk_score_val
     row["plaque_stage"] = plaque_stage_val
-    
-    if plaque_stage_val >= 3:
-        row["health_label"] = "high_risk"
-    elif plaque_stage_val == 2:
-        row["health_label"] = "moderate_risk"
+
+    if plaque_stage_val == 0:
+        row["health_label"] = "Healthy"
     else:
-        row["health_label"] = "low_risk"
+        row["health_label"] = "Risk"
 
     return row
 

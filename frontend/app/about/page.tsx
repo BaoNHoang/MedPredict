@@ -209,9 +209,9 @@ export default function AboutPage() {
             <div>
               <h3 className="font-bold text-white mb-4">Product</h3>
               <ul className="space-y-2 text-sm">
-                <li><a href="#features" className="hover:text-white">Features</a></li>
-                <li><a href="#how" className="hover:text-white">How it Works</a></li>
-                <li><a href="#" className="hover:text-white">Pricing</a></li>
+                <li><a href="/#features" className="hover:text-white">Features</a></li>
+                <li><a href="/product/#how" className="hover:text-white">How it Works</a></li>
+                <li><a href="/product/#pricing" className="hover:text-white">Pricing</a></li>
               </ul>
             </div>
             <div>

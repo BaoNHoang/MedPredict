@@ -275,7 +275,7 @@ export default function LandingPage() {
                   <p>One platform</p>
                   <p>Clear results</p>
                 </h2>
-                <p className="mt-4 text-lg text-gray-600 font-semibold">
+                <div className="mt-4 text-lg text-gray-600 font-semibold">
                   <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600"> MedPredict </span> turns your everyday health numbers into a risk summary so you can
                   understand what they may mean and take smarter next steps. As we grow, the same experience
                   will support more conditions without changing how you use the app.
@@ -285,7 +285,7 @@ export default function LandingPage() {
                     provide real medical predictions or advice. Always consult a healthcare
                     professional for medical concerns.
                   </div>
-                </p>
+                </div>
                 <div className="mt-6 grid gap-4">
                   <div className="rounded-2xl border border-gray-200 bg-white p-6">
                     <div className="mt-2 text-lg font-extrabold text-gray-900">
@@ -546,9 +546,9 @@ export default function LandingPage() {
             <div>
               <h3 className="font-bold text-white mb-4">Product</h3>
               <ul className="space-y-2 text-sm">
-                <li><a href="#features" className="hover:text-white">Features</a></li>
-                <li><a href="#how" className="hover:text-white">How it Works</a></li>
-                <li><a href="#pricing" className="hover:text-white">Pricing</a></li>
+                <li><a href="/#features" className="hover:text-white">Features</a></li>
+                <li><a href="/product/#how" className="hover:text-white">How it Works</a></li>
+                <li><a href="/product/#pricing" className="hover:text-white">Pricing</a></li>
               </ul>
             </div>
             <div>
