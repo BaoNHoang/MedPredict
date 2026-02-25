@@ -146,13 +146,6 @@ export default function ProductPage() {
                                     <span>History tracking for comparisons</span>
                                 </li>
                             </ul>
-                            <div className="mt-6 flex gap-3">
-                                <button
-                                    onClick={() => setLoginOpen(true)}
-                                    className="flex-1 rounded-2xl bg-gray-900 px-5 py-3 text-sm font-extrabold text-white hover:bg-gray-800">
-                                    Try it now
-                                </button>
-                            </div>
                         </div>
                         <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
                             <div className="flex items-start justify-between gap-3">
@@ -177,13 +170,6 @@ export default function ProductPage() {
                                     <span>Simple guidance + next steps</span>
                                 </li>
                             </ul>
-                            <div className="mt-6 flex gap-3">
-                                <button
-                                    onClick={() => setLoginOpen(true)}
-                                    className="flex-1 rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-gray-900 hover:bg-gray-50">
-                                    Add to account
-                                </button>
-                            </div>
                         </div>
                         <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
                             <div className="flex items-start justify-between gap-3">
@@ -208,41 +194,50 @@ export default function ProductPage() {
                                     <span>Exportable summaries (Pro+)</span>
                                 </li>
                             </ul>
-                            <div className="mt-6 flex gap-3">
-                                <button
-                                    onClick={() => setLoginOpen(true)}
-                                    className="flex-1 rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-gray-900 hover:bg-gray-50" >
-                                    Add to account
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="how" className="bg-white">
+            <section className="bg-white">
                 <div className="mx-auto max-w-7xl px-6 py-4">
                     <div className="max-w-3xl">
-                        <h2 className="text-4xl font-extrabold text-gray-900">How it works</h2>
+                        <h2 className="text-4xl font-extrabold text-gray-900">Trusted for clarity</h2>
                         <p className="mt-3 text-lg font-semibold text-gray-600">
-                            A simple flow that feels like a product.
+                            A few words from early users.
                         </p>
                     </div>
-                    <Reveal>
-                        <div className="mt-10 grid gap-6 md:grid-cols-3">
-                            {[
-                                { n: '01', title: 'Enter your numbers', body: 'Use information about yourself and your health history.' },
-                                { n: '02', title: 'Get a staged result', body: 'Receive a risk stage plus confidence and key drivers.' },
-                                { n: '03', title: 'Act with clarity', body: 'Get readable guidance and track changes over time.' },
-                            ].map((s) => (
-                                <div key={s.n} className="border p-6">
-                                    <div className="text-xs font-extrabold uppercase tracking-widest text-gray-500">Step {s.n}</div>
-                                    <div className="mt-2 text-xl font-extrabold text-gray-900">{s.title}</div>
-                                    <p className="mt-3 text-sm font-semibold leading-relaxed text-gray-600">{s.body}</p>
+                    <div className="mt-10 grid gap-6 md:grid-cols-3">
+                        {[
+                            {
+                                quote:
+                                    'MedPredict turns my numbers into something I can actually explain to my family members.',
+                                name: 'Jamie R.',
+                                title: 'Volunteer EMT',
+                            },
+                            {
+                                quote:
+                                    'The confidence information and predictions make it feel transparent. It does not feel like just numbers.',
+                                name: 'Avery K.',
+                                title: 'Data Analyst',
+                            },
+                            {
+                                quote:
+                                    'It\'s simple, fast, and readable on mobile and my laptop. Exactly what health tools should feel like.',
+                                name: 'Morgan S.',
+                                title: 'Nursing Student',
+                            },
+                        ].map((t) => (
+                            <div key={t.name} className="border bg-white p-6">
+                                <div className="text-3xl font-extrabold text-gray-300">“</div>
+                                <p className="mt-2 text-sm font-semibold leading-relaxed text-gray-700">{t.quote}</p>
+                                <div className="mt-6 border-t border-gray-400 pt-4">
+                                    <div className="text-sm font-extrabold text-gray-900">{t.name}</div>
+                                    <div className="text-xs font-bold text-gray-500">{t.title}</div>
                                 </div>
-                            ))}
-                        </div>
-                    </Reveal>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
@@ -336,54 +331,9 @@ export default function ProductPage() {
                 </section>
             </Reveal>
 
-            <Reveal>
-                <section className="bg-white">
+            <section id="FAQ" className="bg-white">
+                <Reveal>
                     <div className="mx-auto max-w-7xl px-6 py-4">
-                        <div className="max-w-3xl">
-                            <h2 className="text-4xl font-extrabold text-gray-900">Trusted for clarity</h2>
-                            <p className="mt-3 text-lg font-semibold text-gray-600">
-                                A few words from early users.
-                            </p>
-                        </div>
-
-                        <div className="mt-10 grid gap-6 md:grid-cols-3">
-                            {[
-                                {
-                                    quote:
-                                        'MedPredict turns my numbers into something I can actually explain to my family members.',
-                                    name: 'Jamie R.',
-                                    title: 'Volunteer EMT',
-                                },
-                                {
-                                    quote:
-                                        'The confidence information and predictions make it feel transparent. It does not feel like just numbers.',
-                                    name: 'Avery K.',
-                                    title: 'Data Analyst',
-                                },
-                                {
-                                    quote:
-                                        'It\'s simple, fast, and readable on mobile and my laptop. Exactly what health tools should feel like.',
-                                    name: 'Morgan S.',
-                                    title: 'Nursing Student',
-                                },
-                            ].map((t) => (
-                                <div key={t.name} className="border bg-white p-6">
-                                    <div className="text-3xl font-extrabold text-gray-300">“</div>
-                                    <p className="mt-2 text-sm font-semibold leading-relaxed text-gray-700">{t.quote}</p>
-                                    <div className="mt-6 border-t border-gray-400 pt-4">
-                                        <div className="text-sm font-extrabold text-gray-900">{t.name}</div>
-                                        <div className="text-xs font-bold text-gray-500">{t.title}</div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            </Reveal>
-
-            <Reveal>
-                <section className="bg-white">
-                    <div className="mx-auto max-w-7xl px-6 py-16">
                         <div className="max-w-3xl">
                             <h2 className="text-4xl font-extrabold text-gray-900">FAQ</h2>
                             <p className="mt-3 text-lg font-semibold text-gray-600">Quick answers to common questions.</p>
@@ -432,29 +382,30 @@ export default function ProductPage() {
                             </div>
                         </div>
                     </div>
-                </section>
-            </Reveal>
+                </Reveal>
+            </section>
+
             <footer className="bg-gray-900 text-gray-300">
-                <div className="mx-auto max-w-6xl px-6 py-10">
+                <div className="mx-auto max-w-7xl px-6 py-5">
                     <div className="grid gap-8 md:grid-cols-4">
                         <div>
-                            <div className=" text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-2">MedPredict</div>
-                            <p className="text-sm">Turning Data Into Better Health Decisions</p>
+                            <div className=" text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-1">MedPredict</div>
+                            <p className="text-xs">Turning Data Into Better Health Decisions</p>
                         </div>
                         <div>
                             <h3 className="font-bold text-white mb-4">Product</h3>
                             <ul className="space-y-2 text-sm">
-                                <li><a href="/#features" className="hover:text-white">Features</a></li>
-                                <li><a href="/product/#how" className="hover:text-white">How it Works</a></li>
+                                <li><a href="/product/#catalog" className="hover:text-white">Catalog</a></li>
                                 <li><a href="/product/#pricing" className="hover:text-white">Pricing</a></li>
+                                <li><a href="/product/#FAQ" className="hover:text-white">FAQ</a></li>
                             </ul>
                         </div>
                         <div>
                             <h3 className="font-bold text-white mb-4">Company</h3>
                             <ul className="space-y-2 text-sm">
-                                <li><Link href="/about" className="hover:text-white">About</Link></li>
-                                <li><a href="#" className="hover:text-white">Blog</a></li>
-                                <li><a href="#" className="hover:text-white">Contact</a></li>
+                                <li><a href="/about" className="hover:text-white">About</a></li>
+                                <li><a href="/careers" className="hover:text-white">Careers</a></li>
+                                <li><a href="/technology" className="hover:text-white">Technology</a></li>
                             </ul>
                         </div>
                         <div>

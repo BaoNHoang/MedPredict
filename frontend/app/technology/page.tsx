@@ -109,7 +109,7 @@ export default function TechnologyPage() {
                         </h1>
                     </div>
                     <p className="mt-5 max-w-2xl text-lg font-semibold text-white/85 md:text-xl">
-                        Learn more about how we are built.
+                        Learn more about MedPredict was built.
                     </p>
                 </div>
             </section>
@@ -167,7 +167,7 @@ export default function TechnologyPage() {
                 </div>
             </section>
 
-            <section className="bg-white">
+            <section id='pipeline' className="bg-white">
                 <div className="mx-auto max-w-7xl px-6 py-4">
                     <div className="max-w-3xl">
                         <h2 className="text-4xl font-extrabold text-gray-900">Pipeline & Technology Stack</h2>
@@ -223,26 +223,26 @@ export default function TechnologyPage() {
             </section>
 
             <footer className="bg-gray-900 text-gray-300">
-                <div className="mx-auto max-w-6xl px-6 py-10">
+                <div className="mx-auto max-w-7xl px-6 py-5">
                     <div className="grid gap-8 md:grid-cols-4">
                         <div>
-                            <div className=" text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-2">MedPredict</div>
-                            <p className="text-sm">Turning Data Into Better Health Decisions</p>
+                            <div className=" text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-1">MedPredict</div>
+                            <p className="text-xs">Turning Data Into Better Health Decisions</p>
                         </div>
                         <div>
                             <h3 className="font-bold text-white mb-4">Product</h3>
                             <ul className="space-y-2 text-sm">
-                                <li><a href="/#features" className="hover:text-white">Features</a></li>
-                                <li><a href="/product/#how" className="hover:text-white">How it Works</a></li>
+                                <li><a href="/product/#catalog" className="hover:text-white">Catalog</a></li>
                                 <li><a href="/product/#pricing" className="hover:text-white">Pricing</a></li>
+                                <li><a href="/product/#FAQ" className="hover:text-white">FAQ</a></li>
                             </ul>
                         </div>
                         <div>
                             <h3 className="font-bold text-white mb-4">Company</h3>
                             <ul className="space-y-2 text-sm">
-                                <li><Link href="/about" className="hover:text-white">About</Link></li>
-                                <li><a href="#" className="hover:text-white">Blog</a></li>
-                                <li><a href="#" className="hover:text-white">Contact</a></li>
+                                <li><a href="/about" className="hover:text-white">About</a></li>
+                                <li><a href="/careers" className="hover:text-white">Careers</a></li>
+                                <li><a href="/technology" className="hover:text-white">Technology</a></li>
                             </ul>
                         </div>
                         <div>

@@ -186,8 +186,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <Reveal>
-        <section className="bg-white">
+      <section id='team' className="bg-white">
+        <Reveal>
           <div className="mx-auto max-w-7xl px-6 py-4">
             <div className="grid gap-10 lg:grid-cols-12">
               <div className="lg:col-span-4">
@@ -200,7 +200,7 @@ export default function AboutPage() {
                 </div>
               </div>
               <div className="lg:col-span-8">
-                <div className="rounded-3xl bg-white p-8 shadow-sm">
+                <div className="rounded-3xl bg-white p-6 shadow-sm">
                   <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
                     <div>
                       <div className="text-2xl font-extrabold text-gray-900">Bao Hoang</div>
@@ -229,36 +229,34 @@ export default function AboutPage() {
                     <div className="flex gap-3">
                     </div>
                   </div>
-                  <div className="mt-8 border-t border-gray-100 pt-6">
-                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </section>
-      </Reveal>
+        </Reveal>
+      </section>
 
       <footer className="bg-gray-900 text-gray-300">
-        <div className="mx-auto max-w-6xl px-6 py-10">
+        <div className="mx-auto max-w-7xl px-6 py-5">
           <div className="grid gap-8 md:grid-cols-4">
             <div>
-              <div className=" text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-2">MedPredict</div>
-              <p className="text-sm">Turning Data Into Better Health Decisions</p>
+              <div className=" text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-1">MedPredict</div>
+              <p className="text-xs">Turning Data Into Better Health Decisions</p>
             </div>
             <div>
               <h3 className="font-bold text-white mb-4">Product</h3>
               <ul className="space-y-2 text-sm">
-                <li><a href="/#features" className="hover:text-white">Features</a></li>
-                <li><a href="/product/#how" className="hover:text-white">How it Works</a></li>
+                <li><a href="/product/#catalog" className="hover:text-white">Catalog</a></li>
                 <li><a href="/product/#pricing" className="hover:text-white">Pricing</a></li>
+                <li><a href="/product/#FAQ" className="hover:text-white">FAQ</a></li>
               </ul>
             </div>
             <div>
               <h3 className="font-bold text-white mb-4">Company</h3>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/about" className="hover:text-white">About</Link></li>
-                <li><a href="#" className="hover:text-white">Blog</a></li>
-                <li><a href="#" className="hover:text-white">Contact</a></li>
+                <li><a href="/about" className="hover:text-white">About</a></li>
+                <li><a href="/careers" className="hover:text-white">Careers</a></li>
+                <li><a href="/technology" className="hover:text-white">Technology</a></li>
               </ul>
             </div>
             <div>

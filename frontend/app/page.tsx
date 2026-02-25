@@ -347,8 +347,8 @@ export default function LandingPage() {
         </section>
       </Reveal>
 
-      <Reveal>
-        <section id="partners" className="bg-white">
+      <section id="partners" className="bg-white">
+        <Reveal>
           <div className="mx-auto max-w-7xl px-6 py-4">
             <div className="max-w-7xl">
               <h2 className="mt-1 text-m font-extrabold tracking-tight text-gray-900 md:text-5xl">
@@ -461,98 +461,32 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="mt-4 pt-8">
-
-              <div className="mt-1 flex flex-wrap gap-3">
-                <a
-                  href="/partners"
-                  className="rounded-2xl bg-gradient-to-r from-blue-500 to-purple-600 px-5 py-3 text-sm font-extrabold text-white shadow-sm hover:opacity-95">
-                  Explore all partners
-                </a>
-              </div>
             </div>
           </div>
-        </section>
-      </Reveal>
-
-      <Reveal>
-        <section id="features" className="bg-white">
-          <div className="mx-auto max-w-7xl px-6 py-16">
-            <div className="max-w-3xl">
-              <h2 className="text-5xl font-extrabold text-gray-900">
-                Features that keep things
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">
-                  simple, fast, and clear
-                </span>
-              </h2>
-              <p className="mt-5 text-lg font-semibold leading-relaxed text-gray-600">
-                Everything is built around turning metrics into an understandable summary.
-              </p>
-            </div>
-            <div className="mt-10 max-w-4xl">
-              <div className="space-y-10">
-                <div>
-                  <h3 className="text-2xl font-extrabold text-gray-900">Understandable results</h3>
-                  <p className="mt-2 text-base font-semibold leading-relaxed text-gray-600">
-                    You get a clear risk stage and a simple explanation so the result makes sense at a glance.
-                  </p>
-                </div>
-                <div className="pt-1">
-                  <h3 className="text-2xl font-extrabold text-gray-900">Model selection</h3>
-                  <p className="mt-2 text-base font-semibold leading-relaxed text-gray-600">
-                    Pick which model you want to calculate using multiple prediction options in one dropdown.
-                  </p>
-                </div>
-                <div className="pt-1">
-                  <h3 className="text-2xl font-extrabold text-gray-900">Confidence score</h3>
-                  <p className="mt-2 text-base font-semibold leading-relaxed text-gray-600">
-                    Every prediction includes a confidence score so you can interpret uncertainty responsibly.
-                  </p>
-                </div>
-                <div className="pt-1">
-                  <h3 className="text-2xl font-extrabold text-gray-900">Trend tracking</h3>
-                  <p className="mt-2 text-base font-semibold leading-relaxed text-gray-600">
-                    Save your inputs and predictions to spot trends over time. Your dashboard keeps everything organized.
-                  </p>
-                </div>
-                <div className="pt-1">
-                  <h3 className="text-2xl font-extrabold text-gray-900">Account-based protection</h3>
-                  <p className="mt-2 text-base font-semibold leading-relaxed text-gray-600">
-                    Your prediction history stays tied to your account helping keep inputs and results private.
-                  </p>
-                </div>
-                <div className="pt-1">
-                  <h3 className="text-2xl font-extrabold text-gray-900">Built to expand</h3>
-                  <p className="mt-2 text-base font-semibold leading-relaxed text-gray-600">
-                    MedPredict is designed to support more conditions over time without forcing you to learn a new flow.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </Reveal>
+        </Reveal>
+      </section>
 
       <footer className="bg-gray-900 text-gray-300">
-        <div className="mx-auto max-w-6xl px-6 py-10">
+        <div className="mx-auto max-w-7xl px-6 py-5">
           <div className="grid gap-8 md:grid-cols-4">
             <div>
-              <div className=" text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-2">MedPredict</div>
-              <p className="text-sm">Turning Data Into Better Health Decisions</p>
+              <div className=" text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-1">MedPredict</div>
+              <p className="text-xs">Turning Data Into Better Health Decisions</p>
             </div>
             <div>
               <h3 className="font-bold text-white mb-4">Product</h3>
               <ul className="space-y-2 text-sm">
-                <li><a href="/#features" className="hover:text-white">Features</a></li>
-                <li><a href="/product/#how" className="hover:text-white">How it Works</a></li>
+                <li><a href="/product/#catalog" className="hover:text-white">Catalog</a></li>
                 <li><a href="/product/#pricing" className="hover:text-white">Pricing</a></li>
+                <li><a href="/product/#FAQ" className="hover:text-white">FAQ</a></li>
               </ul>
             </div>
             <div>
               <h3 className="font-bold text-white mb-4">Company</h3>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/about" className="hover:text-white">About</Link></li>
-                <li><a href="#" className="hover:text-white">Blog</a></li>
-                <li><a href="#" className="hover:text-white">Contact</a></li>
+                <li><a href="/about" className="hover:text-white">About</a></li>
+                <li><a href="/careers" className="hover:text-white">Careers</a></li>
+                <li><a href="/technology" className="hover:text-white">Technology</a></li>
               </ul>
             </div>
             <div>
