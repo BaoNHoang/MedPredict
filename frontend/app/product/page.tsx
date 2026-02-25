@@ -71,12 +71,12 @@ export default function ProductPage() {
                 </AnimatePresence>
                 <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/70" />
                 <header className="sticky top-0 z-20 border-b border-white/10 bg-black/30">
-                    <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+                    <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
                         <Link
                             href="/" className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">
                             MedPredict
                         </Link>
-                        <nav className="hidden items-center gap-10 md:flex">
+                        <nav className="hidden items-center gap-25 md:flex">
                             <Link href="/" className="text-1xl font-semibold text-white/80 hover:text-white">
                                 Home
                             </Link>
@@ -91,9 +91,6 @@ export default function ProductPage() {
                             </Link>
                             <Link href="/careers" className="text-1xl font-semibold text-white/80 hover:text-white">
                                 Careers
-                            </Link>
-                            <Link href="/privacy" className="text-1xl font-semibold text-white/80 hover:text-white">
-                                Privacy
                             </Link>
                         </nav>
                         <div className="flex items-center gap-3">
@@ -118,7 +115,7 @@ export default function ProductPage() {
             </section>
 
             <section id="catalog" className="bg-white">
-                <div className="mx-auto max-w-6xl px-6 py-16">
+                <div className="mx-auto max-w-7xl px-6 py-16">
                     <div className="max-w-3xl">
                         <h2 className="text-4xl font-extrabold text-gray-900">Catalog</h2>
                         <p className="mt-3 text-lg font-semibold text-gray-600">
@@ -191,7 +188,7 @@ export default function ProductPage() {
                         <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
                             <div className="flex items-start justify-between gap-3">
                                 <div className="flex items-center gap-3">
-                                    <div className="text-lg font-extrabold text-gray-900">Blood Pressure Tracker</div>
+                                    <div className="text-lg font-extrabold text-gray-900">Advanced Calendar Data Tracker</div>
                                 </div>
                                 <div className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">
                                     Extension
@@ -220,50 +217,34 @@ export default function ProductPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-10 rounded-3xl border border-gray-200 bg-gray-50 p-6">
-                        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                            <div>
-                                <div className="text-lg font-extrabold text-gray-900">Bundles for teams & capstones</div>
-                                <div className="mt-1 text-sm font-semibold text-gray-600">
-                                    Pre-built packages that combine product, exports, and evaluation tools.
-                                </div>
-                            </div>
-                            <a
-                                href="#pricing"
-                                className="inline-flex justify-center rounded-2xl bg-gray-900 px-5 py-3 text-sm font-extrabold text-white hover:bg-gray-800">
-                                See bundles in pricing
-                            </a>
-                        </div>
-                    </div>
                 </div>
             </section>
 
-
-            <Reveal>
-                <section id="how" className="bg-white">
-                    <div className="mx-auto max-w-6xl px-6 py-16">
-                        <div className="max-w-3xl">
-                            <h2 className="text-4xl font-extrabold text-gray-900">How it works</h2>
-                            <p className="mt-3 text-lg font-semibold text-gray-600">
-                                A simple flow that feels like a product.
-                            </p>
-                        </div>
+            <section id="how" className="bg-white">
+                <div className="mx-auto max-w-7xl px-6 py-4">
+                    <div className="max-w-3xl">
+                        <h2 className="text-4xl font-extrabold text-gray-900">How it works</h2>
+                        <p className="mt-3 text-lg font-semibold text-gray-600">
+                            A simple flow that feels like a product.
+                        </p>
+                    </div>
+                    <Reveal>
                         <div className="mt-10 grid gap-6 md:grid-cols-3">
                             {[
                                 { n: '01', title: 'Enter your numbers', body: 'Use information about yourself and your health history.' },
                                 { n: '02', title: 'Get a staged result', body: 'Receive a risk stage plus confidence and key drivers.' },
                                 { n: '03', title: 'Act with clarity', body: 'Get readable guidance and track changes over time.' },
                             ].map((s) => (
-                                <div key={s.n} className="rounded-3xl border border-gray-200 bg-white p-6">
+                                <div key={s.n} className="border p-6">
                                     <div className="text-xs font-extrabold uppercase tracking-widest text-gray-500">Step {s.n}</div>
                                     <div className="mt-2 text-xl font-extrabold text-gray-900">{s.title}</div>
                                     <p className="mt-3 text-sm font-semibold leading-relaxed text-gray-600">{s.body}</p>
                                 </div>
                             ))}
                         </div>
-                    </div>
-                </section>
-            </Reveal>
+                    </Reveal>
+                </div>
+            </section>
 
             <Reveal>
                 <section id="pricing" className="bg-white">
@@ -357,7 +338,7 @@ export default function ProductPage() {
 
             <Reveal>
                 <section className="bg-white">
-                    <div className="mx-auto max-w-6xl px-6 py-16">
+                    <div className="mx-auto max-w-7xl px-6 py-4">
                         <div className="max-w-3xl">
                             <h2 className="text-4xl font-extrabold text-gray-900">Trusted for clarity</h2>
                             <p className="mt-3 text-lg font-semibold text-gray-600">
@@ -369,7 +350,7 @@ export default function ProductPage() {
                             {[
                                 {
                                     quote:
-                                        'MedPredict turns labs into something I can actually explain to my family members. It is clear, quick, and not intimidating.',
+                                        'MedPredict turns my numbers into something I can actually explain to my family members.',
                                     name: 'Jamie R.',
                                     title: 'Volunteer EMT',
                                 },
@@ -386,10 +367,10 @@ export default function ProductPage() {
                                     title: 'Nursing Student',
                                 },
                             ].map((t) => (
-                                <div key={t.name} className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+                                <div key={t.name} className="border bg-white p-6">
                                     <div className="text-3xl font-extrabold text-gray-300">“</div>
                                     <p className="mt-2 text-sm font-semibold leading-relaxed text-gray-700">{t.quote}</p>
-                                    <div className="mt-6 border-t border-gray-100 pt-4">
+                                    <div className="mt-6 border-t border-gray-400 pt-4">
                                         <div className="text-sm font-extrabold text-gray-900">{t.name}</div>
                                         <div className="text-xs font-bold text-gray-500">{t.title}</div>
                                     </div>
@@ -402,7 +383,7 @@ export default function ProductPage() {
 
             <Reveal>
                 <section className="bg-white">
-                    <div className="mx-auto max-w-6xl px-6 py-16">
+                    <div className="mx-auto max-w-7xl px-6 py-16">
                         <div className="max-w-3xl">
                             <h2 className="text-4xl font-extrabold text-gray-900">FAQ</h2>
                             <p className="mt-3 text-lg font-semibold text-gray-600">Quick answers to common questions.</p>

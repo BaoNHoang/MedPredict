@@ -71,12 +71,12 @@ export default function TechnologyPage() {
                 </AnimatePresence>
                 <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/70" />
                 <header className="sticky top-0 z-20 border-b border-white/10 bg-black/30">
-                    <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+                    <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
                         <Link
                             href="/" className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">
                             MedPredict
                         </Link>
-                        <nav className="hidden items-center gap-10 md:flex">
+                        <nav className="hidden items-center gap-25 md:flex">
                             <Link href="/" className="text-1xl font-semibold text-white/80 hover:text-white">
                                 Home
                             </Link>
@@ -91,9 +91,6 @@ export default function TechnologyPage() {
                             </Link>
                             <Link href="/careers" className="text-1xl font-semibold text-white/80 hover:text-white">
                                 Careers
-                            </Link>
-                            <Link href="/privacy" className="text-1xl font-semibold text-white/80 hover:text-white">
-                                Privacy
                             </Link>
                         </nav>
                         <div className="flex items-center gap-3">
@@ -118,135 +115,110 @@ export default function TechnologyPage() {
             </section>
 
             <section className="bg-white">
-                <div className="mx-auto max-w-6xl px-6 py-16">
+                <div className="mx-auto max-w-7xl px-6 py-16">
                     <div className="max-w-3xl">
                         <h2 className="text-4xl font-extrabold text-gray-900">How it works</h2>
                         <p className="mt-4 text-lg font-semibold leading-relaxed text-gray-600">
-                            MedPredict is medical prediction proxy application designed to behave like a product. The goal is to convert common
-                            health numbers into a clear stage and explanation, while keeping the experience fast and readable.
+                            MedPredict is medical prediction proxy application designed to behave like a product. The goal is to convert
+                            common health numbers into a clear stage and explanation, while keeping the experience fast and readable.
                         </p>
                     </div>
                     <div className="mt-10 grid gap-6 md:grid-cols-3">
-                        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                            <div className="text-sm font-extrabold text-gray-900">1. Input normalization</div>
-                            <p className="mt-3 text-sm font-semibold leading-relaxed text-gray-600">
-                                We validate ranges, handle missing values safely, and standardize the format of user inputs so models
-                                behave consistently.
-                            </p>
-                            <div className="mt-4 text-xs font-extrabold uppercase tracking-wider text-gray-500">
-                                Examples
+                        {[
+                            {
+                                title: 'Input normalization',
+                                body:
+                                    'We validate ranges, handle missing values safely, and standardize the format of user inputs so models behave consistently.',
+                                label: 'Examples',
+                                bullets: ['Range checks (e.g., BP, cholesterol)', 'Safe defaults for “unknown” fields'],
+                            },
+                            {
+                                title: 'Risk staging',
+                                body:
+                                    'The core model converts inputs into a stage label and a 0–100 style risk score so results are easy to interpret.',
+                                label: 'Outputs',
+                                bullets: ['Stage 1–4 classification', 'Risk score for ranking + trends'],
+                            },
+                            {
+                                title: 'Recommendation + explanation',
+                                body:
+                                    'Every result is paired with a recommendation and a short, readable “why” section that highlights the biggest contributors.',
+                                label: 'Behavior',
+                                bullets: ['Recommendation for next steps', 'Key drivers shown in plain language'],
+                            },
+                        ].map((s) => (
+                            <div key={s.title} className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+                                <div className="mt-2 text-smed font-extrabold text-gray-900">{s.title}</div>
+                                <p className="mt-3 text-sm font-semibold leading-relaxed text-gray-600">{s.body}</p>
+                                <div className="mt-4 text-xs font-extrabold uppercase tracking-wider text-gray-500">{s.label}</div>
+                                <ul className="mt-2 space-y-2 text-sm font-semibold text-gray-700">
+                                    <li className="flex items-start gap-3">
+                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                        <span>{s.bullets[0]}</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
+                                        <span>{s.bullets[1]}</span>
+                                    </li>
+                                </ul>
                             </div>
-                            <ul className="mt-2 space-y-2 text-sm font-semibold text-gray-700">
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                    <span>Range checks (e.g., BP, cholesterol)</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
-                                    <span>Safe defaults for “unknown” fields</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                            <div className="text-sm font-extrabold text-gray-900">2. Risk staging</div>
-                            <p className="mt-3 text-sm font-semibold leading-relaxed text-gray-600">
-                                The core model converts inputs into a stage label and a 0–100 style risk score so results are easy to
-                                interpret.
-                            </p>
-                            <div className="mt-4 text-xs font-extrabold uppercase tracking-wider text-gray-500">
-                                Outputs
-                            </div>
-                            <ul className="mt-2 space-y-2 text-sm font-semibold text-gray-700">
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                    <span>Stage 1–4 classification</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
-                                    <span>Risk score for ranking + trends</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                            <div className="text-sm font-extrabold text-gray-900">3. Recommendation + explanation</div>
-                            <p className="mt-3 text-sm font-semibold leading-relaxed text-gray-600">
-                                Every result is paired with a recommendation and a short, readable “why” section that highlights
-                                the biggest contributors.
-                            </p>
-                            <div className="mt-4 text-xs font-extrabold uppercase tracking-wider text-gray-500">
-                                Behavior
-                            </div>
-                            <ul className="mt-2 space-y-2 text-sm font-semibold text-gray-700">
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                    <span>Recommendation for next steps</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
-                                    <span>Key drivers shown in plain language</span>
-                                </li>
-                            </ul>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
 
             <section className="bg-white">
-                <div className="mx-auto max-w-6xl px-6 py-16">
+                <div className="mx-auto max-w-7xl px-6 py-4">
                     <div className="max-w-3xl">
                         <h2 className="text-4xl font-extrabold text-gray-900">Pipeline & Technology Stack</h2>
                         <p className="mt-4 text-lg font-semibold leading-relaxed text-gray-600">
                             A system built to make it easy to add new additions.
                         </p>
                     </div>
-
-                    <div className="mt-10 grid gap-6 md:grid-cols-2">
-                        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                            <div className="text-lg font-extrabold text-gray-900">Frontend</div>
-                            <p className="mt-2 text-sm font-semibold text-gray-600">
-                                Next.js + React.js + TailwindCSS for fast, responsive pages and consistent UI components.
-                            </p>
-                            <div className="mt-4 flex flex-wrap gap-2">
-                                <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">Next.js</span>
-                                <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">React</span>
-                                <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">Tailwind</span>
-                                <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">Framer Motion</span>
+                    <Reveal>
+                        <div className="mt-10 grid gap-6 md:grid-cols-2">
+                            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+                                <div className="text-lg font-extrabold text-gray-900">Frontend</div>
+                                <p className="mt-2 text-sm font-semibold text-gray-600">
+                                    Next.js + React.js + TailwindCSS for fast, responsive pages and consistent UI components.
+                                </p>
+                                <div className="mt-4 flex flex-wrap gap-2">
+                                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">Next.js</span>
+                                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">React</span>
+                                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">Tailwind</span>
+                                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">Framer Motion</span>
+                                </div>
+                            </div>
+                            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+                                <div className="text-lg font-extrabold text-gray-900">API & model serving</div>
+                                <p className="mt-2 text-sm font-semibold text-gray-600">
+                                    FastAPI for validation of inputs, running the model, and returning a structured result.
+                                </p>
+                                <div className="mt-4 flex flex-wrap gap-2">
+                                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">FastAPI</span>
+                                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">Python</span>
+                                </div>
+                            </div>
+                            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+                                <div className="text-lg font-extrabold text-gray-900">Data & storage</div>
+                                <p className="mt-2 text-sm font-semibold text-gray-600">
+                                    Secure user accounts + saved runs + history views. Designed to keep storage minimal and intentional.
+                                </p>
+                                <div className="mt-4 flex flex-wrap gap-2">
+                                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">PostgreSQL</span>
+                                </div>
+                            </div>
+                            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+                                <div className="text-lg font-extrabold text-gray-900">Deployment</div>
+                                <p className="mt-2 text-sm font-semibold text-gray-600">
+                                    Optimized for fast web delivery. Can run as static-friendly UI + API backend hosted separately.
+                                </p>
+                                <div className="mt-4 flex flex-wrap gap-2">
+                                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">AWS</span>
+                                </div>
                             </div>
                         </div>
-
-                        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                            <div className="text-lg font-extrabold text-gray-900">API & model serving</div>
-                            <p className="mt-2 text-sm font-semibold text-gray-600">
-                                FastAPI for validation of inputs, running the model, and returning a structured result.
-                            </p>
-                            <div className="mt-4 flex flex-wrap gap-2">
-                                <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">FastAPI</span>
-                                <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">Python</span>
-                            </div>
-                        </div>
-
-                        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                            <div className="text-lg font-extrabold text-gray-900">Data & storage</div>
-                            <p className="mt-2 text-sm font-semibold text-gray-600">
-                                Secure user accounts + saved runs + history views. Designed to keep storage minimal and intentional.
-                            </p>
-                            <div className="mt-4 flex flex-wrap gap-2">
-                                <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">PostgreSQL</span>
-                            </div>
-                        </div>
-
-                        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                            <div className="text-lg font-extrabold text-gray-900">Deployment</div>
-                            <p className="mt-2 text-sm font-semibold text-gray-600">
-                                Optimized for fast web delivery. Can run as static-friendly UI + API backend hosted separately.
-                            </p>
-                            <div className="mt-4 flex flex-wrap gap-2">
-                                <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">AWS</span>
-                            </div>
-                        </div>
-                    </div>
+                    </Reveal>
                 </div>
             </section>
 

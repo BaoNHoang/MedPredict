@@ -21,7 +21,6 @@ const CAROUSEL_TILES = [
   { title: 'Product', subtitle: 'Shop our medical tools', href: '/product', img: bp('/backgrounds/bg3.jpg') },
   { title: 'Technology', subtitle: 'Our advanced AI models', href: '/technology', img: bp('/backgrounds/bg4.jpg') },
   { title: 'Careers', subtitle: 'Join our team', href: '/careers', img: bp('/backgrounds/bg5.jpg') },
-  { title: 'Privacy', subtitle: 'Your information is our priority', href: '/privacy', img: bp('/backgrounds/bg1.jpg') },
 ];
 
 function Reveal({
@@ -169,12 +168,12 @@ export default function LandingPage() {
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
         </div>
         <header className="sticky top-0 z-20 border-b border-white/10 bg-black/30">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
             <Link
               href="/" className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">
               MedPredict
             </Link>
-            <nav className="hidden items-center gap-10 md:flex">
+            <nav className="hidden items-center gap-25 md:flex">
               <Link href="/" className="text-1xl font-semibold text-white/80 hover:text-white">
                 Home
               </Link>
@@ -189,9 +188,6 @@ export default function LandingPage() {
               </Link>
               <Link href="/careers" className="text-1xl font-semibold text-white/80 hover:text-white">
                 Careers
-              </Link>
-              <Link href="/privacy" className="text-1xl font-semibold text-white/80 hover:text-white">
-                Privacy
               </Link>
             </nav>
             <div className="flex items-center gap-3">
@@ -291,7 +287,7 @@ export default function LandingPage() {
                     <div className="mt-2 text-lg font-extrabold text-gray-900">
                       Pick how you want your results calculated
                     </div>
-                    <p className="mt-2 text-sm font-semibold text-gray-600">
+                    <p className="mt-1 text-sm font-semibold text-gray-600">
                       Choose from multiple prediction options all in one dropdown
                     </p>
                   </div>
@@ -299,7 +295,7 @@ export default function LandingPage() {
                     <div className="mt-2 text-lg font-extrabold text-gray-900">
                       A clear risk stage with a confidence score
                     </div>
-                    <p className="mt-2 text-sm font-semibold text-gray-600">
+                    <p className="mt-1 text-sm font-semibold text-gray-600">
                       Every prediction is delivered so it’s easy to understand and compare
                     </p>
                   </div>

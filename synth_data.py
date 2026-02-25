@@ -233,4 +233,4 @@ def synthesize_csv(n=1000, out_path="synthetic_athero.csv", seed=3):
             writer.writerow(gen_one())
 
 if __name__ == "__main__":
-    synthesize_csv(n=10000)
+    synthesize_csv(n=1000)
