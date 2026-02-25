@@ -362,7 +362,7 @@ export default function LandingPage() {
                 </span>
               </h2>
               <p className="mt-6 text-lg font-semibold leading-relaxed text-gray-600">
-                MedPredict is designed with input from fictional research groups, community health programs,
+                A system designed with input from fictional research groups, community health programs,
                 and privacy-first infrastructure teams. These collaborations help us test the product
                 experience from data entry to risk explanations so that the results stay accurate, clear, and useful.
               </p>

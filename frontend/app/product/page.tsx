@@ -112,135 +112,135 @@ export default function ProductPage() {
                         </h1>
                     </div>
                     <p className="mt-5 max-w-2xl text-lg font-semibold text-white/85 md:text-xl">
-                        A suite of prediction tools, add-ons, and services built for clarity.
+                        Learn more about our prediction tools, add-ons, and services.
                     </p>
                 </div>
             </section>
-            <Reveal>
-                <section id="catalog" className="bg-white">
-                    <div className="mx-auto max-w-6xl px-6 py-16">
-                        <div className="max-w-3xl">
-                            <h2 className="text-4xl font-extrabold text-gray-900">Catalog</h2>
-                            <p className="mt-3 text-lg font-semibold text-gray-600">
-                                Add modules and services as your needs grow.
-                            </p>
-                        </div>
-                        <div className="mt-10 grid gap-6 md:grid-cols-3">
-                            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                                <div className="flex items-start justify-between gap-3">
-                                    <div className="flex items-center gap-3">
-                                        <div className="text-lg font-extrabold text-gray-900">Atherosclerosis Risk Predictor</div>
-                                    </div>
-                                    <div className="rounded-full bg-gray-900 px-3 py-1 text-xs font-extrabold text-white">
-                                        Flagship
-                                    </div>
+
+            <section id="catalog" className="bg-white">
+                <div className="mx-auto max-w-6xl px-6 py-16">
+                    <div className="max-w-3xl">
+                        <h2 className="text-4xl font-extrabold text-gray-900">Catalog</h2>
+                        <p className="mt-3 text-lg font-semibold text-gray-600">
+                            Add modules and services as your needs grow.
+                        </p>
+                    </div>
+                    <div className="mt-10 grid gap-6 md:grid-cols-3">
+                        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+                            <div className="flex items-start justify-between gap-3">
+                                <div className="flex items-center gap-3">
+                                    <div className="text-lg font-extrabold text-gray-900">Atherosclerosis Risk Predictor</div>
                                 </div>
-                                <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
-                                    <li className="flex items-start gap-3">
-                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                        <span>Stage + confidence signal</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
-                                        <span>Key drivers in plain language</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                        <span>History tracking for comparisons</span>
-                                    </li>
-                                </ul>
-                                <div className="mt-6 flex gap-3">
-                                    <button
-                                        onClick={() => setLoginOpen(true)}
-                                        className="flex-1 rounded-2xl bg-gray-900 px-5 py-3 text-sm font-extrabold text-white hover:bg-gray-800">
-                                        Try it now
-                                    </button>
+                                <div className="rounded-full bg-gray-900 px-3 py-1 text-xs font-extrabold text-white">
+                                    Flagship
                                 </div>
                             </div>
-                            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                                <div className="flex items-start justify-between gap-3">
-                                    <div className="flex items-center gap-3">
-                                        <div className="text-lg font-extrabold text-gray-900">Metabolic Support Module</div>
-                                    </div>
-                                    <div className="rounded-full bg-gray-100 px-5 py-1 text-xs font-extrabold text-gray-700">
-                                        Extension
-                                    </div>
-                                </div>
-                                <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
-                                    <li className="flex items-start gap-3">
-                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                        <span>Fast inputs for quick checks</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
-                                        <span>Trend-ready summaries</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                        <span>Simple guidance + next steps</span>
-                                    </li>
-                                </ul>
-                                <div className="mt-6 flex gap-3">
-                                    <button
-                                        onClick={() => setLoginOpen(true)}
-                                        className="flex-1 rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-gray-900 hover:bg-gray-50">
-                                        Add to account
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                                <div className="flex items-start justify-between gap-3">
-                                    <div className="flex items-center gap-3">
-                                        <div className="text-lg font-extrabold text-gray-900">Blood Pressure Tracker</div>
-                                    </div>
-                                    <div className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">
-                                        Extension
-                                    </div>
-                                </div>
-                                <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
-                                    <li className="flex items-start gap-3">
-                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                        <span>Clear categories you can understand</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
-                                        <span>Notes + comparisons across dates</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                        <span>Exportable summaries (Pro+)</span>
-                                    </li>
-                                </ul>
-                                <div className="mt-6 flex gap-3">
-                                    <button
-                                        onClick={() => setLoginOpen(true)}
-                                        className="flex-1 rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-gray-900 hover:bg-gray-50" >
-                                        Add to account
-                                    </button>
-                                </div>
+                            <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
+                                <li className="flex items-start gap-3">
+                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                    <span>Stage + confidence signal</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
+                                    <span>Key drivers in plain language</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                    <span>History tracking for comparisons</span>
+                                </li>
+                            </ul>
+                            <div className="mt-6 flex gap-3">
+                                <button
+                                    onClick={() => setLoginOpen(true)}
+                                    className="flex-1 rounded-2xl bg-gray-900 px-5 py-3 text-sm font-extrabold text-white hover:bg-gray-800">
+                                    Try it now
+                                </button>
                             </div>
                         </div>
-                        <div className="mt-10 rounded-3xl border border-gray-200 bg-gray-50 p-6">
-                            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                                <div>
-                                    <div className="text-lg font-extrabold text-gray-900">Bundles for teams & capstones</div>
-                                    <div className="mt-1 text-sm font-semibold text-gray-600">
-                                        Pre-built packages that combine product, exports, and evaluation tools.
-                                    </div>
+                        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+                            <div className="flex items-start justify-between gap-3">
+                                <div className="flex items-center gap-3">
+                                    <div className="text-lg font-extrabold text-gray-900">Metabolic Support Module</div>
                                 </div>
-                                <a
-                                    href="#pricing"
-                                    className="inline-flex justify-center rounded-2xl bg-gray-900 px-5 py-3 text-sm font-extrabold text-white hover:bg-gray-800">
-                                    See bundles in pricing
-                                </a>
+                                <div className="rounded-full bg-gray-100 px-5 py-1 text-xs font-extrabold text-gray-700">
+                                    Extension
+                                </div>
+                            </div>
+                            <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
+                                <li className="flex items-start gap-3">
+                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                    <span>Fast inputs for quick checks</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
+                                    <span>Trend-ready summaries</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                    <span>Simple guidance + next steps</span>
+                                </li>
+                            </ul>
+                            <div className="mt-6 flex gap-3">
+                                <button
+                                    onClick={() => setLoginOpen(true)}
+                                    className="flex-1 rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-gray-900 hover:bg-gray-50">
+                                    Add to account
+                                </button>
+                            </div>
+                        </div>
+                        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+                            <div className="flex items-start justify-between gap-3">
+                                <div className="flex items-center gap-3">
+                                    <div className="text-lg font-extrabold text-gray-900">Blood Pressure Tracker</div>
+                                </div>
+                                <div className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">
+                                    Extension
+                                </div>
+                            </div>
+                            <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
+                                <li className="flex items-start gap-3">
+                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                    <span>Clear categories you can understand</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
+                                    <span>Notes + comparisons across dates</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                    <span>Exportable summaries (Pro+)</span>
+                                </li>
+                            </ul>
+                            <div className="mt-6 flex gap-3">
+                                <button
+                                    onClick={() => setLoginOpen(true)}
+                                    className="flex-1 rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-gray-900 hover:bg-gray-50" >
+                                    Add to account
+                                </button>
                             </div>
                         </div>
                     </div>
-                </section>
-            </Reveal>
+                    <div className="mt-10 rounded-3xl border border-gray-200 bg-gray-50 p-6">
+                        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                            <div>
+                                <div className="text-lg font-extrabold text-gray-900">Bundles for teams & capstones</div>
+                                <div className="mt-1 text-sm font-semibold text-gray-600">
+                                    Pre-built packages that combine product, exports, and evaluation tools.
+                                </div>
+                            </div>
+                            <a
+                                href="#pricing"
+                                className="inline-flex justify-center rounded-2xl bg-gray-900 px-5 py-3 text-sm font-extrabold text-white hover:bg-gray-800">
+                                See bundles in pricing
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
 
             <Reveal>
-                <section id="how" className="bg-gray-50">
+                <section id="how" className="bg-white">
                     <div className="mx-auto max-w-6xl px-6 py-16">
                         <div className="max-w-3xl">
                             <h2 className="text-4xl font-extrabold text-gray-900">How it works</h2>
@@ -356,7 +356,7 @@ export default function ProductPage() {
             </Reveal>
 
             <Reveal>
-                <section className="bg-gray-50">
+                <section className="bg-white">
                     <div className="mx-auto max-w-6xl px-6 py-16">
                         <div className="max-w-3xl">
                             <h2 className="text-4xl font-extrabold text-gray-900">Trusted for clarity</h2>
