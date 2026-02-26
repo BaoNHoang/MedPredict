@@ -22,7 +22,6 @@ const BACKGROUNDS = [
 
 type ID = {
     id: number;
-    email?: string;
     username?: string;
 };
 

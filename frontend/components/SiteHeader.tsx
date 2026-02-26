@@ -26,7 +26,6 @@ export default function SiteHeader({
                     <Link href="/dashboard" className="text-1xl font-semibold text-white/80 hover:text-white">
                         Dashboard
                     </Link>
-
                     <Link href="/about" className="text-1xl font-semibold text-white/80 hover:text-white">
                         About
                     </Link>

@@ -103,13 +103,11 @@ export default function LoginModal({
             autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
             required
           />
-
           {/* {err && (
             <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm font-semibold text-red-800">
               {err}
             </div>
           )} */}
-          
           <button
             disabled={loading}
             className="mt-6 w-full rounded-xl bg-blue-600 py-3 font-bold text-white hover:bg-blue-700 disabled:opacity-60">
