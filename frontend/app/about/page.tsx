@@ -2,8 +2,12 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import LoginModal from '@/components/LoginModal';
+import SiteHeader from '@/components/SiteHeader';
+import SiteFooter from '@/components/SiteFooter';
+
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:8000';
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 const bp = (p: string) => `${BASE}${p}`;
@@ -15,6 +19,12 @@ const BACKGROUNDS = [
   bp('/backgrounds/bg4.jpg'),
   bp('/backgrounds/bg5.jpg'),
 ];
+
+type ID = {
+  id: number;
+  email?: string;
+  username?: string;
+};
 
 function Reveal({
   children,
@@ -29,17 +39,16 @@ function Reveal({
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 1.5, ease: 'easeOut', delay: 0 }}
-    >
+      transition={{ duration: 1.5, ease: 'easeOut', delay: 0 }}>
       {children}
-    </motion.div>
-  );
+    </motion.div>);
 }
 
 export default function AboutPage() {
-  const [authed, setAuthed] = useState(false);
+  const router = useRouter();
   const [loginOpen, setLoginOpen] = useState(false);
   const [index, setIndex] = useState(0);
+  const [id, setID] = useState<ID | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -56,6 +65,40 @@ export default function AboutPage() {
     });
   }, []);
 
+  async function process() {
+    try {
+      const res = await fetch(`${API_BASE}/auth/me_cookie`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      if (!res.ok) {
+        setID(null);
+        return;
+      }
+      const data = (await res.json()) as ID;
+      setID(data);
+    } catch {
+      setID(null);
+    }
+  }
+
+  useEffect(() => {
+    process();
+  }, []);
+
+  async function logout() {
+    try {
+      await fetch(`${API_BASE}/auth/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+    } catch {
+    } finally {
+      setID(null);
+      router.push('/');
+    }
+  }
+
   return (
     <main className="relative min-h-screen overflow-x-hidden">
       <section className="relative min-h-[10vh] max-h-[300px] overflow-hidden">
@@ -67,49 +110,19 @@ export default function AboutPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.7 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.4, ease: 'easeInOut' }}
-          />
+            transition={{ duration: 1.4, ease: 'easeInOut' }} />
         </AnimatePresence>
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/70" />
-        <header className="sticky top-0 z-20 border-b border-white/10 bg-black/30">
-          <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-            <Link
-              href="/" className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">
-              MedPredict
-            </Link>
-            <nav className="hidden items-center gap-25 md:flex">
-              <Link href="/" className="text-1xl font-semibold text-white/80 hover:text-white">
-                Home
-              </Link>
-              <Link href="/about" className="text-1xl font-semibold text-white/80 hover:text-white">
-                About
-              </Link>
-              <Link href="/product" className="text-1xl font-semibold text-white/80 hover:text-white">
-                Product
-              </Link>
-              <Link href="/technology" className="text-1xl font-semibold text-white/80 hover:text-white">
-                Technology
-              </Link>
-              <Link href="/careers" className="text-1xl font-semibold text-white/80 hover:text-white">
-                Careers
-              </Link>
-            </nav>
-            <div className="flex items-center gap-3">
-              <button
-                className="rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-white hover:bg-white/15"
-                onClick={() => setLoginOpen(true)}>
-                Log in
-              </button>
-            </div>
-          </div>
-        </header>
-
+        <SiteHeader
+          authed={!!id}
+          onLoginClick={() => setLoginOpen(true)}
+          onLogoutClick={logout} />
         <div className="relative mx-auto flex min-h-[calc(30vh-72px)] max-w-6xl flex-col justify-center px-6 pb-2">
           <div className="max-w-4xl">
             <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl">About</h1>
           </div>
           <p className="mt-5 max-w-2xl text-lg font-semibold text-white/85 md:text-xl">
-            Learn more about our mission, our process, and where we’re headed.
+            Learn more about our mission and where we are headed.
           </p>
         </div>
       </section>
@@ -186,7 +199,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section id='team' className="bg-white">
+      <section id="team" className="bg-white">
         <Reveal>
           <div className="mx-auto max-w-7xl px-6 py-4">
             <div className="grid gap-10 lg:grid-cols-12">
@@ -219,15 +232,13 @@ export default function AboutPage() {
                       </a>
                     </div>
                   </div>
-                  <div className="mt-8 border-t border-gray-100 pt-6">
-                  </div>
+                  <div className="mt-8 border-t border-gray-100 pt-6" />
                   <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
                     <div>
                       <div className="text-2xl font-extrabold text-gray-900">John Doe</div>
                       <div className="mt-1 text-sm font-bold text-gray-500">Co-Founder & Lead Engineer</div>
                     </div>
-                    <div className="flex gap-3">
-                    </div>
+                    <div className="flex gap-3" />
                   </div>
                 </div>
               </div>
@@ -235,49 +246,14 @@ export default function AboutPage() {
           </div>
         </Reveal>
       </section>
-
-      <footer className="bg-gray-900 text-gray-300">
-        <div className="mx-auto max-w-7xl px-6 py-5">
-          <div className="grid gap-8 md:grid-cols-4">
-            <div>
-              <div className=" text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-1">MedPredict</div>
-              <p className="text-xs">Turning Data Into Better Health Decisions</p>
-            </div>
-            <div>
-              <h3 className="font-bold text-white mb-4">Product</h3>
-              <ul className="space-y-2 text-sm">
-                <li><a href="/product/#catalog" className="hover:text-white">Catalog</a></li>
-                <li><a href="/product/#pricing" className="hover:text-white">Pricing</a></li>
-                <li><a href="/product/#FAQ" className="hover:text-white">FAQ</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-bold text-white mb-4">Company</h3>
-              <ul className="space-y-2 text-sm">
-                <li><a href="/about" className="hover:text-white">About</a></li>
-                <li><a href="/careers" className="hover:text-white">Careers</a></li>
-                <li><a href="/technology" className="hover:text-white">Technology</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-bold text-white mb-4">Follow Us</h3>
-              <div className="flex gap-4">
-                <a href="#" className="hover:text-blue-400">Instagram</a>
-                <a href="https://www.linkedin.com/in/bao-nguyen-hoang/" className="hover:text-blue-400">LinkedIn</a>
-                <a href="https://github.com/BaoNHoang/MedPredict://github.com/BaoNHoang/" className="hover:text-blue-400">GitHub</a>
-              </div>
-            </div>
-          </div>
-          <div className="mt-5 border-t border-gray-700 pt-5 text-center text-sm">
-            <p>&copy; 2026 MedPredict. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
       <LoginModal
         open={loginOpen}
         onClose={() => setLoginOpen(false)}
-        onSuccess={() => setAuthed(true)}
-      />
+        onSuccess={() => {
+          setLoginOpen(false);
+          process();
+        }} />
     </main>
   );
 }

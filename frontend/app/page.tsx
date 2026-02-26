@@ -1,11 +1,16 @@
 'use client';
-import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
-import LoginModal from '@/components/LoginModal';
 
-const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react'; // ✅ add useRef
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import LoginModal from '@/components/LoginModal';
+import SiteHeader from '@/components/SiteHeader';
+import SiteFooter from '@/components/SiteFooter';
+
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:8000';
+
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 const bp = (p: string) => `${BASE}${p}`;
 
 const BACKGROUNDS = [
@@ -23,6 +28,11 @@ const CAROUSEL_TILES = [
   { title: 'Careers', subtitle: 'Join our team', href: '/careers', img: bp('/backgrounds/bg5.jpg') },
 ];
 
+type ID = {
+  id: number;
+  username?: string;
+};
+
 function Reveal({
   children,
   className = '',
@@ -33,8 +43,8 @@ function Reveal({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 12, }}
-      whileInView={{ opacity: 1, y: 0, }}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 1.5, ease: 'easeOut', delay: 0 }}>
       {children}
@@ -64,11 +74,11 @@ function HorizontalCarousel4Up() {
       el.scrollLeft += e.deltaY;
     };
     const onMouseMove = () => pingMouseMode();
-    el.addEventListener("wheel", onWheel, { passive: false });
-    el.addEventListener("mousemove", onMouseMove);
+    el.addEventListener('wheel', onWheel, { passive: false });
+    el.addEventListener('mousemove', onMouseMove);
     return () => {
-      el.removeEventListener("wheel", onWheel as any);
-      el.removeEventListener("mousemove", onMouseMove);
+      el.removeEventListener('wheel', onWheel as any);
+      el.removeEventListener('mousemove', onMouseMove);
     };
   }, []);
 
@@ -78,24 +88,21 @@ function HorizontalCarousel4Up() {
       <div className="pointer-events-none absolute inset-y-0 right-0 w-2 bg-gradient-to-l from-white to-white/0 z-2" />
       <div
         ref={scrollerRef}
-        className={[
-          "overflow-x-auto scroll-smooth",
-          mouseMode ? "mouse-scrollbar" : "no-scrollbar",
-        ].join(" ")}
+        className={['overflow-x-auto scroll-smooth', mouseMode ? 'mouse-scrollbar' : 'no-scrollbar'].join(' ')}
         style={{
-          WebkitOverflowScrolling: "touch",
-          scrollbarWidth: mouseMode ? "auto" : "none",
-          overscrollBehavior: "contain",
+          WebkitOverflowScrolling: 'touch',
+          scrollbarWidth: mouseMode ? 'auto' : 'none',
+          overscrollBehavior: 'contain',
         }}
         aria-label="Explore carousel">
         <Reveal>
-          <div className="flex gap-3 py-3" style={{ width: "max-content" }}>
+          <div className="flex gap-3 py-3" style={{ width: 'max-content' }}>
             {CAROUSEL_TILES.map((t, i) => (
               <Link
                 key={`${t.title}-${i}`}
                 href={t.href}
                 className="group relative shrink-0 overflow-hidden rounded-3xl border-1 border-gray-900 bg-white shadow-sm"
-                style={{ width: "min(1000px, calc((100vw - 10px) / 4))" }}>
+                style={{ width: 'min(1000px, calc((100vw - 10px) / 4))' }}>
                 <div
                   className="h-[200px] w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                   style={{ backgroundImage: `url(${t.img})` }} />
@@ -113,14 +120,13 @@ function HorizontalCarousel4Up() {
   );
 }
 
-
 export default function LandingPage() {
-  const [authed, setAuthed] = useState(false);
+  const router = useRouter();
   const [loginOpen, setLoginOpen] = useState(false);
-
   const [index, setIndex] = useState(0);
   const [headlineStep, setHeadlineStep] = useState<0 | 1>(0);
-  const router = useRouter();
+  const [id, setID] = useState<ID | null>(null);
+  const [loading, setLoading] = useState(true);
   const startedRef = useRef(false);
 
   useEffect(() => {
@@ -142,13 +148,52 @@ export default function LandingPage() {
   }, []);
 
   useEffect(() => {
-    const all = [...BACKGROUNDS, ...CAROUSEL_TILES.map(t => t.img)];
+    const all = [...BACKGROUNDS, ...CAROUSEL_TILES.map((t) => t.img)];
     all.forEach((src) => {
       const img = new Image();
-      img.decoding = "async";
+      img.decoding = 'async';
       img.src = src;
     });
   }, []);
+
+  async function process() {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/auth/me_cookie`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      if (!res.ok) {
+        setID(null);
+        return;
+      }
+
+      const data = (await res.json()) as ID;
+      setID(data);
+    } catch {
+      setID(null);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    process();
+  }, []);
+
+  async function logout() {
+    try {
+      await fetch(`${API_BASE}/auth/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+    } catch {
+    } finally {
+      setID(null);
+      router.push('/');
+    }
+  }
 
   return (
     <main className="relative min-h-screen overflow-x-hidden">
@@ -161,45 +206,14 @@ export default function LandingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.7 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 2.5, ease: 'easeInOut' }}
-          />
+            transition={{ duration: 2.5, ease: 'easeInOut' }} />
         </AnimatePresence>
         <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/65" />
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        </div>
-        <header className="sticky top-0 z-20 border-b border-white/10 bg-black/30">
-          <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-            <Link
-              href="/" className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">
-              MedPredict
-            </Link>
-            <nav className="hidden items-center gap-25 md:flex">
-              <Link href="/dashboard" className="text-1xl font-semibold text-white/80 hover:text-white">
-                Dashboard
-              </Link>
-              <Link href="/about" className="text-1xl font-semibold text-white/80 hover:text-white">
-                About
-              </Link>
-              <Link href="/product" className="text-1xl font-semibold text-white/80 hover:text-white">
-                Product
-              </Link>
-              <Link href="/technology" className="text-1xl font-semibold text-white/80 hover:text-white">
-                Technology
-              </Link>
-              <Link href="/careers" className="text-1xl font-semibold text-white/80 hover:text-white">
-                Careers
-              </Link>
-            </nav>
-            <div className="flex items-center gap-3">
-              <button
-                className="rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-white hover:bg-white/15"
-                onClick={() => setLoginOpen(true)}>
-                Log in
-              </button>
-            </div>
-          </div>
-        </header>
-
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" />
+        <SiteHeader
+          authed={!!id}
+          onLoginClick={() => setLoginOpen(true)}
+          onLogoutClick={logout} />
         <div className="relative z-10 mx-auto flex min-h-[calc(100vh-92px)] max-w-6xl flex-col justify-center px-6 pb-20">
           <motion.div className="max-w-4xl"
             initial={{ opacity: 0 }}
@@ -208,9 +222,9 @@ export default function LandingPage() {
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={headlineStep}
-                initial={{ opacity: 0, y: -14, }}
-                animate={{ opacity: 1, y: 0, }}
-                exit={{ opacity: 0, y: 10, }}
+                initial={{ opacity: 0, y: -14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
                 transition={{ duration: 0.7, ease: 'easeInOut' }}>
                 {headlineStep === 0 ? (
                   <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl">
@@ -237,8 +251,7 @@ export default function LandingPage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.25, duration: 0.8 }}>
               Scroll to explore
-              <motion.span
-                className='block text-center'
+              <motion.span className="block text-center"
                 initial={{ opacity: 0, y: -18 }}
                 animate={{ y: [0, 5, 0], opacity: 1 }}
                 transition={{ duration: 2, repeat: Infinity }}>
@@ -252,8 +265,7 @@ export default function LandingPage() {
       <section id="explore" className="bg-white">
         <div className="mx-auto max-w-8xl px-6 py-3">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between">
-            <div>
-            </div>
+            <div />
             <div className="text-sm font-bold text-gray-500">→</div>
           </div>
           <div>
@@ -296,7 +308,7 @@ export default function LandingPage() {
                       A clear risk stage with a confidence score
                     </div>
                     <p className="mt-1 text-sm font-semibold text-gray-600">
-                      Every prediction is delivered so it’s easy to understand and compare
+                      Every prediction is delivered so it is easy to understand and compare
                     </p>
                   </div>
                 </div>
@@ -465,53 +477,14 @@ export default function LandingPage() {
           </div>
         </Reveal>
       </section>
-
-      <footer className="bg-gray-900 text-gray-300">
-        <div className="mx-auto max-w-7xl px-6 py-5">
-          <div className="grid gap-8 md:grid-cols-4">
-            <div>
-              <div className=" text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-1">MedPredict</div>
-              <p className="text-xs">Turning Data Into Better Health Decisions</p>
-            </div>
-            <div>
-              <h3 className="font-bold text-white mb-4">Product</h3>
-              <ul className="space-y-2 text-sm">
-                <li><a href="/product/#catalog" className="hover:text-white">Catalog</a></li>
-                <li><a href="/product/#pricing" className="hover:text-white">Pricing</a></li>
-                <li><a href="/product/#FAQ" className="hover:text-white">FAQ</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-bold text-white mb-4">Company</h3>
-              <ul className="space-y-2 text-sm">
-                <li><a href="/about" className="hover:text-white">About</a></li>
-                <li><a href="/careers" className="hover:text-white">Careers</a></li>
-                <li><a href="/technology" className="hover:text-white">Technology</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-bold text-white mb-4">Follow Us</h3>
-              <div className="flex gap-4">
-                <a href="#" className="hover:text-blue-400">Instagram</a>
-                <a href="https://www.linkedin.com/in/bao-nguyen-hoang/" className="hover:text-blue-400">LinkedIn</a>
-                <a href="https://github.com/BaoNHoang/MedPredict://github.com/BaoNHoang/" className="hover:text-blue-400">GitHub</a>
-              </div>
-            </div>
-          </div>
-          <div className="mt-5 border-t border-gray-700 pt-5 text-center text-sm">
-            <p>&copy; 2026 MedPredict. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
       <LoginModal
         open={loginOpen}
         onClose={() => setLoginOpen(false)}
         onSuccess={() => {
-          setAuthed(true);
           setLoginOpen(false);
-          router.push('/dashboard');
-        }}
-      />
+          process();
+        }} />
     </main>
   );
 }

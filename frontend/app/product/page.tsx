@@ -1,9 +1,13 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import LoginModal from '@/components/LoginModal';
+import SiteHeader from '@/components/SiteHeader';
+import SiteFooter from '@/components/SiteFooter';
+
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:8000';
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 const bp = (p: string) => `${BASE}${p}`;
@@ -16,6 +20,12 @@ const BACKGROUNDS = [
     bp('/backgrounds/bg5.jpg'),
 ];
 
+type ID = {
+    id: number;
+    email?: string;
+    username?: string;
+};
+
 function Reveal({
     children,
     className = '',
@@ -26,19 +36,19 @@ function Reveal({
     return (
         <motion.div
             className={className}
-            initial={{ opacity: 0, y: 12, }}
-            whileInView={{ opacity: 1, y: 0, }}
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 1.5, ease: 'easeOut', delay: 0 }}>
             {children}
-        </motion.div>
-    );
+        </motion.div>);
 }
 
 export default function ProductPage() {
-    const [authed, setAuthed] = useState(false);
+    const router = useRouter();
     const [loginOpen, setLoginOpen] = useState(false);
     const [index, setIndex] = useState(0);
+    const [id, setID] = useState<ID | null>(null);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -55,6 +65,40 @@ export default function ProductPage() {
         });
     }, []);
 
+    async function process() {
+        try {
+            const res = await fetch(`${API_BASE}/auth/me_cookie`, {
+                method: 'GET',
+                credentials: 'include',
+            });
+            if (!res.ok) {
+                setID(null);
+                return;
+            }
+            const data = (await res.json()) as ID;
+            setID(data);
+        } catch {
+            setID(null);
+        }
+    }
+
+    useEffect(() => {
+        process();
+    }, []);
+
+    async function logout() {
+        try {
+            await fetch(`${API_BASE}/auth/logout`, {
+                method: 'POST',
+                credentials: 'include',
+            });
+        } catch {
+        } finally {
+            setID(null);
+            router.push('/');
+        }
+    }
+
     return (
         <main className="relative min-h-screen overflow-x-hidden">
             <section className="relative min-h-[10vh] max-h-[300px] overflow-hidden">
@@ -66,47 +110,16 @@ export default function ProductPage() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.7 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 1.4, ease: 'easeInOut' }}
-                    />
+                        transition={{ duration: 1.4, ease: 'easeInOut' }} />
                 </AnimatePresence>
                 <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/70" />
-                <header className="sticky top-0 z-20 border-b border-white/10 bg-black/30">
-                    <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-                        <Link
-                            href="/" className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">
-                            MedPredict
-                        </Link>
-                        <nav className="hidden items-center gap-25 md:flex">
-                            <Link href="/" className="text-1xl font-semibold text-white/80 hover:text-white">
-                                Home
-                            </Link>
-                            <Link href="/about" className="text-1xl font-semibold text-white/80 hover:text-white">
-                                About
-                            </Link>
-                            <Link href="/product" className="text-1xl font-semibold text-white/80 hover:text-white">
-                                Product
-                            </Link>
-                            <Link href="/technology" className="text-1xl font-semibold text-white/80 hover:text-white">
-                                Technology
-                            </Link>
-                            <Link href="/careers" className="text-1xl font-semibold text-white/80 hover:text-white">
-                                Careers
-                            </Link>
-                        </nav>
-                        <div className="flex items-center gap-3">
-                            <button
-                                className="rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-white hover:bg-white/15"
-                                onClick={() => setLoginOpen(true)}>
-                                Log in
-                            </button>
-                        </div>
-                    </div>
-                </header>
+                <SiteHeader
+                    authed={!!id}
+                    onLoginClick={() => setLoginOpen(true)}
+                    onLogoutClick={logout} />
                 <div className="relative mx-auto flex min-h-[calc(30vh-72px)] max-w-6xl flex-col justify-center px-6 pb-2">
                     <div className="max-w-4xl">
-                        <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl">
-                            Product
-                        </h1>
+                        <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl">Product</h1>
                     </div>
                     <p className="mt-5 max-w-2xl text-lg font-semibold text-white/85 md:text-xl">
                         Learn more about our prediction tools, add-ons, and services.
@@ -118,9 +131,7 @@ export default function ProductPage() {
                 <div className="mx-auto max-w-7xl px-6 py-16">
                     <div className="max-w-3xl">
                         <h2 className="text-4xl font-extrabold text-gray-900">Catalog</h2>
-                        <p className="mt-3 text-lg font-semibold text-gray-600">
-                            Add modules and services as your needs grow.
-                        </p>
+                        <p className="mt-3 text-lg font-semibold text-gray-600">Add modules and services as your needs grow.</p>
                     </div>
                     <div className="mt-10 grid gap-6 md:grid-cols-3">
                         <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -128,9 +139,7 @@ export default function ProductPage() {
                                 <div className="flex items-center gap-3">
                                     <div className="text-lg font-extrabold text-gray-900">Atherosclerosis Risk Predictor</div>
                                 </div>
-                                <div className="rounded-full bg-gray-900 px-3 py-1 text-xs font-extrabold text-white">
-                                    Flagship
-                                </div>
+                                <div className="rounded-full bg-gray-900 px-3 py-1 text-xs font-extrabold text-white">Flagship</div>
                             </div>
                             <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
                                 <li className="flex items-start gap-3">
@@ -152,9 +161,7 @@ export default function ProductPage() {
                                 <div className="flex items-center gap-3">
                                     <div className="text-lg font-extrabold text-gray-900">Metabolic Support Module</div>
                                 </div>
-                                <div className="rounded-full bg-gray-100 px-5 py-1 text-xs font-extrabold text-gray-700">
-                                    Extension
-                                </div>
+                                <div className="rounded-full bg-gray-100 px-5 py-1 text-xs font-extrabold text-gray-700">Extension</div>
                             </div>
                             <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
                                 <li className="flex items-start gap-3">
@@ -176,9 +183,7 @@ export default function ProductPage() {
                                 <div className="flex items-center gap-3">
                                     <div className="text-lg font-extrabold text-gray-900">Advanced Calendar Data Tracker</div>
                                 </div>
-                                <div className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">
-                                    Extension
-                                </div>
+                                <div className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">Extension</div>
                             </div>
                             <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
                                 <li className="flex items-start gap-3">
@@ -198,7 +203,6 @@ export default function ProductPage() {
                     </div>
                 </div>
             </section>
-
             <section className="bg-white">
                 <div className="mx-auto max-w-7xl px-6 py-4">
                     <div className="max-w-3xl">
@@ -364,7 +368,6 @@ export default function ProductPage() {
                                 </div>
                             ))}
                         </div>
-
                         <div className="mt-10 rounded-3xl border border-gray-200 bg-gradient-to-r from-gray-50 to-white p-8">
                             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                                 <div>
@@ -375,8 +378,7 @@ export default function ProductPage() {
                                 </div>
                                 <button
                                     onClick={() => setLoginOpen(true)}
-                                    className="rounded-2xl bg-gray-900 px-6 py-3 text-sm font-extrabold text-white hover:bg-gray-800"
-                                >
+                                    className="rounded-2xl bg-gray-900 px-6 py-3 text-sm font-extrabold text-white hover:bg-gray-800">
                                     Try it now
                                 </button>
                             </div>
@@ -384,49 +386,14 @@ export default function ProductPage() {
                     </div>
                 </Reveal>
             </section>
-
-            <footer className="bg-gray-900 text-gray-300">
-                <div className="mx-auto max-w-7xl px-6 py-5">
-                    <div className="grid gap-8 md:grid-cols-4">
-                        <div>
-                            <div className=" text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-1">MedPredict</div>
-                            <p className="text-xs">Turning Data Into Better Health Decisions</p>
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-white mb-4">Product</h3>
-                            <ul className="space-y-2 text-sm">
-                                <li><a href="/product/#catalog" className="hover:text-white">Catalog</a></li>
-                                <li><a href="/product/#pricing" className="hover:text-white">Pricing</a></li>
-                                <li><a href="/product/#FAQ" className="hover:text-white">FAQ</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-white mb-4">Company</h3>
-                            <ul className="space-y-2 text-sm">
-                                <li><a href="/about" className="hover:text-white">About</a></li>
-                                <li><a href="/careers" className="hover:text-white">Careers</a></li>
-                                <li><a href="/technology" className="hover:text-white">Technology</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-white mb-4">Follow Us</h3>
-                            <div className="flex gap-4">
-                                <a href="#" className="hover:text-blue-400">Instagram</a>
-                                <a href="https://www.linkedin.com/in/bao-nguyen-hoang/" className="hover:text-blue-400">LinkedIn</a>
-                                <a href="https://github.com/BaoNHoang/MedPredict://github.com/BaoNHoang/" className="hover:text-blue-400">GitHub</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="mt-5 border-t border-gray-700 pt-5 text-center text-sm">
-                        <p>&copy; 2026 MedPredict. All rights reserved.</p>
-                    </div>
-                </div>
-            </footer>
+            <SiteFooter />
             <LoginModal
                 open={loginOpen}
                 onClose={() => setLoginOpen(false)}
-                onSuccess={() => setAuthed(true)}
-            />
+                onSuccess={() => {
+                    setLoginOpen(false);
+                    process();
+                }} />
         </main>
     );
 }

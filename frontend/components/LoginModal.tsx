@@ -104,11 +104,11 @@ export default function LoginModal({
             required
           />
 
-          {err && (
+          {/* {err && (
             <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm font-semibold text-red-800">
               {err}
             </div>
-          )}
+          )} */}
           
           <button
             disabled={loading}
