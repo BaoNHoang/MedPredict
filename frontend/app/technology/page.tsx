@@ -2,10 +2,10 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import LoginModal from '@/components/LoginModal';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
+import LogoutConfirmModal from '@/components/LogoutConfirmModal';
 
 const API_BASE = "/api";
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
@@ -43,10 +43,11 @@ function Reveal({
 }
 
 export default function TechnologyPage() {
-    const router = useRouter();
     const [loginOpen, setLoginOpen] = useState(false);
     const [index, setIndex] = useState(0);
     const [id, setID] = useState<ID | null>(null);
+    const [logoutOpen, setLogoutOpen] = useState(false);
+
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -90,12 +91,10 @@ export default function TechnologyPage() {
                 method: 'POST',
                 credentials: 'include',
             });
-        } catch {
         } finally {
             setID(null);
-            router.push('/');
-            process();
-
+            setLogoutOpen(false);
+            setLoginOpen(true);
         }
     }
 
@@ -118,7 +117,7 @@ export default function TechnologyPage() {
                 <SiteHeader
                     authed={!!id}
                     onLoginClick={() => setLoginOpen(true)}
-                    onLogoutClick={logout} />
+                    onLogoutClick={() => setLogoutOpen(true)} />
                 <div className="relative mx-auto flex min-h-[calc(30vh-72px)] max-w-6xl flex-col justify-center px-6 pb-2">
                     <div className="max-w-4xl">
                         <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl">
@@ -246,6 +245,11 @@ export default function TechnologyPage() {
                     setLoginOpen(false);
                     process();
                 }} />
+            <LogoutConfirmModal
+                open={logoutOpen}
+                onClose={() => setLogoutOpen(false)}
+                onConfirm={logout}
+            />
         </main>
     );
 }

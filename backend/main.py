@@ -14,17 +14,16 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
 
 class Settings(BaseSettings):
     DATABASE_URL: str
-    JWT_SECRET: str = "dev-key"
+    JWT_SECRET: str = "123abcbao"
     JWT_ALG: str = "HS256"
     ACCESS_TOKEN_MINUTES: int = 60 
-
+    PASSWORD_PEPPER: str = "123abchoang"
     class Config:
         env_file = ".env"
 
 settings = Settings()
 
 engine = create_engine(settings.DATABASE_URL, pool_pre_ping=True)
-
 
 class Base(DeclarativeBase):
     pass
@@ -35,9 +34,6 @@ class User(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     username: Mapped[str] = mapped_column(String(50), nullable=False)
     hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
-    
-def init_db():
-    Base.metadata.create_all(engine)
 
 def get_db():
     with Session(engine) as db:
@@ -45,11 +41,11 @@ def get_db():
 
 pwd_ctx = CryptContext(schemes=["pbkdf2_sha256"])
 
-def hash_password(pw: str):
-    return pwd_ctx.hash(pw)
+def hash_password(pw: str) -> str:
+    return pwd_ctx.hash(pw + settings.PASSWORD_PEPPER)
 
-def verify_password(pw: str, hashed: str):
-    return pwd_ctx.verify(pw, hashed)
+def verify_password(pw: str, hashed: str) -> bool:
+    return pwd_ctx.verify(pw + settings.PASSWORD_PEPPER, hashed)
 
 def create_access_token(user_id: int):
     now = datetime.now(timezone.utc)
@@ -88,19 +84,16 @@ COOKIE_NAME = "access_token"
 def signup(body: AuthBody, db: Session = Depends(get_db)):
     if len(body.password) < 6:
         raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
-
     existing = db.scalar(select(User).where(User.username == body.username))
     if existing:
         raise HTTPException(status_code=409, detail="Username already exists")
-
     user = User(
-        username=body.username,
-        hashed_password=hash_password(body.password),
+        username = body.username,
+        hashed_password = hash_password(body.password),
     )
     db.add(user)
     db.commit()
     db.refresh(user)
-
     return {"ok": True, "user_id": user.id}
 
 @app.post("/auth/login")
@@ -129,13 +122,10 @@ def logout(response: Response):
 def cookie(token: Optional[str] = Cookie(default=None, alias=COOKIE_NAME), db: Session = Depends(get_db)):
     if not token:
         raise HTTPException(status_code=401, detail="Not logged in")
-
     user_id = read_access_token(token)
     if not user_id:
         raise HTTPException(status_code=401, detail="Invalid session")
-
     user = db.get(User, user_id)
     if not user:
         raise HTTPException(status_code=401, detail="User not found")
-
     return {"id": user.id, "username": user.username}

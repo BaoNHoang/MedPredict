@@ -1,0 +1,10 @@
+fastapi
+hypercorn
+sqlalchemy
+python-jose
+passlib
+pydantic-settings
+numpy
+pandas
+scikit-learn
+joblib

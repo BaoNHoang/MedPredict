@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import LoginModal from '@/components/LoginModal';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
+import LogoutConfirmModal from '@/components/LogoutConfirmModal';
 
 const API_BASE = "/api";
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
@@ -47,6 +48,7 @@ export default function ProductPage() {
     const [loginOpen, setLoginOpen] = useState(false);
     const [index, setIndex] = useState(0);
     const [id, setID] = useState<ID | null>(null);
+    const [logoutOpen, setLogoutOpen] = useState(false);
     const authed = !!id;
 
     useEffect(() => {
@@ -91,12 +93,10 @@ export default function ProductPage() {
                 method: 'POST',
                 credentials: 'include',
             });
-        } catch {
         } finally {
             setID(null);
-            router.push('/');
-            process();
-
+            setLogoutOpen(false);
+            setLoginOpen(true);
         }
     }
 
@@ -120,7 +120,7 @@ export default function ProductPage() {
                 <SiteHeader
                     authed={authed}
                     onLoginClick={() => setLoginOpen(true)}
-                    onLogoutClick={logout} />
+                    onLogoutClick={() => setLogoutOpen(true)} />
                 <div className="relative mx-auto flex min-h-[calc(30vh-72px)] max-w-6xl flex-col justify-center px-6 pb-2">
                     <div className="max-w-4xl">
                         <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl">
@@ -137,89 +137,69 @@ export default function ProductPage() {
                 <div className="mx-auto max-w-7xl px-6 py-16">
                     <div className="max-w-3xl">
                         <h2 className="text-4xl font-extrabold text-gray-900">Catalog</h2>
-                        <p className="mt-3 text-lg font-semibold text-gray-600">
+                        <p className="mt-4 text-lg font-semibold leading-relaxed text-gray-600">
                             Add modules and services as your needs grow.
                         </p>
                     </div>
                     <div className="mt-10 grid gap-6 md:grid-cols-3">
-                        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                            <div className="flex items-start justify-between gap-3">
-                                <div className="flex items-center gap-3">
-                                    <div className="text-lg font-extrabold text-gray-900">
-                                        Atherosclerosis Risk Predictor
+                        {[
+                            {
+                                title: "Atherosclerosis Risk Predictor",
+                                tag: "Flagship",
+                                tagStyle: "bg-gray-900 text-white",
+                                bullets: [
+                                    "Stage + confidence signal",
+                                    "Key drivers in plain language",
+                                    "History tracking for comparisons",
+                                ],
+                            },
+                            {
+                                title: "Metabolic Support Module",
+                                tag: "Extension",
+                                tagStyle: "bg-gray-100 text-gray-700",
+                                bullets: [
+                                    "Fast inputs for quick checks",
+                                    "Trend-ready summaries",
+                                    "Simple guidance + next steps",
+                                ],
+                            },
+                            {
+                                title: "Advanced Calendar Data Tracker",
+                                tag: "Extension",
+                                tagStyle: "bg-gray-100 text-gray-700",
+                                bullets: [
+                                    "Clear categories you can understand",
+                                    "Notes + comparisons across dates",
+                                    "Exportable summaries",
+                                ],
+                            },
+                        ].map((s) => (
+                            <div
+                                key={s.title}
+                                className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+                                <div className="flex items-start justify-between gap-3">
+                                    <div className="text-lg font-extrabold text-gray-900">{s.title}</div>
+                                    <div
+                                        className={`rounded-full px-3 py-1 text-xs font-extrabold ${s.tagStyle}`}>
+                                        {s.tag}
                                     </div>
                                 </div>
-                                <div className="rounded-full bg-gray-900 px-3 py-1 text-xs font-extrabold text-white">
-                                    Flagship
-                                </div>
+                                <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
+                                    <li className="flex items-start gap-3">
+                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                        <span>{s.bullets[0]}</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
+                                        <span>{s.bullets[1]}</span>
+                                    </li>
+                                    <li className="flex items-start gap-3">
+                                        <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
+                                        <span>{s.bullets[2]}</span>
+                                    </li>
+                                </ul>
                             </div>
-                            <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                    <span>Stage + confidence signal</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
-                                    <span>Key drivers in plain language</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                    <span>History tracking for comparisons</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                            <div className="flex items-start justify-between gap-3">
-                                <div className="flex items-center gap-3">
-                                    <div className="text-lg font-extrabold text-gray-900">
-                                        Metabolic Support Module
-                                    </div>
-                                </div>
-                                <div className="rounded-full bg-gray-100 px-5 py-1 text-xs font-extrabold text-gray-700">
-                                    Extension
-                                </div>
-                            </div>
-                            <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                    <span>Fast inputs for quick checks</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
-                                    <span>Trend-ready summaries</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                    <span>Simple guidance + next steps</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                            <div className="flex items-start justify-between gap-3">
-                                <div className="flex items-center gap-3">
-                                    <div className="text-lg font-extrabold text-gray-900">
-                                        Advanced Calendar Data Tracker
-                                    </div>
-                                </div>
-                                <div className="rounded-full bg-gray-100 px-3 py-1 text-xs font-extrabold text-gray-700">
-                                    Extension
-                                </div>
-                            </div>
-                            <ul className="mt-5 space-y-2 text-sm font-semibold text-gray-700">
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                    <span>Clear categories you can understand</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-purple-500" />
-                                    <span>Notes + comparisons across dates</span>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <span className="mt-2 h-2 w-2 rounded-full bg-blue-500" />
-                                    <span>Exportable summaries (Pro+)</span>
-                                </li>
-                            </ul>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -424,6 +404,11 @@ export default function ProductPage() {
                     setLoginOpen(false);
                     process();
                 }} />
+            <LogoutConfirmModal
+                open={logoutOpen}
+                onClose={() => setLogoutOpen(false)}
+                onConfirm={logout}
+            />
         </main>
     );
 }
