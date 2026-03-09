@@ -67,7 +67,7 @@ export default function ProductPage() {
 
     async function process() {
         try {
-            const res = await fetch(`${API_BASE}/auth/me_cookie`, {
+            const res = await fetch(`${API_BASE}/auth/cookie`, {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -96,6 +96,8 @@ export default function ProductPage() {
         } finally {
             setID(null);
             router.push('/');
+            process();
+
         }
     }
 
@@ -404,9 +406,9 @@ export default function ProductPage() {
                                     </div>
                                 </div>
                                 <button
-                                    onClick={() => setLoginOpen(true)}
+                                    onClick={() => (authed ? router.push('/dashboard') : setLoginOpen(true))}
                                     className="rounded-2xl bg-gray-900 px-6 py-3 text-sm font-extrabold text-white hover:bg-gray-800">
-                                    Try it now
+                                    {authed ? 'Continue to dashboard' : 'Try it now'}
                                 </button>
                             </div>
                         </div>

@@ -160,7 +160,7 @@ export default function LandingPage() {
   async function process() {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/auth/me_cookie`, {
+      const res = await fetch(`${API_BASE}/auth/cookie`, {
         method: 'GET',
         credentials: 'include',
       });
@@ -193,6 +193,7 @@ export default function LandingPage() {
     } finally {
       setID(null);
       router.push('/');
+      process();
     }
   }
 

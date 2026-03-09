@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import LoginModal from '@/components/LoginModal';
 
-
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:8000';
 
 type ID = {
@@ -37,7 +36,6 @@ export default function DashboardPage() {
   const [id, setID] = useState<ID | null>(null);
   const [loading, setLoading] = useState(true);
 
-
   const displayName = useMemo(() => {
     if (!id) return '';
     return id.username?.trim() ? id.username : `User #${id.id}`;
@@ -46,16 +44,15 @@ export default function DashboardPage() {
   async function process() {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/auth/me_cookie`, {
+      const res = await fetch(`${API_BASE}/auth/cookie`, {
         method: 'GET',
         credentials: 'include',
       });
-
       if (!res.ok) {
         setID(null);
+        setLoginOpen(true);
         return;
       }
-
       const data = (await res.json()) as ID;
       setID(data);
     } catch {
@@ -78,7 +75,8 @@ export default function DashboardPage() {
     } catch {
     } finally {
       setID(null);
-      router.push('/');
+      setLoginOpen(true);
+      process();
     }
   }
 
@@ -104,7 +102,7 @@ export default function DashboardPage() {
                   Home
                 </button>
                 <button
-                  className="rounded-2xl bg-white/80 px-4 py-2 text-sm font-extrabold text-slate-900 hover:bg-slate-100"
+                  className="rounded-2xl bg-white/90 px-4 py-2 text-sm font-extrabold text-slate-900 hover:bg-slate-100"
                   onClick={() => router.push('/')}>
                   Predictor
                 </button>
@@ -132,8 +130,8 @@ export default function DashboardPage() {
                     Welcome back, <span className="text-white/90">{displayName}</span> </h1>
                 </div>
               ) : (
-                <div className="text-lg font-extrabold text-white">
-                  You’re not signed in. Login to access your tools and saved results.
+                <div className="text-lg font-extrabold text-transparent">
+                  Filler
                 </div>
               )}
               <div className="mt-3 text-sm font-semibold text-white/75">
@@ -158,50 +156,14 @@ export default function DashboardPage() {
             ))}
           </div>
         ) : !id ? (
-          <div className="grid gap-6 lg:grid-cols-12">
-            <div className="lg:col-span-7">
-              <Card title="Access required" subtitle="Sign in to use your medical tools and view history.">
-                <div className="space-y-3 text-sm font-semibold text-gray-700">
-                  <div>• Run predictions from your personal predictor page</div>
-                  <div>• Save and view prior runs (once you add storage later)</div>
-                  <div>• Keep your session private with account login</div>
-                </div>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <button
-                    className="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-extrabold text-white hover:bg-slate-800"
-                    onClick={() => setLoginOpen(true)}>
-                    Go to Login
-                  </button>
-                  <button
-                    className="rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-extrabold text-gray-900 hover:bg-gray-50"
-                    onClick={() => router.push('/')}>
-                    Back to Home
-                  </button>
-                </div>
-              </Card>
-            </div>
-            <div className="lg:col-span-5">
-              <Card title="Predictor preview" subtitle="You can still view the predictor page UI.">
-                <p className="text-sm font-semibold text-gray-700">
-                  If your predictor page doesn’t require authentication yet, you can open it now.
-                </p>
-                <div className="mt-6">
-                  <button
-                    className="w-full rounded-2xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white hover:bg-blue-700"
-                    onClick={() => router.push('/')}>
-                    Open Predictor
-                  </button>
-                </div>
-              </Card>
-            </div>
-          </div>
+          <div></div>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <Card title="Account" subtitle={displayName}>
-                <div>
-                  <div className="text-xs font-extrabold uppercase tracking-wider text-gray-500">User ID</div>
-                  <div className="mt-1 text-lg font-extrabold text-gray-900">{id.id}</div>
-                </div>
+              <div>
+                <div className="text-xs font-extrabold uppercase tracking-wider text-gray-500">User ID</div>
+                <div className="mt-1 text-lg font-extrabold text-gray-900">{id.id}</div>
+              </div>
             </Card>
             <Card title="Medical tools">
               <div className="space-y-3 text-sm font-semibold text-gray-700">

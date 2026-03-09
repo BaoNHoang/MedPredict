@@ -12,7 +12,6 @@ from fastapi import Cookie
 from sqlalchemy import create_engine, String, Integer, select, UniqueConstraint
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
 
-
 class Settings(BaseSettings):
     DATABASE_URL: str
     JWT_SECRET: str = "dev-key"
@@ -22,7 +21,6 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
 
-
 settings = Settings()
 
 engine = create_engine(settings.DATABASE_URL, pool_pre_ping=True)
@@ -30,7 +28,6 @@ engine = create_engine(settings.DATABASE_URL, pool_pre_ping=True)
 
 class Base(DeclarativeBase):
     pass
-
 
 class User(Base):
     __tablename__ = "users"
@@ -48,20 +45,19 @@ def get_db():
 
 pwd_ctx = CryptContext(schemes=["pbkdf2_sha256"])
 
-def hash_password(pw: str) -> str:
+def hash_password(pw: str):
     return pwd_ctx.hash(pw)
 
-def verify_password(pw: str, hashed: str) -> bool:
+def verify_password(pw: str, hashed: str):
     return pwd_ctx.verify(pw, hashed)
 
-def create_access_token(user_id: int) -> str:
+def create_access_token(user_id: int):
     now = datetime.now(timezone.utc)
     exp = now + timedelta(minutes=settings.ACCESS_TOKEN_MINUTES)
     payload = {"sub": str(user_id), "iat": int(now.timestamp()), "exp": exp}
     return jwt.encode(payload, settings.JWT_SECRET, algorithm=settings.JWT_ALG)
 
-
-def read_access_token(token: str) -> Optional[int]:
+def read_access_token(token: str):
     try:
         payload = jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.JWT_ALG])
         sub = payload.get("sub")
@@ -86,9 +82,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 COOKIE_NAME = "access_token"
-
 
 @app.post("/auth/signup")
 def signup(body: AuthBody, db: Session = Depends(get_db)):
@@ -99,25 +93,22 @@ def signup(body: AuthBody, db: Session = Depends(get_db)):
     if existing:
         raise HTTPException(status_code=409, detail="Username already exists")
 
-    u = User(
+    user = User(
         username=body.username,
         hashed_password=hash_password(body.password),
     )
-    db.add(u)
+    db.add(user)
     db.commit()
-    db.refresh(u)
+    db.refresh(user)
 
-    return {"ok": True, "user_id": u.id}
-
+    return {"ok": True, "user_id": user.id}
 
 @app.post("/auth/login")
 def login(body: AuthBody, response: Response, db: Session = Depends(get_db)):
-    u = db.scalar(select(User).where(User.username == body.username))
-    if not u or not verify_password(body.password, u.hashed_password):
+    user = db.scalar(select(User).where(User.username == body.username))
+    if not user or not verify_password(body.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid username or password")
-
-    token = create_access_token(u.id)
-
+    token = create_access_token(user.id)
     response.set_cookie(
         key=COOKIE_NAME,
         value=token,
@@ -127,24 +118,15 @@ def login(body: AuthBody, response: Response, db: Session = Depends(get_db)):
         path="/",
         max_age=60 * 60 * 24,
     )
-
     return {"ok": True}
-
 
 @app.post("/auth/logout")
 def logout(response: Response):
     response.delete_cookie(key=COOKIE_NAME, path="/")
     return {"ok": True}
 
-
-@app.get("/auth/me")
-def me(db: Session = Depends(get_db), access_token: Optional[str] = None):
-
-    raise HTTPException(status_code=500, detail="Use /auth/me_cookie endpoint")
-
-
-@app.get("/auth/me_cookie")
-def me_cookie(token: Optional[str] = Cookie(default=None, alias=COOKIE_NAME), db: Session = Depends(get_db)):
+@app.get("/auth/cookie")
+def cookie(token: Optional[str] = Cookie(default=None, alias=COOKIE_NAME), db: Session = Depends(get_db)):
     if not token:
         raise HTTPException(status_code=401, detail="Not logged in")
 
@@ -152,8 +134,8 @@ def me_cookie(token: Optional[str] = Cookie(default=None, alias=COOKIE_NAME), db
     if not user_id:
         raise HTTPException(status_code=401, detail="Invalid session")
 
-    u = db.get(User, user_id)
-    if not u:
+    user = db.get(User, user_id)
+    if not user:
         raise HTTPException(status_code=401, detail="User not found")
 
-    return {"id": u.id, "username": u.username}
+    return {"id": user.id, "username": user.username}

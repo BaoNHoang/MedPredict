@@ -66,7 +66,7 @@ export default function TechnologyPage() {
 
     async function process() {
         try {
-            const res = await fetch(`${API_BASE}/auth/me_cookie`, {
+            const res = await fetch(`${API_BASE}/auth/cookie`, {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -95,6 +95,8 @@ export default function TechnologyPage() {
         } finally {
             setID(null);
             router.push('/');
+            process();
+
         }
     }
 

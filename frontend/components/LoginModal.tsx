@@ -49,13 +49,15 @@ export default function LoginModal({
       const path = mode === 'login' ? '/auth/login' : '/auth/signup';
       const res = await fetch(`${API_BASE}${path}`, {
         method: 'POST',
-        credentials: 'include', 
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
 
-      const text = await res.text();
-      const data = text ? JSON.parse(text) : null;
+      let data = null;
+      try {
+        data = await res.json();
+      } catch { }
 
       if (!res.ok) {
         throw new Error(data?.detail || 'Authentication failed');
