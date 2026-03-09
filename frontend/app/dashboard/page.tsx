@@ -5,8 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import LoginModal from '@/components/LoginModal';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:8000';
-
+const API_BASE = "/api";
 type ID = {
   id: number;
   username?: string;

@@ -7,8 +7,7 @@ import LoginModal from '@/components/LoginModal';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:8000';
-
+const API_BASE = "/api";
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 const bp = (p: string) => `${BASE}${p}`;
 
