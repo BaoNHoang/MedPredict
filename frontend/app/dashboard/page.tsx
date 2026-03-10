@@ -103,7 +103,7 @@ export default function DashboardPage() {
                                 </button>
                                 <button
                                     className="rounded-2xl bg-white/90 px-4 py-2 text-sm font-extrabold text-slate-900 hover:bg-slate-100"
-                                    onClick={() => router.push('/')}>
+                                    onClick={() => router.push('/predictor')}>
                                     Predictor
                                 </button>
                                 {id ? (
@@ -125,7 +125,7 @@ export default function DashboardPage() {
                             {id ? (
                                 <div className="text-lg font-extrabold text-white">
                                     <h1 className="text-4xl font-extrabold text-white md:text-5xl">
-                                        Welcome back, <span className="text-white/90">{displayName}</span>
+                                        Hello <span className="text-white/90">{displayName}</span>
                                     </h1>
                                 </div>
                             ) : (
@@ -134,8 +134,7 @@ export default function DashboardPage() {
                                 </div>
                             )}
                             <div className="mt-3 text-sm font-semibold text-white/75">
-                                Note: This dashboard is for informational product features only and does
-                                not provide medical advice.
+                                Note: This dashboard is for informational product features only.
                             </div>
                         </div>
                     </motion.div>
@@ -205,13 +204,11 @@ export default function DashboardPage() {
                 onSuccess={() => {
                     setLoginOpen(false);
                     process();
-                }}
-            />
+                }}/>
             <LogoutConfirmModal
                 open={logoutOpen}
                 onClose={() => setLogoutOpen(false)}
-                onConfirm={logout}
-            />
+                onConfirm={logout}/>
         </main>
     );
 }
