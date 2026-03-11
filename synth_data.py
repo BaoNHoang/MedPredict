@@ -89,7 +89,6 @@ def risk_score(row):
 
 def plaque_stage(score, row):
     event_count = int(row["heart_attack_history"]) + int(row["stroke_tia_history"]) + int(row["peripheral_artery_disease_history"])
-
     if row["recent_cardio_event_12mo"] or row["multi_plaque_dev"] or event_count >= 2 or score >= 85:
         return 4
     if row["clinical_ascvd_history"] or row["heart_attack_history"] or row["stroke_tia_history"] or row["peripheral_artery_disease_history"] or score >= 65:

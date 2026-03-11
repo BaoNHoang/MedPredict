@@ -38,8 +38,11 @@ type PredictorForm = {
 type PredictionResult = {
     risk_score?: number;
     plaque_stage?: number;
-    health_label?: string;
-    message?: string;
+    stage_name?: string;
+    severity?: string;
+    summary?: string;
+    recommendations?: string[];
+    warning?: string;
 };
 
 function Input({
@@ -73,11 +76,9 @@ export default function DashboardPage() {
     const [loginOpen, setLoginOpen] = useState(false);
     const [logoutOpen, setLogoutOpen] = useState(false);
     const [id, setID] = useState<ID | null>(null);
-
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [result, setResult] = useState<PredictionResult | null>(null);
-
     const [form, setForm] = useState<PredictorForm>({
         age_years: '',
         sex: '',
@@ -106,13 +107,11 @@ export default function DashboardPage() {
                 method: 'GET',
                 credentials: 'include',
             });
-
             if (!res.ok) {
                 setID(null);
                 setLoginOpen(true);
                 return;
             }
-
             const data = (await res.json()) as ID;
             setID(data);
         } catch {
@@ -348,8 +347,7 @@ export default function DashboardPage() {
                                     value={form.peripheral_artery_disease_history}
                                     placeholder="Example: false"
                                     onChange={(v) =>
-                                        updateField('peripheral_artery_disease_history', v)
-                                    } />
+                                        updateField('peripheral_artery_disease_history', v)} />
                                 <Input
                                     label="Recent cardio event (12 months)"
                                     value={form.recent_cardio_event_12mo}
@@ -370,8 +368,7 @@ export default function DashboardPage() {
                                 <button
                                     type="submit"
                                     disabled={submitting}
-                                    className="rounded-2xl bg-slate-900 px-6 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
-                                >
+                                    className="rounded-2xl bg-slate-900 px-6 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60">
                                     {submitting ? 'Running prediction...' : 'Predict'}
                                 </button>
                             </div>
@@ -383,7 +380,6 @@ export default function DashboardPage() {
                             <div className="mt-2 text-sm font-semibold text-gray-600">
                                 Your backend should return the model result here.
                             </div>
-
                             {!result ? (
                                 <div className="mt-6 rounded-2xl bg-slate-50 p-5 text-sm font-semibold text-gray-500">
                                     No prediction yet.
@@ -392,34 +388,48 @@ export default function DashboardPage() {
                                 <div className="mt-6 space-y-4">
                                     <div className="rounded-2xl bg-slate-50 p-5">
                                         <div className="text-sm font-bold text-gray-500">
+                                            Predicted Stage
+                                        </div>
+                                        <div className="mt-1 text-2xl font-extrabold text-slate-900">
+                                            {result.stage_name ?? `Stage ${result.plaque_stage ?? '--'}`}
+                                        </div>
+                                    </div>
+                                    <div className="rounded-2xl bg-slate-50 p-5">
+                                        <div className="text-sm font-bold text-gray-500">
+                                            Severity
+                                        </div>
+                                        <div className="mt-1 text-2xl font-extrabold text-slate-900">
+                                            {result.severity ?? '--'}
+                                        </div>
+                                    </div>
+                                    <div className="rounded-2xl bg-slate-50 p-5">
+                                        <div className="text-sm font-bold text-gray-500">
                                             Risk Score
                                         </div>
                                         <div className="mt-1 text-3xl font-extrabold text-slate-900">
                                             {result.risk_score ?? '--'}
                                         </div>
                                     </div>
-
-                                    <div className="rounded-2xl bg-slate-50 p-5">
-                                        <div className="text-sm font-bold text-gray-500">
-                                            Plaque Stage
-                                        </div>
-                                        <div className="mt-1 text-3xl font-extrabold text-slate-900">
-                                            {result.plaque_stage ?? '--'}
-                                        </div>
-                                    </div>
-
-                                    <div className="rounded-2xl bg-slate-50 p-5">
-                                        <div className="text-sm font-bold text-gray-500">
-                                            Health Label
-                                        </div>
-                                        <div className="mt-1 text-2xl font-extrabold text-slate-900">
-                                            {result.health_label ?? '--'}
-                                        </div>
-                                    </div>
-
-                                    {result.message && (
+                                    {result.summary && (
                                         <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4 text-sm font-semibold text-blue-800">
-                                            {result.message}
+                                            {result.summary}
+                                        </div>
+                                    )}
+                                    {result.recommendations && result.recommendations.length > 0 && (
+                                        <div className="rounded-2xl border border-gray-200 bg-white p-5">
+                                            <div className="text-sm font-bold text-gray-500">
+                                                Recommendations
+                                            </div>
+                                            <ul className="mt-3 list-disc space-y-2 pl-5 text-sm font-medium text-gray-700">
+                                                {result.recommendations.map((item, i) => (
+                                                    <li key={i}>{item}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    {result.warning && (
+                                        <div className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 text-sm font-semibold text-yellow-800">
+                                            {result.warning}
                                         </div>
                                     )}
                                 </div>

@@ -176,11 +176,11 @@ export default function DashboardPage() {
                                     </div>
                                     <button
                                         className="mt-3 rounded-xl bg-slate-900 px-4 py-2 text-xs font-extrabold text-white hover:bg-slate-800"
-                                        onClick={() => router.push('/')}>
+                                        onClick={() => router.push('/predictor')}>
                                         Open tool
                                     </button>
                                 </div>
-                                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
+                                {/* <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
                                     <div className="text-sm font-extrabold text-gray-900">
                                         Results History
                                     </div>
@@ -192,7 +192,7 @@ export default function DashboardPage() {
                                         onClick={() => alert('Reminder to fill')}>
                                         View history
                                     </button>
-                                </div>
+                                </div> */}
                             </div>
                         </Card>
                     </div>
