@@ -22,7 +22,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 health_model = XGBClassifier(
-    n_estimators=500,
+    n_estimators=400,
     max_depth=4,
     learning_rate=0.03,
     subsample=0.9,

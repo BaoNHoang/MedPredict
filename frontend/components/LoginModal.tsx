@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:8000';
+const API_BASE = "/api";
 
 export default function LoginModal({
     open,
@@ -16,6 +16,9 @@ export default function LoginModal({
     const [mode, setMode] = useState<'login' | 'signup'>('login');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState('');
 
     const [loading, setLoading] = useState(false);
     const [err, setErr] = useState<string | null>(null);
@@ -27,6 +30,9 @@ export default function LoginModal({
         setMode('login');
         setUsername('');
         setPassword('');
+        setFirstName('');
+        setLastName('');
+        setDateOfBirth('');
     }, [open]);
 
     const title = useMemo(() => (mode === 'login' ? 'Login' : 'Create account'), [mode]);
@@ -47,18 +53,26 @@ export default function LoginModal({
 
         try {
             const path = mode === 'login' ? '/auth/login' : '/auth/signup';
+            const body =
+                mode === 'login'
+                    ? { username, password }
+                    : {
+                          username,
+                          password,
+                          first_name: firstName,
+                          last_name: lastName,
+                          date_of_birth: dateOfBirth,
+                      };
             const res = await fetch(`${API_BASE}${path}`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify(body),
             });
-
             let data = null;
             try {
                 data = await res.json();
-            } catch { }
-
+            } catch {}
             if (!res.ok) {
                 throw new Error(data?.detail || 'Authentication failed');
             }
@@ -77,7 +91,7 @@ export default function LoginModal({
             <button
                 className="absolute inset-0 bg-black/50"
                 onClick={onClose}
-                aria-label="Close login modal" />
+                aria-label="Close login modal"/>
             <div className="relative z-10 w-full max-w-sm rounded-2xl bg-white p-8 shadow-xl">
                 <div className="flex items-start justify-between gap-4">
                     <div>
@@ -86,7 +100,32 @@ export default function LoginModal({
                     </div>
                 </div>
                 <form onSubmit={onSubmit} className="mt-6">
-                    <label className="block text-sm font-bold text-gray-800">Username</label>
+                    {mode === 'signup' && (
+                        <>
+                            <label className="block text-sm font-bold text-gray-800">First Name</label>
+                            <input
+                                className="mt-2 w-full rounded-lg border border-gray-200 p-2 text-black"
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                placeholder="First name"
+                                required/>
+                            <label className="mt-4 block text-sm font-bold text-gray-800">Last Name</label>
+                            <input
+                                className="mt-2 w-full rounded-lg border border-gray-200 p-2 text-black"
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                                placeholder="Last name"
+                                required/>
+                            <label className="mt-4 block text-sm font-bold text-gray-800">Date of Birth</label>
+                            <input
+                                className="mt-2 w-full rounded-lg border border-gray-200 p-2 text-black"
+                                value={dateOfBirth}
+                                onChange={(e) => setDateOfBirth(e.target.value)}
+                                type="date"
+                                required/>
+                        </>
+                    )}
+                    <label className="mt-4 block text-sm font-bold text-gray-800">Username</label>
                     <input
                         className="mt-2 w-full rounded-lg border border-gray-200 p-2 text-black"
                         value={username}
@@ -127,4 +166,3 @@ export default function LoginModal({
         </div>
     );
 }
-

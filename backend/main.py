@@ -1,28 +1,23 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone, date
 from typing import Optional
-
-from fastapi import FastAPI, HTTPException, Response, Depends
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, HTTPException, Response, Depends, Cookie
 from jose import jwt, JWTError
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
-from fastapi import Cookie
-
-from sqlalchemy import create_engine, String, Integer, select, UniqueConstraint
+from sqlalchemy import create_engine, String, Integer, Date, select, UniqueConstraint
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
 
 class Settings(BaseSettings):
     DATABASE_URL: str
     JWT_SECRET: str = "123abcbao"
     JWT_ALG: str = "HS256"
-    ACCESS_TOKEN_MINUTES: int = 60 
+    ACCESS_TOKEN_MINUTES: int = 60
     PASSWORD_PEPPER: str = "123abchoang"
     class Config:
         env_file = ".env"
 
 settings = Settings()
-
 engine = create_engine(settings.DATABASE_URL, pool_pre_ping=True)
 
 class Base(DeclarativeBase):
@@ -34,6 +29,9 @@ class User(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     username: Mapped[str] = mapped_column(String(50), nullable=False)
     hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
+    first_name: Mapped[str] = mapped_column(String(50), nullable=False)
+    last_name: Mapped[str] = mapped_column(String(50), nullable=False)
+    date_of_birth: Mapped[date] = mapped_column(Date, nullable=False)
 
 def get_db():
     with Session(engine) as db:
@@ -61,56 +59,69 @@ def read_access_token(token: str):
     except (JWTError, ValueError):
         return None
 
-class AuthBody(BaseModel):
+def set_auth_cookie(response: Response, token: str):
+    response.set_cookie(
+        key=COOKIE_NAME,
+        value=token,
+        httponly=True,
+        samesite="lax",
+        secure=False,
+        path="/",
+        max_age=60 * 60 * 24,
+    )
+
+class LoginBody(BaseModel):
     username: str
     password: str
 
-app = FastAPI()
+class SignupBody(BaseModel):
+    username: str
+    password: str
+    first_name: str
+    last_name: str
+    date_of_birth: date
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app = FastAPI()
 
 COOKIE_NAME = "access_token"
 
 @app.post("/auth/signup")
-def signup(body: AuthBody, db: Session = Depends(get_db)):
+def signup(body: SignupBody, response: Response, db: Session = Depends(get_db)):
     if len(body.password) < 6:
         raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
     existing = db.scalar(select(User).where(User.username == body.username))
     if existing:
         raise HTTPException(status_code=409, detail="Username already exists")
     user = User(
-        username = body.username,
-        hashed_password = hash_password(body.password),
+        username=body.username.strip(),
+        hashed_password=hash_password(body.password),
+        first_name=body.first_name.strip(),
+        last_name=body.last_name.strip(),
+        date_of_birth=body.date_of_birth,
     )
     db.add(user)
     db.commit()
     db.refresh(user)
-    return {"ok": True, "user_id": user.id}
+
+    token = create_access_token(user.id)
+    set_auth_cookie(response, token)
+
+    return {
+        "ok": True,
+        "user_id": user.id,
+        "username": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "date_of_birth": str(user.date_of_birth),
+    }
 
 @app.post("/auth/login")
-def login(body: AuthBody, response: Response, db: Session = Depends(get_db)):
+def login(body: LoginBody, response: Response, db: Session = Depends(get_db)):
     user = db.scalar(select(User).where(User.username == body.username))
     if not user or not verify_password(body.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid username or password")
     token = create_access_token(user.id)
-    response.set_cookie(
-        key=COOKIE_NAME,
-        value=token,
-        httponly=True,
-        samesite="lax",
-        secure=False,   
-        path="/",
-        max_age=60 * 60 * 24,
-    )
+    set_auth_cookie(response, token)
     return {"ok": True}
 
 @app.post("/auth/logout")
@@ -119,7 +130,10 @@ def logout(response: Response):
     return {"ok": True}
 
 @app.get("/auth/cookie")
-def cookie(token: Optional[str] = Cookie(default=None, alias=COOKIE_NAME), db: Session = Depends(get_db)):
+def cookie(
+    token: Optional[str] = Cookie(default=None, alias=COOKIE_NAME),
+    db: Session = Depends(get_db),
+):
     if not token:
         raise HTTPException(status_code=401, detail="Not logged in")
     user_id = read_access_token(token)
@@ -128,4 +142,10 @@ def cookie(token: Optional[str] = Cookie(default=None, alias=COOKIE_NAME), db: S
     user = db.get(User, user_id)
     if not user:
         raise HTTPException(status_code=401, detail="User not found")
-    return {"id": user.id, "username": user.username}
+    return {
+        "id": user.id,
+        "username": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "date_of_birth": str(user.date_of_birth),
+    }
