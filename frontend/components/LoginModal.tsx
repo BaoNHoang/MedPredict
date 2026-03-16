@@ -57,12 +57,12 @@ export default function LoginModal({
                 mode === 'login'
                     ? { username, password }
                     : {
-                          username,
-                          password,
-                          firstName,
-                          lastName,
-                          dateOfBirth,
-                      };
+                        username,
+                        password,
+                        firstName,
+                        lastName,
+                        dateOfBirth,
+                    };
             const res = await fetch(`${API_BASE}${path}`, {
                 method: 'POST',
                 credentials: 'include',
@@ -72,7 +72,7 @@ export default function LoginModal({
             let data = null;
             try {
                 data = await res.json();
-            } catch {}
+            } catch { }
             if (!res.ok) {
                 throw new Error(data?.detail || 'Authentication failed');
             }
@@ -91,7 +91,7 @@ export default function LoginModal({
             <button
                 className="absolute inset-0 bg-black/50"
                 onClick={onClose}
-                aria-label="Close login modal"/>
+                aria-label="Close login modal" />
             <div className="relative z-10 w-full max-w-sm rounded-2xl bg-white p-8 shadow-xl">
                 <div className="flex items-start justify-between gap-4">
                     <div>
@@ -108,21 +108,21 @@ export default function LoginModal({
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
                                 placeholder="First name"
-                                required/>
+                                required />
                             <label className="mt-4 block text-sm font-bold text-gray-800">Last Name</label>
                             <input
                                 className="mt-2 w-full rounded-lg border border-gray-200 p-2 text-black"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
                                 placeholder="Last name"
-                                required/>
+                                required />
                             <label className="mt-4 block text-sm font-bold text-gray-800">Date of Birth</label>
                             <input
                                 className="mt-2 w-full rounded-lg border border-gray-200 p-2 text-black"
                                 value={dateOfBirth}
                                 onChange={(e) => setDateOfBirth(e.target.value)}
                                 type="date"
-                                required/>
+                                required />
                         </>
                     )}
                     <label className="mt-4 block text-sm font-bold text-gray-800">Username</label>
@@ -132,7 +132,7 @@ export default function LoginModal({
                         onChange={(e) => setUsername(e.target.value)}
                         placeholder="username"
                         autoComplete="username"
-                        required/>
+                        required />
                     <label className="mt-4 block text-sm font-bold text-gray-800">Password</label>
                     <input
                         className="mt-2 w-full rounded-lg border border-gray-200 p-2 text-black"
@@ -141,7 +141,7 @@ export default function LoginModal({
                         type="password"
                         placeholder="••••••••"
                         autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                        required/>
+                        required />
                     {err && (
                         <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm font-semibold text-red-800">
                             {err}
@@ -155,7 +155,7 @@ export default function LoginModal({
                     <button
                         type="button"
                         className="mt-3 w-full rounded-xl border border-gray-200 bg-white py-3 font-bold text-gray-900 hover:bg-gray-50"
-                        onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}>
+                        onClick={() => {setErr(null); setLoading(false); setMode(mode === 'login' ? 'signup' : 'login');}}>
                         {mode === 'login' ? 'Create Account' : 'Sign in'}
                     </button>
                 </form>

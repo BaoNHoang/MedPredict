@@ -203,7 +203,7 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            <section id="team" className="bg-white">
+            <section id="team" className="mb-20">
                 <Reveal>
                     <div className="mx-auto max-w-7xl px-6 py-4">
                         <div className="grid gap-10 lg:grid-cols-12">

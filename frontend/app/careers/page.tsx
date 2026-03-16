@@ -270,7 +270,7 @@ export default function AboutPage() {
                 </section>
             </Reveal>
 
-            <section id="apply" className="bg-white">
+            <section id="apply" className="mb-20">
                 <Reveal>
                     <div className="mx-auto max-w-7xl px-6 py-4">
                         <div className="max-w-3xl">

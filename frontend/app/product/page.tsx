@@ -343,7 +343,7 @@ export default function ProductPage() {
                 </section>
             </Reveal>
 
-            <section id="FAQ" className="bg-white">
+            <section id="FAQ" className="mb-20">
                 <Reveal>
                     <div className="mx-auto max-w-7xl px-6 py-4">
                         <div className="max-w-3xl">

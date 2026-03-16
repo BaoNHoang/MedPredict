@@ -189,7 +189,7 @@ export default function TechnologyPage() {
                 </div>
             </section>
 
-            <section id='pipeline' className="bg-white">
+            <section id='pipeline' className="mb-20">
                 <div className="mx-auto max-w-7xl px-6 py-4">
                     <div className="max-w-3xl">
                         <h2 className="text-4xl font-extrabold text-gray-900">Pipeline & Technology Stack</h2>

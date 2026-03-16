@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     JWT_SECRET: str 
     JWT_ALG: str 
-    ACCESS_TOKEN_MINUTES: int = 60
+    ACCESS_TOKEN_MINUTES: int = 15
     PASSWORD_PEPPER: str 
     class Config:
         env_file = ".env"

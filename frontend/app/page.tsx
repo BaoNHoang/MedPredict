@@ -297,7 +297,7 @@ export default function LandingPage() {
                                     </div>
                                 </div>
                                 <div className="mt-6 grid gap-4">
-                                    <div className="rounded-2xl border border-gray-200 bg-white p-6">
+                                    <div className="p-6">
                                         <div className="mt-2 text-lg font-extrabold text-gray-900">
                                             Pick how you want your results calculated
                                         </div>
@@ -305,7 +305,7 @@ export default function LandingPage() {
                                             Choose from multiple prediction options all in one dropdown
                                         </p>
                                     </div>
-                                    <div className="rounded-2xl border border-gray-200 bg-white p-6">
+                                    <div className="p-6">
                                         <div className="mt-2 text-lg font-extrabold text-gray-900">
                                             A clear risk stage with a confidence score
                                         </div>
@@ -361,7 +361,7 @@ export default function LandingPage() {
                 </section>
             </Reveal>
 
-            <section id="partners" className="bg-white">
+            <section id="partners" className="mb-20">
                 <Reveal>
                     <div className="mx-auto max-w-7xl px-6 py-4">
                         <div className="max-w-7xl">
@@ -395,13 +395,6 @@ export default function LandingPage() {
                                     <li>Validates “what to do next” language for readability</li>
                                     <li>Advises on the most common inputs people already have access to</li>
                                 </div>
-                                <div className="mt-6 flex flex-wrap gap-3">
-                                    <a
-                                        href="/partners/tidewater-cardio-collaborative"
-                                        className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-extrabold text-gray-900 hover:bg-gray-50">
-                                        View partner page
-                                    </a>
-                                </div>
                             </div>
                             <div className="border-l-4 border-purple-400 pl-6">
                                 <div className="text-xs font-extrabold uppercase tracking-wider text-gray-500">
@@ -420,13 +413,6 @@ export default function LandingPage() {
                                     <li>Improves “next steps” recommendations to be practical</li>
                                     <li>Helps design language that feels supportive, not scary</li>
                                 </div>
-                                <div className="mt-6 flex flex-wrap gap-3">
-                                    <a
-                                        href="/partners/brightbridge-wellness"
-                                        className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-extrabold text-gray-900 hover:bg-gray-50">
-                                        View partner page
-                                    </a>
-                                </div>
                             </div>
                             <div className="border-l-4 border-gray-900 pl-6">
                                 <div className="text-xs font-extrabold uppercase tracking-wider text-gray-500">
@@ -443,13 +429,6 @@ export default function LandingPage() {
                                     <li>Helps define safe defaults for data storage and access</li>
                                     <li>Reviews system reliability and performance under load</li>
                                 </div>
-                                <div className="mt-6 flex flex-wrap gap-3">
-                                    <a
-                                        href="/partners/northstar-secure-cloud"
-                                        className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-extrabold text-gray-900 hover:bg-gray-50">
-                                        View partner page
-                                    </a>
-                                </div>
                             </div>
                             <div className="border-l-4 border-blue-600 pl-6">
                                 <div className="text-xs font-extrabold uppercase tracking-wider text-gray-500">
@@ -464,13 +443,6 @@ export default function LandingPage() {
                                     <li>Reviews prediction stability across common input ranges</li>
                                     <li>Helps design confidence and uncertainty explanations</li>
                                     <li>Flags confusing edge cases that need product fixes</li>
-                                </div>
-                                <div className="mt-6 flex flex-wrap gap-3">
-                                    <a
-                                        href="/partners/crescent-metrics-lab"
-                                        className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-extrabold text-gray-900 hover:bg-gray-50">
-                                        View partner page
-                                    </a>
                                 </div>
                             </div>
                         </div>
