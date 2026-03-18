@@ -208,14 +208,13 @@ def plaque_stage_name(stage: int) -> str:
 
 def plaque_severity(stage: int) -> str:
     if stage <= 0:
-        return "Low"
+        return "Healthy"
     if stage == 1:
-        return "Mild"
+        return "Low"
     if stage == 2:
         return "Moderate"
-    if stage == 3:
-        return "High"
-    return "Severe"
+    if stage >= 3:
+        return "Severe"
 
 def result_recommendations(body: PredictBody, plaque_stage: int, risk_score: float) -> list[str]:
     recs: list[str] = []
