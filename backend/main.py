@@ -83,7 +83,92 @@ class SignupBody(BaseModel):
 
 app = FastAPI()
 
+<<<<<<< HEAD
 COOKIE_NAME = "access_token"
+=======
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_DIR = BASE_DIR / "saved_models"
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    Base.metadata.create_all(engine)
+
+    app.state.health_model = joblib.load(MODEL_DIR / "health_model.joblib")
+    app.state.health_encoder = joblib.load(MODEL_DIR / "health_encoder.joblib")
+    app.state.plaque_model = joblib.load(MODEL_DIR / "plaque_model.joblib")
+    app.state.risk_model = joblib.load(MODEL_DIR / "risk_model.joblib")
+    app.state.feature_columns = joblib.load(MODEL_DIR / "feature_columns.joblib")
+
+    yield
+
+app = FastAPI(lifespan=lifespan)
+
+BOOL_FIELDS = [
+    "family_history_heart_disease",
+    "hypertension",
+    "diabetes",
+    "on_statin",
+    "on_bp_meds",
+    "clinical_ascvd_history",
+    "heart_attack_history",
+    "stroke_tia_history",
+    "peripheral_artery_disease_history",
+    "recent_cardio_event_12mo",
+    "multi_plaque_dev",
+]
+
+def build_model_input(body: PredictBody, feature_columns: list[str]) -> pd.DataFrame:
+    row = body.model_dump()
+
+    for field in BOOL_FIELDS:
+        row[field] = int(row[field])
+
+    row["sex"] = row["sex"].strip()
+    row["smoking_status"] = row["smoking_status"].strip().lower()
+    row["activity_level"] = row["activity_level"].strip().lower()
+
+    df = pd.DataFrame([row])
+    df = pd.get_dummies(df)
+    df = df.reindex(columns=feature_columns, fill_value=0)
+    return df
+
+def plaque_stage_name(stage: int) -> str:
+    names = {
+        0: "No Plaque",
+        1: "Early Plaque",
+        2: "Mild Plaque",
+        3: "Moderate Plaque",
+        4: "Severe Plaque",
+    }
+    return names.get(stage, f"Stage {stage}")
+
+def plaque_severity(stage: int) -> str:
+    if stage <= 0:
+        return "Healthy"
+    if stage == 1:
+        return "Low"
+    if stage == 2:
+        return "Moderate"
+    if stage == 3:
+        return "High"
+    return "Severe"
+
+def result_recommendations(body: PredictBody, plaque_stage: int, risk_score: float) -> list[str]:
+    recs: list[str] = []
+    if body.smoking_status.lower() == "current":
+        recs.append("Smoking cessation should be a priority.")
+    if body.blood_pressure_mmHg >= 130 or body.hypertension:
+        recs.append("Review blood pressure management and monitoring.")
+    if body.ldl_mg_dL >= 100:
+        recs.append("Discuss LDL reduction strategies and diet changes.")
+    if body.activity_level.lower() in {"low", "sedentary", "none"}:
+        recs.append("Increase routine physical activity if medically appropriate.")
+    if plaque_stage >= 3 or risk_score >= 70:
+        recs.append("Consider prompt follow-up with a healthcare professional.")
+    if not recs:
+        recs.append("Maintain healthy habits and continue routine follow-up.")
+    return recs[:5]
+>>>>>>> 8f5ff3bd37380732e77706bbec9ad8eb7f33f29e
 
 @app.post("/auth/signup")
 def signup(body: SignupBody, response: Response, db: Session = Depends(get_db)):

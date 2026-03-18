@@ -49,16 +49,91 @@ type PredictionResult = {
     warning?: string;
 };
 
+<<<<<<< HEAD
+=======
+function parseBool(value: string, label: string) {
+    const v = value.trim().toLowerCase();
+    if (v === 'true') 
+        return true;
+    if (v === 'false') 
+        return false;
+    throw new Error(`${label} must be selected`);
+}
+
+function parseNumber(value: string, label: string) {
+    const trimmed = value.trim();
+    if (trimmed === '') {
+        throw new Error(`${label} is required`);
+    }
+
+    const n = Number(trimmed);
+    if (!Number.isFinite(n)) {
+        throw new Error(`${label} must be a valid number`);
+    }
+    if (n < 0) {
+        throw new Error(`${label} cannot be negative`);
+    }
+    return n;
+}
+
+function buildPayload(form: PredictorForm): PredictPayload {
+    return {
+        age_years: parseNumber(form.age_years, 'Age'),
+        sex: form.sex.trim(),
+        height_cm: parseNumber(form.height_cm, 'Height'),
+        weight_kg: parseNumber(form.weight_kg, 'Weight'),
+        smoking_status: form.smoking_status.trim().toLowerCase(),
+        activity_level: form.activity_level.trim().toLowerCase(),
+        family_history_heart_disease: parseBool(
+            form.family_history_heart_disease,
+            'Family history of heart disease'
+        ),
+        hypertension: parseBool(form.hypertension, 'Hypertension'),
+        diabetes: parseBool(form.diabetes, 'Diabetes'),
+        on_statin: parseBool(form.on_statin, 'On statin'),
+        on_bp_meds: parseBool(form.on_bp_meds, 'On blood pressure meds'),
+        clinical_ascvd_history: parseBool(
+            form.clinical_ascvd_history,
+            'Clinical ASCVD history'
+        ),
+        heart_attack_history: parseBool(
+            form.heart_attack_history,
+            'Heart attack history'
+        ),
+        stroke_tia_history: parseBool(
+            form.stroke_tia_history,
+            'Stroke / TIA history'
+        ),
+        peripheral_artery_disease_history: parseBool(
+            form.peripheral_artery_disease_history,
+            'Peripheral artery disease history'
+        ),
+        recent_cardio_event_12mo: parseBool(
+            form.recent_cardio_event_12mo,
+            'Recent cardio event (12 months)'
+        ),
+        multi_plaque_dev: parseBool(
+            form.multi_plaque_dev,
+            'Multi plaque disease'
+        ),
+        blood_pressure_mmHg: parseNumber(form.blood_pressure_mmHg, 'Blood pressure'),
+        ldl_mg_dL: parseNumber(form.ldl_mg_dL, 'LDL'),
+    };
+}
+
+>>>>>>> 8f5ff3bd37380732e77706bbec9ad8eb7f33f29e
 function Input({
     label,
     value,
     onChange,
     placeholder,
+    type = 'text',
 }: {
     label: string;
     value: string;
     onChange: (value: string) => void;
     placeholder?: string;
+    type?: string;
 }) {
     return (
         <div className="flex flex-col">
@@ -66,16 +141,81 @@ function Input({
                 {label}
             </label>
             <input
-                type="text"
+                type={type}
                 value={value}
                 placeholder={placeholder || 'Enter value'}
                 onChange={(e) => onChange(e.target.value)}
+<<<<<<< HEAD
                 className="rounded-2xl border border-gray-200 bg-white p-3 font-medium text-gray-900 shadow-sm outline-none focus:ring-2 focus:ring-blue-400" />
+=======
+                className="rounded-2xl border border-gray-200 bg-white p-3 font-medium text-gray-900 shadow-sm outline-none focus:ring-2 focus:ring-blue-400"
+            />
+>>>>>>> 8f5ff3bd37380732e77706bbec9ad8eb7f33f29e
         </div>
     );
 }
 
+<<<<<<< HEAD
 export default function DashboardPage() {
+=======
+function SelectInput({
+    label,
+    value,
+    onChange,
+    options,
+    placeholder = 'Select an option',
+}: {
+    label: string;
+    value: string;
+    onChange: (value: string) => void;
+    options: { label: string; value: string }[];
+    placeholder?: string;
+}) {
+    return (
+        <div className="flex flex-col">
+            <label className="mb-1 text-sm font-medium text-gray-600">
+                {label}
+            </label>
+            <select
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className="rounded-2xl border border-gray-200 bg-white p-3 font-medium text-gray-900 shadow-sm outline-none focus:ring-2 focus:ring-blue-400"
+            >
+                <option value="">{placeholder}</option>
+                {options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                        {option.label}
+                    </option>
+                ))}
+            </select>
+        </div>
+    );
+}
+
+const yesNoOptions = [
+    { label: 'Yes', value: 'true' },
+    { label: 'No', value: 'false' },
+];
+
+const sexOptions = [
+    { label: 'Male', value: 'M' },
+    { label: 'Female', value: 'F' },
+];
+
+const smokingOptions = [
+    { label: 'Never', value: 'never' },
+    { label: 'Former', value: 'former' },
+    { label: 'Current', value: 'current' },
+];
+
+const activityOptions = [
+    { label: 'Low', value: 'low' },
+    { label: 'Moderate', value: 'moderate' },
+    { label: 'High', value: 'high' },
+];
+
+export default function PredictorPage() {
+>>>>>>> 8f5ff3bd37380732e77706bbec9ad8eb7f33f29e
     const router = useRouter();
     const [loginOpen, setLoginOpen] = useState(false);
     const [logoutOpen, setLogoutOpen] = useState(false);
@@ -212,7 +352,11 @@ export default function DashboardPage() {
                                     </button>
                                 ) : (
                                     <button
+<<<<<<< HEAD
                                         className="rounded-2xl bg-white/10 px-4 py-2 text-sm font-extrabold text-white ring-1 ring-white/15 hover:bg-white/15"
+=======
+                                        className="rounded-2xl bg-white/10 px-4 py-2 text-sm font-extrabold text-white ring-1 ring-white/15 hover:bg-white/25"
+>>>>>>> 8f5ff3bd37380732e77706bbec9ad8eb7f33f29e
                                         onClick={() => setLoginOpen(true)}>
                                         Login
                                     </button>
@@ -270,6 +414,7 @@ export default function DashboardPage() {
                             <div className="grid gap-4 md:grid-cols-2">
                                 <Input
                                     label="Age (years)"
+<<<<<<< HEAD
                                     value={form.age_years}
                                     placeholder="Example: 35"
                                     onChange={(v) => updateField('age_years', v)} />
@@ -364,6 +509,120 @@ export default function DashboardPage() {
                                     value={form.multi_plaque_dev}
                                     placeholder="Example: false"
                                     onChange={(v) => updateField('multi_plaque_dev', v)} />
+=======
+                                    type="number"
+                                    value={form.age_years}
+                                    placeholder="Example: 35"
+                                    onChange={(v) => updateField('age_years', v)}/>
+                                <SelectInput
+                                    label="Sex"
+                                    value={form.sex}
+                                    onChange={(v) => updateField('sex', v)}
+                                    options={sexOptions}
+                                    placeholder="Select sex"/>
+                                <Input
+                                    label="Height (cm)"
+                                    type="number"
+                                    value={form.height_cm}
+                                    placeholder="Example: 175"
+                                    onChange={(v) => updateField('height_cm', v)}/>
+                                <Input
+                                    label="Weight (kg)"
+                                    type="number"
+                                    value={form.weight_kg}
+                                    placeholder="Example: 75"
+                                    onChange={(v) => updateField('weight_kg', v)}/>
+                                <SelectInput
+                                    label="Smoking Status"
+                                    value={form.smoking_status}
+                                    onChange={(v) => updateField('smoking_status', v)}
+                                    options={smokingOptions}
+                                    placeholder="Select smoking status"/>
+                                <SelectInput
+                                    label="Activity Level"
+                                    value={form.activity_level}
+                                    onChange={(v) => updateField('activity_level', v)}
+                                    options={activityOptions}
+                                    placeholder="Select activity level"/>
+                                <Input
+                                    label="Blood Pressure"
+                                    type="number"
+                                    value={form.blood_pressure_mmHg}
+                                    placeholder="Example: 128"
+                                    onChange={(v) => updateField('blood_pressure_mmHg', v)}/>
+                                <Input
+                                    label="LDL"
+                                    type="number"
+                                    value={form.ldl_mg_dL}
+                                    placeholder="Example: 110"
+                                    onChange={(v) => updateField('ldl_mg_dL', v)}/>
+                                <SelectInput
+                                    label="Family history of heart disease"
+                                    value={form.family_history_heart_disease}
+                                    onChange={(v) => updateField('family_history_heart_disease', v)}
+                                    options={yesNoOptions}
+                                    placeholder="Select yes or no"/>
+                                <SelectInput
+                                    label="Hypertension"
+                                    value={form.hypertension}
+                                    onChange={(v) => updateField('hypertension', v)}
+                                    options={yesNoOptions}
+                                    placeholder="Select yes or no"/>
+                                <SelectInput
+                                    label="Diabetes"
+                                    value={form.diabetes}
+                                    onChange={(v) => updateField('diabetes', v)}
+                                    options={yesNoOptions}
+                                    placeholder="Select yes or no"/>
+                                <SelectInput
+                                    label="On statin"
+                                    value={form.on_statin}
+                                    onChange={(v) => updateField('on_statin', v)}
+                                    options={yesNoOptions}
+                                    placeholder="Select yes or no"/>
+                                <SelectInput
+                                    label="On blood pressure meds"
+                                    value={form.on_bp_meds}
+                                    onChange={(v) => updateField('on_bp_meds', v)}
+                                    options={yesNoOptions}
+                                    placeholder="Select yes or no"/>
+                                <SelectInput
+                                    label="Clinical ASCVD history"
+                                    value={form.clinical_ascvd_history}
+                                    onChange={(v) => updateField('clinical_ascvd_history', v)}
+                                    options={yesNoOptions}
+                                    placeholder="Select yes or no"/>
+                                <SelectInput
+                                    label="Heart attack history"
+                                    value={form.heart_attack_history}
+                                    onChange={(v) => updateField('heart_attack_history', v)}
+                                    options={yesNoOptions}
+                                    placeholder="Select yes or no"/>
+                                <SelectInput
+                                    label="Stroke / TIA history"
+                                    value={form.stroke_tia_history}
+                                    onChange={(v) => updateField('stroke_tia_history', v)}
+                                    options={yesNoOptions}
+                                    placeholder="Select yes or no"/>
+                                <SelectInput
+                                    label="Peripheral artery disease history"
+                                    value={form.peripheral_artery_disease_history}
+                                    onChange={(v) => updateField('peripheral_artery_disease_history', v)}
+                                    options={yesNoOptions}
+                                    placeholder="Select yes or no"/>
+                                <SelectInput
+                                    label="Recent cardio event (12 months)"
+                                    value={form.recent_cardio_event_12mo}
+                                    onChange={(v) => updateField('recent_cardio_event_12mo', v)}
+                                    options={yesNoOptions}
+                                    placeholder="Select yes or no" />
+                                <SelectInput
+                                    label="Multi plaque disease"
+                                    value={form.multi_plaque_dev}
+                                    onChange={(v) => updateField('multi_plaque_dev', v)}
+                                    options={yesNoOptions}
+                                    placeholder="Select yes or no"/>
+>>>>>>> 8f5ff3bd37380732e77706bbec9ad8eb7f33f29e
                             </div>
                             {error && (
                                 <div className="mt-6 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
@@ -394,6 +653,17 @@ export default function DashboardPage() {
                                 <div className="mt-6 space-y-4">
                                     <div className="rounded-2xl bg-slate-50 p-5">
                                         <div className="text-sm font-bold text-gray-500">
+<<<<<<< HEAD
+=======
+                                            Health Label
+                                        </div>
+                                        <div className="mt-1 text-2xl font-extrabold text-slate-900">
+                                            {result.health_label ?? '--'}
+                                        </div>
+                                    </div>
+                                    <div className="rounded-2xl bg-slate-50 p-5">
+                                        <div className="text-sm font-bold text-gray-500">
+>>>>>>> 8f5ff3bd37380732e77706bbec9ad8eb7f33f29e
                                             Predicted Stage
                                         </div>
                                         <div className="mt-1 text-2xl font-extrabold text-slate-900">
@@ -451,6 +721,7 @@ export default function DashboardPage() {
                     setLoginOpen(false);
                     process();
                     setWelcomeFirstName(firstName);
+<<<<<<< HEAD
                     setWelcomeOpen(true);
                 }} />
             <LogoutConfirmModal
@@ -461,6 +732,17 @@ export default function DashboardPage() {
                 open={welcomeOpen}
                 firstName={welcomeFirstName}
                 onClose={() => setWelcomeOpen(false)} />
+=======
+                    setWelcomeOpen(true);}}/>
+            <LogoutConfirmModal
+                open={logoutOpen}
+                onClose={() => setLogoutOpen(false)}
+                onConfirm={logout}/>
+            <Welcome
+                open={welcomeOpen}
+                firstName={welcomeFirstName}
+                onClose={() => setWelcomeOpen(false)}/>
+>>>>>>> 8f5ff3bd37380732e77706bbec9ad8eb7f33f29e
         </main>
     );
 }
