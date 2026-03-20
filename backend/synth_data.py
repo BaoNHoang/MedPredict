@@ -1,5 +1,7 @@
 import random, csv, math
 
+OUTPUT_PATH = "backend/synthetic_athero.csv"
+
 def bmi(height_cm, weight_kg):
     h = height_cm / 100
     return weight_kg / (h * h)
@@ -215,7 +217,7 @@ def gen_one():
 
     return row
 
-def synthesize_csv(n=1000, out_path="synthetic_athero.csv", seed=3):
+def synthesize_csv(n=1000, out_path=OUTPUT_PATH, seed=3):
     random.seed(seed)
 
     columns = [
@@ -232,4 +234,4 @@ def synthesize_csv(n=1000, out_path="synthetic_athero.csv", seed=3):
             writer.writerow(gen_one())
 
 if __name__ == "__main__":
-    synthesize_csv(n=50000)
+    synthesize_csv(n=500000)

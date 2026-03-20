@@ -3,9 +3,11 @@ hypercorn
 sqlalchemy
 python-jose
 passlib
+pydantic
 pydantic-settings
-numpy
 pandas
-scikit-learn
 joblib
-sklearn
+scikit-learn
+python-dotenv
+psycopg2-binary
+xgboost
