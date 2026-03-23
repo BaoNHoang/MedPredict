@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 
 from config import settings
 from db import get_db
-from models import User
+from backend.tables import User
 from schemas import LoginBody, SignupBody
 
 router = APIRouter(prefix="/auth", tags=["auth"])

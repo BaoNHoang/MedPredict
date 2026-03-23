@@ -5,7 +5,7 @@ import joblib
 from fastapi import FastAPI
 
 from db import engine
-from models import Base
+from tables import Base
 from auth import router as auth_router
 from prediction import router as prediction_router
 

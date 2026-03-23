@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from auth import get_current_user
 from db import get_db
-from models import PredictionHistory, User
+from backend.tables import PredictionHistory, User
 from schemas import PredictBody
 
 router = APIRouter(tags=["prediction"])
@@ -90,8 +90,7 @@ def predict(
 
         health_pred_encoded = request.app.state.health_model.predict(X)[0]
         health_label = request.app.state.health_encoder.inverse_transform(
-            [int(health_pred_encoded)]
-        )[0]
+            [int(health_pred_encoded)])[0]
 
         plaque_pred = request.app.state.plaque_model.predict(X)[0]
         predicted_plaque_stage = int(round(float(plaque_pred)))
@@ -150,8 +149,7 @@ def predict_history(
     rows = db.scalars(
         select(PredictionHistory)
         .where(PredictionHistory.userId == current_user.id)
-        .order_by(PredictionHistory.timeCreated.desc())
-    ).all()
+        .order_by(PredictionHistory.timeCreated.desc())).all()
 
     return [
         {

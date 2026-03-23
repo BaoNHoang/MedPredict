@@ -1,10 +1,11 @@
 from pathlib import Path
 import joblib
 import pandas as pd
+
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score, mean_absolute_error
-from xgboost import XGBClassifier, XGBRegressor
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_FILE = BASE_DIR / "synthetic_athero.csv"
@@ -17,7 +18,6 @@ X = df.drop(columns=["health_label", "plaque_stage", "risk_score"])
 X = pd.get_dummies(X)
 
 feature_columns = X.columns.tolist()
-joblib.dump(feature_columns, MODEL_DIR / "feature_columns.joblib")
 
 y_health = df["health_label"]
 
@@ -28,17 +28,11 @@ X_train, X_test, y_train, y_test = train_test_split(
     X,
     y_health_encoded,
     test_size=0.2,
-    random_state=1,
 )
 
-health_model = XGBClassifier(
-    n_estimators=900,
-    max_depth=6,
-    learning_rate=0.03,
-    subsample=0.9,
-    colsample_bytree=0.9,
-    random_state=1,
-    eval_metric="logloss",
+health_model = RandomForestClassifier(
+    n_estimators=500,
+    n_jobs=-1,
 )
 
 health_model.fit(X_train, y_train)
@@ -46,36 +40,23 @@ health_preds = health_model.predict(X_test)
 
 print("health label accuracy:", accuracy_score(y_test, health_preds))
 
-joblib.dump(health_model, MODEL_DIR / "health_model.joblib")
-joblib.dump(health_encoder, MODEL_DIR / "health_encoder.joblib")
-
 y_plaque = df["plaque_stage"]
 
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y_plaque,
     test_size=0.2,
-    random_state=1,
 )
 
-plaque_model = XGBRegressor(
-    n_estimators=600,
-    max_depth=5,
-    learning_rate=0.03,
-    subsample=0.9,
-    colsample_bytree=0.9,
-    random_state=1,
-    objective="reg:squarederror",
-    eval_metric="mae",
+plaque_model = RandomForestClassifier(
+    n_estimators=500,
+    n_jobs=-1,
 )
 
 plaque_model.fit(X_train, y_train)
 plaque_preds = plaque_model.predict(X_test)
-plaque_preds = plaque_preds.round().clip(0, 4).astype(int)
 
 print("plaque stage accuracy:", accuracy_score(y_test, plaque_preds))
-
-joblib.dump(plaque_model, MODEL_DIR / "plaque_model.joblib")
 
 y_risk = df["risk_score"]
 
@@ -83,23 +64,14 @@ X_train, X_test, y_train, y_test = train_test_split(
     X,
     y_risk,
     test_size=0.2,
-    random_state=1,
 )
 
-risk_model = XGBRegressor(
-    n_estimators=900,
-    max_depth=8,
-    learning_rate=0.03,
-    subsample=0.9,
-    colsample_bytree=0.9,
-    random_state=1,
-    objective="reg:squarederror",
-    eval_metric="mae",
+risk_model = RandomForestRegressor(
+    n_estimators=500,
+    n_jobs=-1,
 )
 
 risk_model.fit(X_train, y_train)
 risk_preds = risk_model.predict(X_test)
 
 print("risk score off by:", mean_absolute_error(y_test, risk_preds))
-joblib.dump(risk_model, MODEL_DIR / "risk_model.joblib")
-print("DONE - saved:", MODEL_DIR)
