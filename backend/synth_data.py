@@ -74,7 +74,6 @@ def risk_score(row):
         score += 2
     if row["on_statin"]:
         score += 2
-
     if row["clinical_ascvd_history"]:
         score += 18
     if row["heart_attack_history"]:
@@ -83,7 +82,6 @@ def risk_score(row):
         score += 12
     if row["peripheral_artery_disease_history"]:
         score += 10
-
     if row["recent_cardio_event_12mo"]:
         score += 10
     if row["multi_plaque_dev"]:
