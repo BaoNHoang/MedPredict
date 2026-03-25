@@ -17,10 +17,11 @@ services:
       retries: 10
 
   backend:
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
+    image: medpredict-backend
     container_name: medpredict-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     depends_on:
       db:
         condition: service_healthy
@@ -31,10 +32,11 @@ services:
     restart: unless-stopped
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: medpredict-frontend
     container_name: medpredict-frontend
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
     depends_on:
       - backend
     ports:

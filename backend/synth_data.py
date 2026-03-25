@@ -1,4 +1,6 @@
-import random, csv, math
+import random
+import csv
+import math
 
 OUTPUT_PATH = "backend/synthetic_athero.csv"
 
@@ -15,13 +17,12 @@ def sigmoid(x):
 def risk_score(row):
     age_years = row["age_years"]
     sex = row["sex"]
-    smoking_status = row["smoking_status"] 
-    activity_level = row["activity_level"] 
+    smoking_status = row["smoking_status"]
+    activity_level = row["activity_level"]
 
     bmi_value = bmi(row["height_cm"], row["weight_kg"])
 
     score = 0
-
     score += max(0, age_years - 20) * 0.8
 
     if sex == "M":
@@ -85,15 +86,27 @@ def risk_score(row):
 
     if row["recent_cardio_event_12mo"]:
         score += 10
-    if row["multi_plaque_dev"]:   
+    if row["multi_plaque_dev"]:
         score += 8
+
     return int(clamp(score, 0, 100))
 
 def plaque_stage(score, row):
-    event_count = int(row["heart_attack_history"]) + int(row["stroke_tia_history"]) + int(row["peripheral_artery_disease_history"])
+    event_count = (
+        int(row["heart_attack_history"]) +
+        int(row["stroke_tia_history"]) +
+        int(row["peripheral_artery_disease_history"])
+    )
+
     if row["recent_cardio_event_12mo"] or row["multi_plaque_dev"] or event_count >= 2 or score >= 85:
         return 4
-    if row["clinical_ascvd_history"] or row["heart_attack_history"] or row["stroke_tia_history"] or row["peripheral_artery_disease_history"] or score >= 65:
+    if (
+        row["clinical_ascvd_history"] or
+        row["heart_attack_history"] or
+        row["stroke_tia_history"] or
+        row["peripheral_artery_disease_history"] or
+        score >= 65
+    ):
         return 3
     if score >= 45:
         return 2
@@ -127,10 +140,76 @@ def gen_ldl(age_years, on_statin):
         ldl -= random.uniform(25, 55)
     return int(clamp(ldl, 40, 260))
 
+def corrupt_numeric(value, std_frac=0.05, min_noise=1.0):
+    if value is None:
+        return None
+    noise = random.gauss(0, max(abs(value) * std_frac, min_noise))
+    return round(value + noise, 2)
+
+def maybe_missing(prob):
+    return random.random() < prob
+
+def inject_noise_and_missing(row):
+    noisy = row.copy()
+
+    missing_probs = {
+        "age_years": 0.01,
+        "sex": 0.01,
+        "height_cm": 0.03,
+        "weight_kg": 0.03,
+        "smoking_status": 0.03,
+        "activity_level": 0.03,
+        "family_history_heart_disease": 0.02,
+        "hypertension": 0.02,
+        "diabetes": 0.02,
+        "on_statin": 0.02,
+        "on_bp_meds": 0.02,
+        "clinical_ascvd_history": 0.01,
+        "heart_attack_history": 0.01,
+        "stroke_tia_history": 0.01,
+        "peripheral_artery_disease_history": 0.01,
+        "recent_cardio_event_12mo": 0.01,
+        "multi_plaque_dev": 0.01,
+        "blood_pressure_mmHg": 0.12,
+        "ldl_mg_dL": 0.15,
+    }
+
+    noisy["age_years"] = corrupt_numeric(noisy["age_years"], std_frac=0.03, min_noise=1)
+    noisy["height_cm"] = corrupt_numeric(noisy["height_cm"], std_frac=0.02, min_noise=1)
+    noisy["weight_kg"] = corrupt_numeric(noisy["weight_kg"], std_frac=0.05, min_noise=1)
+    noisy["blood_pressure_mmHg"] = corrupt_numeric(noisy["blood_pressure_mmHg"], std_frac=0.08, min_noise=2)
+    noisy["ldl_mg_dL"] = corrupt_numeric(noisy["ldl_mg_dL"], std_frac=0.10, min_noise=3)
+
+    if random.random() < 0.01 and noisy["height_cm"] is not None:
+        noisy["height_cm"] = random.choice([95, 260, -10])
+
+    if random.random() < 0.01 and noisy["weight_kg"] is not None:
+        noisy["weight_kg"] = random.choice([15, 320, -5])
+
+    if random.random() < 0.01 and noisy["blood_pressure_mmHg"] is not None:
+        noisy["blood_pressure_mmHg"] = random.choice([40, 310, -20])
+
+    if random.random() < 0.01 and noisy["ldl_mg_dL"] is not None:
+        noisy["ldl_mg_dL"] = random.choice([5, 500, -15])
+
+    if random.random() < 0.01 and noisy["sex"] is not None:
+        noisy["sex"] = random.choice(["male", "female", "m", "f", "Unknown"])
+
+    if random.random() < 0.02 and noisy["smoking_status"] is not None:
+        noisy["smoking_status"] = random.choice(["Never", "FORMER", "Current", "unknown"])
+
+    if random.random() < 0.02 and noisy["activity_level"] is not None:
+        noisy["activity_level"] = random.choice(["Low", "MODERATE", "HIGH", "unknown"])
+
+    for col, prob in missing_probs.items():
+        if maybe_missing(prob):
+            noisy[col] = None
+    return noisy
+
 def gen_one():
-    sex = random.choice(["M", "F"])                 
-    age_years = random.randint(18, 90)        
-    height_cm, weight_kg = gen_height_weight(sex)  
+    sex = random.choice(["M", "F"])
+    age_years = random.randint(18, 90)
+    height_cm, weight_kg = gen_height_weight(sex)
     bmi_value = bmi(height_cm, weight_kg)
     hypertension = (random.random() < clamp(0.05 + (age_years / 140) + max(0, (bmi_value - 25) * 0.02), 0, 0.85))
     diabetes = (random.random() < clamp(0.03 + (age_years / 220) + max(0, (bmi_value - 27) * 0.025), 0, 0.75))
@@ -140,7 +219,6 @@ def gen_one():
     on_bp_meds = (hypertension and random.random() < 0.75)
     on_statin = ((age_years >= 45 and (hypertension or diabetes or family_history_heart_disease)) and random.random() < 0.50)
     base = -6.0 + 0.055 * age_years
-    
     if hypertension:
         base += 0.9
     if diabetes:
@@ -175,16 +253,14 @@ def gen_one():
 
     if event_count >= 2:
         multi_plaque_dev = True
-        
     blood_pressure_mmHg = None
-
-    if random.random() < 0.65:  
+    if random.random() < 0.65:
         blood_pressure_mmHg = gen_blood_pressure_mmHg(age_years, hypertension)
     ldl_mg_dL = None
-    if random.random() < 0.55: 
+    if random.random() < 0.55:
         ldl_mg_dL = gen_ldl(age_years, on_statin)
 
-    row = {
+    clean_row = {
         "age_years": age_years,
         "sex": sex,
         "height_cm": height_cm,
@@ -203,30 +279,29 @@ def gen_one():
         "recent_cardio_event_12mo": recent_cardio_event_12mo,
         "multi_plaque_dev": multi_plaque_dev,
         "blood_pressure_mmHg": blood_pressure_mmHg,
-        "ldl_mg_dL": ldl_mg_dL
+        "ldl_mg_dL": ldl_mg_dL,
     }
-    risk_score_val = risk_score(row)
-    plaque_stage_val = plaque_stage(risk_score_val, row)
-    row["risk_score"] = risk_score_val
-    row["plaque_stage"] = plaque_stage_val
 
-    if plaque_stage_val == 0:
-        row["health_label"] = "Healthy"
-    else:
-        row["health_label"] = "Risk"
+    risk_score_val = risk_score(clean_row)
+    plaque_stage_val = plaque_stage(risk_score_val, clean_row)
+    noisy_row = inject_noise_and_missing(clean_row)
+    noisy_row["risk_score"] = risk_score_val
+    noisy_row["plaque_stage"] = plaque_stage_val
+    noisy_row["health_label"] = "Healthy" if plaque_stage_val == 0 else "Risk"
 
-    return row
+    return noisy_row
 
 def synthesize_csv(n=1000, out_path=OUTPUT_PATH, seed=3):
     random.seed(seed)
 
     columns = [
-        "age_years","sex","height_cm","weight_kg","smoking_status","activity_level",
-        "family_history_heart_disease","hypertension","diabetes","on_statin","on_bp_meds",
-        "clinical_ascvd_history","heart_attack_history","stroke_tia_history","peripheral_artery_disease_history",
-        "recent_cardio_event_12mo","multi_plaque_dev","blood_pressure_mmHg","ldl_mg_dL",
-        "risk_score","plaque_stage","health_label",
+        "age_years", "sex", "height_cm", "weight_kg", "smoking_status", "activity_level",
+        "family_history_heart_disease", "hypertension", "diabetes", "on_statin", "on_bp_meds",
+        "clinical_ascvd_history", "heart_attack_history", "stroke_tia_history",
+        "peripheral_artery_disease_history", "recent_cardio_event_12mo", "multi_plaque_dev",
+        "blood_pressure_mmHg", "ldl_mg_dL", "risk_score", "plaque_stage", "health_label",
     ]
+
     with open(out_path, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=columns)
         writer.writeheader()

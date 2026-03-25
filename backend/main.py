@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 import joblib
 from fastapi import FastAPI
+
 from db import engine
 from tables import Base
 from auth import router as auth_router
@@ -19,6 +20,7 @@ async def lifespan(app: FastAPI):
     app.state.plaque_model = joblib.load(MODEL_DIR / "plaque_model.joblib")
     app.state.risk_model = joblib.load(MODEL_DIR / "risk_model.joblib")
     app.state.feature_columns = joblib.load(MODEL_DIR / "feature_columns.joblib")
+    app.state.preprocess_config = joblib.load(MODEL_DIR / "preprocess_config.joblib")
 
     yield
 
